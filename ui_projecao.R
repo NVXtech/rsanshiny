@@ -18,7 +18,7 @@ projecao_populacional_ui <- function(id) {
   sidebarLayout(
     sidebarPanel(
       h3(strong("Fonte dos dados")),
-      p("Escolha as fontes de dados que serão utilizadas para projeção populacional."),
+      p("Escolha as fontes de dados que serão utilizadas para calcular a taxa de crescimento"),
       selectInput(
         inputId = ns("fonte1"),
         label = strong("Fonte de dados Inicial"),

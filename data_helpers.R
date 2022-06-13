@@ -1,4 +1,4 @@
-data_folder <- 'data'
+data_folder <- "data"
 state_file_name <- "app_state.rda"
 
 #' get dataset path
@@ -10,7 +10,7 @@ state_file_name <- "app_state.rda"
 #'
 #' @examples
 #' path <- get_data_path("populacao")
-get_data_path <- function(name){
+get_data_path <- function(name) {
   file.path(data_folder, sprintf("%s.rda", name))
 }
 
@@ -21,7 +21,7 @@ get_data_path <- function(name){
 #'
 #' @examples
 #' path <- get_data_path("populacao")
-get_data_dir <- function(){
+get_data_dir <- function() {
   return(data_folder)
 }
 
@@ -49,6 +49,6 @@ load_data <- function(name) {
 #'
 #' @examples
 #' check_data_exists("populacao")
-check_data_exists <- function(name){
+check_data_exists <- function(name) {
   return(file.exists(file.path(data_folder, sprintf("%s.rda", name))))
 }

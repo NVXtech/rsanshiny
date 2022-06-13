@@ -10,14 +10,14 @@ source("data_helpers.R")
 # FTP dados de população
 
 # Censo
-censo_url <- 'ftp.ibge.gov.br/Censos/'
-censo_suffix <- 'Censo_Demografico_%s/resultados/'
-censo_file <- '^total_populacao_.*.zip'
+censo_url <- "ftp.ibge.gov.br/Censos/"
+censo_suffix <- "Censo_Demografico_%s/resultados/"
+censo_file <- "^total_populacao_.*.zip"
 
 # Estimativas de população
-estimativa_pop_url <- 'ftp.ibge.gov.br/Estimativas_de_Populacao/'
-estimativa_pop_suffix <- '/Estimativas_%s/'
-estimativa_pop_file <- 'estimativa_dou_%s.xls'
+estimativa_pop_url <- "ftp.ibge.gov.br/Estimativas_de_Populacao/"
+estimativa_pop_suffix <- "/Estimativas_%s/"
+estimativa_pop_file <- "estimativa_dou_%s.xls"
 
 # FUNÇÕES ----------------------------------------------------------------------
 
@@ -35,7 +35,7 @@ listFilesFromFTP <- function(URL) {
   listFiles <- curl::new_handle()
   curl::handle_setopt(listFiles, ftp_use_epsv = TRUE, dirlistonly = TRUE)
   con <-
-    curl::curl(url = paste0('ftp://', URL), "r", handle = listFiles)
+    curl::curl(url = paste0("ftp://", URL), "r", handle = listFiles)
   files <- readLines(con)
   close(con)
   files
@@ -76,7 +76,7 @@ getCensoYears <- function() {
 downloadCensoRawData <- function() {
   years <- getCensoYears()
   # Anos anteriores a 2010 não são suportados
-  years <-  years[years >= 2010]
+  years <- years[years >= 2010]
   col_names <-
     c(
       "codigo_municipio",
@@ -89,14 +89,16 @@ downloadCensoRawData <- function() {
       "populacao_total"
     )
   col_types <-
-    c("numeric",
+    c(
+      "numeric",
       "text",
       "numeric",
       "numeric",
       "numeric",
       "numeric",
       "numeric",
-      "numeric")
+      "numeric"
+    )
   nome <- c()
   ano <- c()
   caminho <- c()
@@ -127,7 +129,7 @@ downloadCensoRawData <- function() {
       base::unlink(xls_filename)
     }
     # Remove NA (rodape do xls)
-    df_censo <- df_censo[complete.cases(df_censo),]
+    df_censo <- df_censo[complete.cases(df_censo), ]
     # transforma codigo_municipio to char
     df_censo <-
       transform(df_censo, codigo_municipio = as.character(codigo_municipio))
@@ -135,7 +137,7 @@ downloadCensoRawData <- function() {
       file.path(data_folder, sprintf("populacao_censo_%s.rda", year))
     save(df_censo, file = filename_out)
     ano <- c(ano, year)
-    caminho <- c(caminho,  sprintf("populacao_censo_%s", year))
+    caminho <- c(caminho, sprintf("populacao_censo_%s", year))
     tipo <- c(tipo, "CENSO")
     nome <- c(nome, sprintf("%s - Censo", year))
   }
@@ -155,10 +157,11 @@ load_estimativa_years <- function() {
   output <- c()
   for (file in files) {
     if (grepl("^Estimativas_.*", file)) {
-      only_number <- gsub('Estimativas_', "", file)
+      only_number <- gsub("Estimativas_", "", file)
       year <- strtoi(only_number)
-      if (year >= 2019)
+      if (year >= 2019) {
         output <- c(output, year)
+      }
     }
   }
   return(output)
@@ -180,10 +183,12 @@ download_estimativa_populacao <- function() {
   caminho <- c()
   tipo <- c()
   for (year in c(2021)) {
-    #for (year in load_estimativa_years()) {
-    URL <- paste0(estimativa_pop_url,
-                  estimativa_pop_suffix,
-                  estimativa_pop_file)
+    # for (year in load_estimativa_years()) {
+    URL <- paste0(
+      estimativa_pop_url,
+      estimativa_pop_suffix,
+      estimativa_pop_file
+    )
     URL <- sprintf(URL, year, year)
     destfile <- tempfile()
     curl::curl_download(URL, destfile)
@@ -204,12 +209,14 @@ download_estimativa_populacao <- function() {
       populacao_estimada[complete.cases(populacao_estimada), ]
     # Arruma Codigo Municipio
     populacao_estimada$codigo_municipio <-
-      paste0(populacao_estimada$codigo_UF,
-             populacao_estimada$codigo)
+      paste0(
+        populacao_estimada$codigo_UF,
+        populacao_estimada$codigo
+      )
     populacao_estimada <-
       subset(populacao_estimada, select = -c(codigo, populacao_str))
-    filename_out<-file.path(data_folder, sprintf("populacao_estimada_%s.rda", year))
-    save(populacao_estimada, file =  filename_out)
+    filename_out <- file.path(data_folder, sprintf("populacao_estimada_%s.rda", year))
+    save(populacao_estimada, file = filename_out)
     ano <- c(ano, year)
     caminho <- c(caminho, sprintf("populacao_estimada_%s", year))
     tipo <- c(tipo, "ESTIMATIVA")
@@ -228,8 +235,9 @@ create_populacao <- function() {
 clean_populacao <- function() {
   files <- list.files(data_folder)
   for (file in files) {
-    if (grepl("^populacao.*", file))
+    if (grepl("^populacao.*", file)) {
       base::unlink(file.path(data_folder, file))
+    }
   }
 }
 
@@ -239,11 +247,9 @@ integrity_populacao <- function() {
     if (!file.exists(get_data_path(caminho))) {
       rlog::log_info(sprintf("%s dataset not found", caminho))
       return(FALSE)
-    }
-    else{
+    } else {
       rlog::log_info(sprintf("%s dataset is OK", caminho))
     }
   }
   return(TRUE)
 }
-

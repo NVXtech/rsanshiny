@@ -33,8 +33,7 @@ integrity_projeto <- function() {
     if (!file.exists(get_data_path(caminho))) {
       rlog::log_info(sprintf("%s dataset not found", caminho))
       return(FALSE)
-    }
-    else{
+    } else {
       rlog::log_info(sprintf("%s dataset is OK", caminho))
     }
   }

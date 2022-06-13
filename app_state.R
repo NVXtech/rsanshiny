@@ -36,11 +36,11 @@ get_default_app_state <- function() {
       sinapi = "sinapi_2021_12",
       perda_agua = 25,
       resultado = list(
-        distribuicao=data.frame(),
-        coleta=data.frame(),
-        producao=data.frame(),
-        tratamento=data.frame(),
-        custo=data.frame(),
+        distribuicao = data.frame(),
+        coleta = data.frame(),
+        producao = data.frame(),
+        tratamento = data.frame(),
+        custo = data.frame(),
       )
     )
   default_modulo_financeiro <-
@@ -52,7 +52,7 @@ get_default_app_state <- function() {
   default_state <-
     list(
       projecao = default_projecao_state,
-      modulo_demografico =  default_modulo_demografico,
+      modulo_demografico = default_modulo_demografico,
       modulo_orcamentario = default_modulo_orcamentario,
       modulo_financeiro = default_modulo_financeiro
     )
@@ -68,8 +68,9 @@ app_state_filename <- function() {
 }
 
 check_and_create_data_folder <- function() {
-  if (!file.exists(data_folder))
+  if (!file.exists(data_folder)) {
     dir.create(data_folder)
+  }
 }
 
 load_app_state_or_get_defaults <- function() {
