@@ -1,5 +1,8 @@
 source("data_helpers.R")
 
+rlog::log_info("Loading App State")
+app_state <- load_app_state()
+
 #' Carrega o estado do aplicativo
 #' caso nunca tenha sido aberto
 #' cria um estado padrão
@@ -96,53 +99,28 @@ save_projecao_state <- function(input) {
   return(app_state)
 }
 
-save_modulo_demografico_state <- function(input) {
-  rlog::log_info("Saving modulo demografico state")
-  modulo_demografico <-
+save_agua_esgoto_state <- function(input, resultado) {
+  rlog::log_info("Saving água e esgoto state")
+  agua_esgoto <-
     list(
       snis = input$snis,
+      sinapi = input$sinapi,
       ano = input$ano,
       meta_agua = input$meta_agua,
       meta_esgoto = input$meta_esgoto,
       proporcao = input$proporcao,
-      resultado = app_state$modulo_demografico$resultado
-    )
-  app_state$modulo_demografico <- modulo_demografico
-  save(app_state, file = app_state_filename())
-  return(app_state)
-}
-
-save_modulo_orcamentario_state <- function(input) {
-  rlog::log_info("Saving modulo orcamentario state")
-  modulo_orcamentario <-
-    list(
-      sinadi = input$sinapi,
+      vida_util = input$vida_util,
       fator_servicos = input$fator_servicos,
       fator_materiais = input$fator_materiais,
       fator_composicao = input$fator_composicao,
       fator_insumo = input$fator_insumo,
       perda_agua = input$perda_agua,
-      resultado = app_state$modulo_orcamentario$resultado
+      resultado = resultado
     )
-  app_state$modulo_orcamentario <- modulo_orcamentario
+  app_state$agua_esgoto <- agua_esgoto
   save(app_state, file = app_state_filename())
   return(app_state)
 }
-
-
-save_modulo_financeiro_state <- function(input) {
-  rlog::log_info("Saving modulo financeiro state")
-  modulo_financeiro <-
-    list(
-      snis = input$snis,
-      vida_util = input$vida_util,
-      resultado = app_state$modulo_financeiro$resultado
-    )
-  app_state$modulo_financeiro <- modulo_financeiro
-  save(app_state, file = app_state_filename())
-  return(app_state)
-}
-
 
 save_residuos_state <- function(input) {
   rlog::log_info("Saving residuos state")
@@ -160,5 +138,3 @@ save_residuos_state <- function(input) {
   save(app_state, file = app_state_filename())
   return(app_state)
 }
-rlog::log_info("Loading App State")
-app_state <- load_app_state()

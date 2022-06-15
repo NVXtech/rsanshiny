@@ -53,13 +53,10 @@ projecao <- tabPanel(
 )
 
 
-agua_esgoto <- navbarMenu(
+agua_esgoto <- tabPanel(
   "Água e Esgoto",
   icon = icon("faucet"),
-  tabPanel("Resumo", agua_esgoto_ui("agua_esgoto")),
-  tabPanel("Módulo Demográfico", modulo_demografico_ui("demografico")),
-  tabPanel("Módulo Orçamentário", modulo_orcamentario_ui("orcamentario")),
-  tabPanel("Módulo Financeiro", modulo_financeiro_ui("financeiro")),
+  agua_esgoto_ui("agua_esgoto")
 )
 
 
@@ -110,9 +107,9 @@ server <- function(input, output, session) {
   rlog::log_info("Started new session")
   dashboard_server("dashboard")
   projecao_server("projecao")
-  demografico_server("demografico")
-  orcamentario_server("orcamentario")
-  financeiro_server("financeiro")
+
+  agua_esgoto_server("agua_esgoto")
+
   residuos_server("residuos")
 }
 

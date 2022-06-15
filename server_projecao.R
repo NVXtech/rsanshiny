@@ -1,4 +1,4 @@
-rodar_projecao_populacional <- function (input) {
+rodar_projecao_populacional <- function(input) {
   fonte1 <- as_tibble(load_data(input$fonte1))
   fonte1 <- adicionar_proporcao_urbana_rural(fonte1)
   if (grepl(".*censo.*", input$fonte2)) {
@@ -28,13 +28,14 @@ projecao_server <- function(id) {
 
     resultado_projecao <- reactiveVal(app_state$projecao$resultado)
 
-    output$grafico = renderPlotly({
+    output$grafico <- renderPlotly({
       df <- drop_na(resultado_projecao())
       df <- group_by(df, tipo_populacao, ano)
       df <-
         summarize(df,
-                  populacao = sum(populacao),
-                  .groups = "drop_last")
+          populacao = sum(populacao),
+          .groups = "drop_last"
+        )
       p <-
         ggplot(data = df, aes(x = ano, y = populacao, fill = tipo_populacao))
       p <- p + geom_bar(position = "dodge", stat = "identity")
@@ -43,12 +44,11 @@ projecao_server <- function(id) {
     })
 
     observeEvent(input$rodar, {
-      rlog::log_info('Running projeção populacional')
+      rlog::log_info("Running projeção populacional")
       app_state$projecao$resultado <<-
         rodar_projecao_populacional(input)
       resultado_projecao(app_state$projecao$resultado)
       save_projecao_state(input)
     })
-
   })
 }

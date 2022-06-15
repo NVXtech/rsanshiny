@@ -82,7 +82,7 @@ dashboard_server <- function(id) {
     })
 
     # AGUA E ESGOTO
-    agua_esgoto <- reactiveVal(app_state$modulo_financeiro$resultado)
+    agua_esgoto <- reactiveVal(app_state$agua_esgoto$resultado)
     residuos <- reactiveVal(app_state$residuos$resultado$resultado)
 
     output$agua_esgoto_investimento <- plot_investimento_total(input, agua_esgoto)
@@ -101,7 +101,7 @@ dashboard_server <- function(id) {
           type = "bar",
           name = "Água"
         )
-      fig <- plotly::add_trace(fig, y = ~deficit_esgoto_total, name = "Esgoto")
+      fig <- plotly::add_trace(fig, y = ~ .data[["deficit_esgoto_total"]], name = "Esgoto")
       fig <- plotly::layout(
         fig,
         title = "Déficit de Atendimento Previsto",
