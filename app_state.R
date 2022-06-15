@@ -14,6 +14,7 @@ load_app_state <- function() {
   return(app_state)
 }
 
+
 get_default_app_state <- function() {
   default_projecao_state <-
     list(
@@ -82,7 +83,7 @@ load_app_state_or_get_defaults <- function() {
 }
 
 save_projecao_state <- function(input) {
-  rlog::log_info("saving projecao state")
+  rlog::log_info("Saving projecao state")
   projecao_state <-
     list(
       fonte1 = input$fonte1,
@@ -96,7 +97,7 @@ save_projecao_state <- function(input) {
 }
 
 save_modulo_demografico_state <- function(input) {
-  rlog::log_info("saving modulo demografico state")
+  rlog::log_info("Saving modulo demografico state")
   modulo_demografico <-
     list(
       snis = input$snis,
@@ -112,7 +113,7 @@ save_modulo_demografico_state <- function(input) {
 }
 
 save_modulo_orcamentario_state <- function(input) {
-  rlog::log_info("saving modulo orcamentario state")
+  rlog::log_info("Saving modulo orcamentario state")
   modulo_orcamentario <-
     list(
       sinadi = input$sinapi,
@@ -130,7 +131,7 @@ save_modulo_orcamentario_state <- function(input) {
 
 
 save_modulo_financeiro_state <- function(input) {
-  rlog::log_info("saving modulo financeiro state")
+  rlog::log_info("Saving modulo financeiro state")
   modulo_financeiro <-
     list(
       snis = input$snis,
@@ -142,5 +143,22 @@ save_modulo_financeiro_state <- function(input) {
   return(app_state)
 }
 
+
+save_residuos_state <- function(input) {
+  rlog::log_info("Saving residuos state")
+  residuos_state <-
+    list(
+      ano = input$ano,
+      valor_caminhao = input$valor_caminhao,
+      valor_caminhao_bau = input$valor_caminhao_bau,
+      vida_util_aterro = input$vida_util_aterro,
+      vida_util_compostagem = input$vida_util_compostagem,
+      vida_util_triagem = input$vida_util_triagem,
+      resultado = app_state$residuos$resultado
+    )
+  app_state$residuos <- residuos_state
+  save(app_state, file = app_state_filename())
+  return(app_state)
+}
 rlog::log_info("Loading App State")
 app_state <- load_app_state()

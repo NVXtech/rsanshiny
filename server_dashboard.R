@@ -6,7 +6,7 @@ choice_to_varname <- function(choice) {
     return("regiao")
   }
   if (choice == "UF") {
-    return("estado")
+    return("Estado")
   }
 }
 
@@ -36,69 +36,81 @@ adiciona_marcador_milhar <- function(x) {
   )
 }
 
+plot_investimento_total <- function(input, dado) {
+  renderPlotly({
+    espacial <- input$espacial
+    data <- prepara_dados_investimento(espacial, dado())
+    fig <- plotly::plot_ly(
+      data,
+      labels = ~ .data[[choice_to_varname(input$espacial)]],
+      values = ~investimento_total,
+      textinfo = "label",
+      hoverinfo = "label+percent+text",
+      text = ~ sprintf("R$ %s bilhões", adiciona_marcador_milhar(round(investimento_total, 2))),
+      type = "pie"
+    )
+    fig <- plotly::layout(fig, title = "Investimento total")
+  })
+}
+
+plot_investimento_por_tipo <- function(input, dado) {
+  renderPlotly({
+    data <- prepara_dados_soma(input$espacial, dado())
+    fig <-
+      plot_ly(
+        data,
+        x = ~ .data[[choice_to_varname(input$espacial)]],
+        y = ~investimento_total,
+        type = "bar",
+        name = "Total"
+      )
+    fig <- plotly::add_trace(fig, y = ~investimento_expansao, name = "Expansão")
+    fig <- plotly::add_trace(fig, y = ~investimento_reposicao, name = "Reposição")
+    fig <- plotly::layout(
+      fig,
+      title = "Investimento por Tipo",
+      yaxis = list(title = "Investimento (R$ bilhões)"),
+      xaxis = list(title = input$espacial),
+      barmode = "group"
+    )
+  })
+}
+
 dashboard_server <- function(id) {
   moduleServer(id, function(input, output, session) {
     observeEvent(input$espacial, {
-
     })
 
-    agua_esgoto <-
-      reactiveVal(app_state$modulo_financeiro$resultado)
+    # AGUA E ESGOTO
+    agua_esgoto <- reactiveVal(app_state$modulo_financeiro$resultado)
+    residuos <- reactiveVal(app_state$residuos$resultado$resultado)
 
-    output$investimento <- renderPlotly({
-      espacial <- input$espacial
-      data <- prepara_dados_investimento(espacial, agua_esgoto())
-      fig <-
-        plot_ly(
-          data,
-          labels = ~ .data[[choice_to_varname(input$espacial)]],
-          values = ~investimento_total,
-          textinfo = "label",
-          hoverinfo = "label+percent+text",
-          text = ~ sprintf("R$ %s bilhões", adiciona_marcador_milhar(round(investimento_total, 2))),
-          type = "pie"
-        )
-    })
+    output$agua_esgoto_investimento <- plot_investimento_total(input, agua_esgoto)
+    output$residuos_investimento <- plot_investimento_total(input, residuos)
 
-    output$investimento_segmentado <- renderPlotly({
+    output$agua_esgoto_investimento_por_tipo <- plot_investimento_por_tipo(input, agua_esgoto)
+    output$residuos_investimento_por_tipo <- plot_investimento_por_tipo(input, residuos)
+
+    output$agua_esgoto_deficit <- renderPlotly({
       data <- prepara_dados_soma(input$espacial, agua_esgoto())
       fig <-
-        plot_ly(
-          data,
-          x = ~ .data[[choice_to_varname(input$espacial)]],
-          y = ~investimento_total,
-          type = "bar",
-          name = "Total"
-        )
-      fig <- fig %>%
-        add_trace(y = ~investimento_expansao, name = "Expansão")
-      fig <- fig %>%
-        add_trace(y = ~investimento_reposicao, name = "Reposição")
-      fig <-
-        fig %>% layout(
-          yaxis = list(title = "Investimento (R$ bilhões)"),
-          xaxis = list(title = input$espacial),
-          barmode = "group"
-        )
-    })
-    output$deficit <- renderPlotly({
-      data <- prepara_dados_soma(input$espacial, agua_esgoto())
-      fig <-
-        plot_ly(
+        plotly::plot_ly(
           data,
           x = ~ .data[[choice_to_varname(input$espacial)]],
           y = ~deficit_agua_total,
           type = "bar",
           name = "Água"
         )
-      fig <- fig %>%
-        add_trace(y = ~deficit_esgoto_total, name = "Esgoto")
-      fig <-
-        fig %>% layout(
-          yaxis = list(title = "Déficit de atendimento (hab.)"),
-          xaxis = list(title = input$espacial),
-          barmode = "group"
-        )
+      fig <- plotly::add_trace(fig, y = ~deficit_esgoto_total, name = "Esgoto")
+      fig <- plotly::layout(
+        fig,
+        title = "Déficit de Atendimento Previsto",
+        yaxis = list(title = "Déficit (habitantes)"),
+        xaxis = list(title = input$espacial),
+        barmode = "group"
+      )
+
+      # RESIDUOS
     })
   })
 }

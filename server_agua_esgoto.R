@@ -16,8 +16,6 @@ snis_fields <-
     "ES026"
   )
 
-
-
 rodar_modulo_demografico <- function(input) {
   ano <- input$ano
   snis_data <- rsan::get_snis_data(input$snis, snis_fields)
@@ -231,7 +229,6 @@ rodar_modulo_financeiro <- function(input) {
   app_state$modulo_financeiro$resultado <<- tabela
   return(tabela)
 }
-
 financeiro_server <- function(id) {
   moduleServer(id, function(input, output, session) {
     resultado <-

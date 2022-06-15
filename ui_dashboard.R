@@ -1,33 +1,73 @@
 dashboard_ui <- function(id) {
-  ns <- NS(id)
-  fluidPage(fluidRow(column(
-    12,
-    h2("Filtros"),
-    selectInput(
-      inputId = ns("espacial"),
-      label = strong("Filtrar espacialmente:"),
-      choices = c("País", "Região", "UF"),
-      selected = "Brasil"
+  ns <- shiny::NS(id)
+  fluidPage(
+    fluidRow(
+      column(6, titlePanel(strong("Painel"))),
+      column(
+        6,
+        selectInput(
+          inputId = ns("espacial"),
+          label = strong("Agrupar por:"),
+          choices = c("País", "Região", "UF"),
+          selected = "Brasil"
+        ),
+      )
     ),
-  )),
-  fluidRow(h2(strong("Água e Esgoto"))),
+    fluidRow(
+      column(
+        12,
+        tabsetPanel(
+          type = "tabs",
+          tabPanel("Geral"),
+          tabPanel("Água e Esgoto", dash_agua_esgoto(ns)),
+          tabPanel("Resíduos Sólidos", dash_residuos(ns)),
+          tabPanel("Drenagem")
+        )
+      ),
+    ),
+  )
+}
+
+dash_agua_esgoto <- function(ns) {
   fluidRow(
+    style = "padding:10px",
     column(
-      12,
-      h3("Investimento"),
-      plotlyOutput(ns("investimento"), height = 'auto', width = 'auto')
+      6,
+      plotlyOutput(ns("agua_esgoto_investimento"), height = "auto", width = "100%")
     ),
-    column(12,
-           plotlyOutput(
-             ns("investimento_segmentado"),
-             height = 'auto',
-             width = 'auto'
-           )),
     column(
-      12,
-      h3("Déficit de atendimento"),
-      plotlyOutput(ns("deficit"),  height = 'auto', width = 'auto')
+      6,
+      plotlyOutput(
+        ns("agua_esgoto_investimento_por_tipo"),
+        height = "auto",
+        width = "100%"
+      )
+    ),
+    column(
+      6,
+      plotlyOutput(ns("agua_esgoto_deficit"), height = "auto", width = "100%")
     )
-  ),
+  )
+}
+
+dash_residuos <- function(ns) {
+  fluidRow(
+    style = "padding:10px",
+    column(
+      6,
+      plotlyOutput(ns("residuos_investimento"), height = "auto", width = "100%")
+    ),
+    column(
+      6,
+      plotlyOutput(
+        ns("residuos_investimento_por_tipo"),
+        height = "auto",
+        width = "100%"
+      )
+    ),
+    column(
+      6,
+      plotlyOutput(ns("residuos_deficit"), height = "auto", width = "100%")
+    )
   )
 }

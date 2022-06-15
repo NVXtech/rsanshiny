@@ -41,15 +41,15 @@ rlog::log_info("Starting")
 check_and_create_datasets()
 
 dashboard <- tabPanel(
-  "Dashboard",
+  "Painel",
   icon = icon("chart-line"),
   dashboard_ui("dashboard")
 )
 
-projecao <- navbarMenu(
+projecao <- tabPanel(
   "Projeção Populacional",
   icon = icon("users"),
-  tabPanel("Fazer Projeção", projecao_populacional_ui("projecao"))
+  projecao_populacional_ui("projecao")
 )
 
 
@@ -116,4 +116,5 @@ server <- function(input, output, session) {
   residuos_server("residuos")
 }
 
-shinyApp(ui = ui, server = server)
+options <- list(port = 8080)
+shinyApp(ui = ui, server = server, options = options)
