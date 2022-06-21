@@ -1,3 +1,5 @@
+source("ui_helpers.R")
+
 residuos_snis_fields <- c(
   "codigo_municipio", "POP_TOT", "POP_URB", "Estado",
   "CO164", "CO050", "CO119", "CS026",
@@ -233,10 +235,6 @@ tabela_preco_unidade_residuos <- function(input, name) {
   return(output)
 }
 
-depreciacao_para_vida_util <- function(valor) {
-  return(100.0 / valor)
-}
-
 rodar_residuos <- function(input) {
   # parâmetros de entradar (TODO: colocar como parametros da funcao)
   ano <- input$ano
@@ -263,6 +261,7 @@ rodar_residuos <- function(input) {
   )
   tabela <- dplyr::left_join(tabela, compostagem, by = "codigo_municipio")
   tabela <- rsan::adiciona_pais(tabela)
+  tabela <- rsan::adiciona_estado(tabela)
   tabela <- rsan::adiciona_regiao(tabela)
 
   # Dados coleta comum
@@ -309,7 +308,7 @@ rodar_residuos <- function(input) {
     ano_inicial,
     ano_final,
     ano_corrente,
-    depreciacao_para_vida_util(input$deprec_coleta_comum)
+    rsan::depreciacao_para_vida_util(input$deprec_coleta_comum)
   )
 
   # Coleta seletiva
@@ -326,7 +325,7 @@ rodar_residuos <- function(input) {
     ano_inicial,
     ano_final,
     ano_corrente,
-    depreciacao_para_vida_util(input$deprec_coleta_seletiva)
+    rsan::depreciacao_para_vida_util(input$deprec_coleta_seletiva)
   )
 
   # Compostagem
@@ -342,7 +341,7 @@ rodar_residuos <- function(input) {
     ano_inicial,
     ano_final,
     ano_corrente,
-    depreciacao_para_vida_util(input$deprec_compostagem)
+    rsan::depreciacao_para_vida_util(input$deprec_compostagem)
   )
 
   # Aterro
@@ -357,7 +356,7 @@ rodar_residuos <- function(input) {
     ano_inicial,
     ano_final,
     ano_corrente,
-    depreciacao_para_vida_util(input$deprec_aterro)
+    rsan::depreciacao_para_vida_util(input$deprec_aterro)
   )
 
   # Triagem
@@ -373,7 +372,7 @@ rodar_residuos <- function(input) {
     ano_inicial,
     ano_final,
     ano_corrente,
-    depreciacao_para_vida_util(input$deprec_triagem)
+    rsan::depreciacao_para_vida_util(input$deprec_triagem)
   )
 
   tabela <- investimento_residuos_total(tabela)

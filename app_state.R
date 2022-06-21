@@ -1,14 +1,11 @@
 source("data_helpers.R")
 
-rlog::log_info("Loading App State")
-app_state <- load_app_state()
-
 #' Carrega o estado do aplicativo
 #' caso nunca tenha sido aberto
 #' cria um estado padrão
 #'
 #' @return estado do aplicativo
-#' @exporte
+#' @export
 #'
 #' @examples
 #' app_state <- load_app_state()
@@ -16,7 +13,6 @@ load_app_state <- function() {
   load(file = app_state_filename())
   return(app_state)
 }
-
 
 get_default_app_state <- function() {
   default_projecao_state <-
@@ -124,17 +120,30 @@ save_agua_esgoto_state <- function(input, resultado) {
 
 save_residuos_state <- function(input) {
   rlog::log_info("Saving residuos state")
-  residuos_state <-
-    list(
-      ano = input$ano,
-      valor_caminhao = input$valor_caminhao,
-      valor_caminhao_bau = input$valor_caminhao_bau,
-      vida_util_aterro = input$vida_util_aterro,
-      vida_util_compostagem = input$vida_util_compostagem,
-      vida_util_triagem = input$vida_util_triagem,
-      resultado = app_state$residuos$resultado
-    )
+  residuos_state <- list(
+    ano = input$ano,
+    valor_caminhao = input$valor_caminhao,
+    valor_caminhao_bau = input$valor_caminhao_bau,
+    vida_util_aterro = input$vida_util_aterro,
+    vida_util_compostagem = input$vida_util_compostagem,
+    vida_util_triagem = input$vida_util_triagem,
+    resultado = app_state$residuos$resultado
+  )
   app_state$residuos <- residuos_state
   save(app_state, file = app_state_filename())
   return(app_state)
 }
+
+save_drenagem_state <- function(input, resultado) {
+  rlog::log_info("Saving drenagem state")
+  drenagem <- list(
+    input = input,
+    resultado = resultado
+  )
+  app_state$drenagem <<- drenagem
+  save(app_state, file = app_state_filename())
+  return(app_state)
+}
+
+rlog::log_info("Loading App State")
+app_state <- load_app_state()

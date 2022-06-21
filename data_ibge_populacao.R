@@ -29,9 +29,9 @@ estimativa_pop_file <- "estimativa_dou_%s.xls"
 #' @export
 #'
 #' @examples
-#' listFilesFromFTP("ftp.ibge.gov.br")
-#' listFilesFromFTP("ftp.ibge.gov.br/Censos/")
-listFilesFromFTP <- function(URL) {
+#' list_files_from_ftp("ftp.ibge.gov.br")
+#' list_files_from_ftp("ftp.ibge.gov.br/Censos/")
+list_files_from_ftp <- function(URL) {
   listFiles <- curl::new_handle()
   curl::handle_setopt(listFiles, ftp_use_epsv = TRUE, dirlistonly = TRUE)
   con <-
@@ -53,7 +53,7 @@ listFilesFromFTP <- function(URL) {
 #' @examples
 #' getCensoYears()
 getCensoYears <- function() {
-  files <- listFilesFromFTP(censo_url)
+  files <- list_files_from_ftp(censo_url)
   output <- c()
   for (file in files) {
     if (grepl("^Censo_Demografico.*", file)) {
@@ -105,7 +105,7 @@ downloadCensoRawData <- function() {
   tipo <- c()
   for (year in years) {
     URL <- paste0(censo_url, sprintf(censo_suffix, year))
-    files <- listFilesFromFTP(URL)
+    files <- list_files_from_ftp(URL)
     files <- files[grepl(censo_file, files)]
     df_censo <- data_frame()
 
@@ -153,7 +153,7 @@ downloadCensoRawData <- function() {
 #' @examples
 #' load_estimativa_years()
 load_estimativa_years <- function() {
-  files <- listFilesFromFTP(estimativa_pop_url)
+  files <- list_files_from_ftp(estimativa_pop_url)
   output <- c()
   for (file in files) {
     if (grepl("^Estimativas_.*", file)) {

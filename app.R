@@ -34,6 +34,8 @@ source("server_agua_esgoto.R")
 source("ui_residuos.R")
 source("server_residuos.R")
 
+source("ui_drenagem.R")
+source("server_drenagem.R")
 
 rlog::log_info("Starting")
 
@@ -71,7 +73,8 @@ residuos_solidos <-
 drenagem_urbana <-
   tabPanel("Drenagem Urbana",
     icon = icon("water"),
-    fluid = TRUE
+    fluid = TRUE,
+    drenagem_ui("drenagem")
   )
 
 
@@ -104,6 +107,7 @@ ui <- fluidPage(
 
 
 server <- function(input, output, session) {
+  state <- new("employee", name = "Jonas")
   rlog::log_info("Started new session")
   dashboard_server("dashboard")
   projecao_server("projecao")
@@ -111,6 +115,8 @@ server <- function(input, output, session) {
   agua_esgoto_server("agua_esgoto")
 
   residuos_server("residuos")
+
+  drenagem_server("drenagem")
 }
 
 options <- list(port = 8080)

@@ -21,7 +21,7 @@ dashboard_ui <- function(id) {
           tabPanel("Geral"),
           tabPanel("Água e Esgoto", dash_agua_esgoto(ns)),
           tabPanel("Resíduos Sólidos", dash_residuos(ns)),
-          tabPanel("Drenagem")
+          tabPanel("Drenagem", dash_drenagem(ns))
         )
       ),
     ),
@@ -68,6 +68,43 @@ dash_residuos <- function(ns) {
     column(
       6,
       plotlyOutput(ns("residuos_deficit"), height = "auto", width = "100%")
+    )
+  )
+}
+
+dash_drenagem <- function(ns) {
+  fluidRow(
+    style = "padding:10px",
+    column(
+      6,
+      plotlyOutput(ns("drenagem_investimento"), height = "auto", width = "100%")
+    ),
+    column(
+      6,
+      plotlyOutput(
+        ns("drenagem_investimento_por_tipo"),
+        height = "auto",
+        width = "100%"
+      )
+    )
+  )
+}
+
+
+dash_drenagem <- function(ns) {
+  fluidRow(
+    style = "padding:10px",
+    column(
+      6,
+      plotlyOutput(ns("drenagem_investimento"), height = "auto", width = "100%")
+    ),
+    column(
+      6,
+      plotlyOutput(
+        ns("drenagem_investimento_por_tipo"),
+        height = "auto",
+        width = "100%"
+      )
     )
   )
 }
