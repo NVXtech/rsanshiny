@@ -6,7 +6,7 @@ get_snis_ap_list <- function() {
     return(snis_choices)
 }
 
-drenagem_ui <- function(id) {
+drenagem_ui <- function(id, app_state) {
     ns <- shiny::NS(id)
     fluidPage(
         fluidRow(

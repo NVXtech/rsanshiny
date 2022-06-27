@@ -13,7 +13,7 @@ get_fonte2_list <- function() {
   return(fonte1_choices)
 }
 
-projecao_populacional_ui <- function(id) {
+projecao_populacional_ui <- function(id, app_state) {
   ns <- NS(id)
   sidebarLayout(
     sidebarPanel(
@@ -23,13 +23,13 @@ projecao_populacional_ui <- function(id) {
         inputId = ns("fonte1"),
         label = strong("Fonte de dados Inicial"),
         choices = get_fonte1_list(),
-        selected = app_state$projecao$fonte1
+        selected = app_state$input$projecao$fonte1
       ),
       selectInput(
         inputId = ns("fonte2"),
         label = strong("Fonte de dados Final"),
         choices = get_fonte2_list(),
-        selected = app_state$projecao$fonte2
+        selected = app_state$input$projecao$fonte2
       ),
       hr(),
       sliderInput(
@@ -38,7 +38,7 @@ projecao_populacional_ui <- function(id) {
         step = 1,
         min = 2021,
         max = 2040,
-        value = app_state$projecao$modelar_ate
+        value = app_state$input$projecao$ano
       ),
       actionButton(ns("rodar"), label = "Calcular projeção"),
     ),

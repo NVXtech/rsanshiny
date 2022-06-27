@@ -12,13 +12,13 @@ get_sinapi_list <- function() {
   return(sinapi_choices)
 }
 
-agua_esgoto_ui <- function(id) {
+agua_ui <- function(id, app_state) {
   ns <- shiny::NS(id)
   fluidPage(
     fluidRow(
       column(
         12,
-        h1(strong("Água e esgoto"), style = "display: inline-block;margin:0;"),
+        h1(strong("Água"), style = "display: inline-block;margin:0;"),
         actionButton(ns("rodar"), icon = icon("calculator"), label = "Recalcular", style = "display: inline-block;margin-bottom:10px;"),
       )
     ),
@@ -61,27 +61,13 @@ agua_esgoto_ui <- function(id) {
               min = 0,
               max = 100
             ),
-            numericInput(
-              inputId = ns("meta_esgoto"),
-              label = strong("Meta de atendimento para esgoto (%)"),
-              value = 90,
-              min = 0,
-              max = 100
-            ),
-            numericInput(
-              inputId = ns("proporcao"),
-              label = strong("Proporção entre a densidade esgoto e abastecimento (%)"),
-              value = 80,
-              min = 0,
-              max = 100
-            )
           ),
           tabPanel(
             "Módulo Orçamentário",
             fluidRow(
               column(
                 6,
-                h3("Parâmetros Distribuição e Coleta"),
+                h3(" Distribuição"),
                 numericInput(
                   inputId = ns("fator_servicos"),
                   label = strong("Fator correção dos preços de Serviços (%)"),
@@ -99,7 +85,7 @@ agua_esgoto_ui <- function(id) {
               ),
               column(
                 6,
-                h3("Parâmetros Produção e Tratamento"),
+                h3("Produção"),
                 numericInput(
                   inputId = ns("fator_composicao"),
                   label = strong("Fator correção dos preços de Composição (%)"),

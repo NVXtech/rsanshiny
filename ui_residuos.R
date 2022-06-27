@@ -53,7 +53,7 @@ residuos_unidade_input <- function(ns, name, valores) {
   return(output)
 }
 
-residuos_ui <- function(id) {
+residuos_ui <- function(id, app_state) {
   ns <- shiny::NS(id)
   fluidPage(
     fluidRow(

@@ -12,7 +12,10 @@ choice_to_varname <- function(choice) {
 
 prepara_dados_investimento <- function(espacial, tabela) {
   espacial_varname <- choice_to_varname(espacial)
-  tabela <- dplyr::select(tabela, espacial_varname, investimento_total)
+  vars <- c(espacial_varname, "investimento_total")
+  tabela <- dplyr::select(
+    tabela,
+    dplyr::all_of(vars))
   tabela <- tidyr::drop_na(tabela)
   tabela <- dplyr::group_by(tabela, .data[[espacial_varname]])
   tabela <-
@@ -102,11 +105,11 @@ plot_deficit_agua_esgoto <- function(input, dado) {
   })
 }
 
-dashboard_server <- function(id, state) {
+dashboard_server <- function(id, app_state) {
   moduleServer(id, function(input, output, session) {
-    agua_esgoto <- reactiveVal(app_state$agua_esgoto$resultado)
-    residuos <- reactiveVal(app_state$residuos$resultado$resultado)
-    drenagem <- reactiveVal(app_state$drenagem$resultado)
+    agua_esgoto <- reactiveVal(app_state$agua_esgoto)
+    residuos <- reactiveVal(app_state$residuos)
+    drenagem <- reactiveVal(app_state$drenagem)
 
     # GERAL
 
@@ -122,5 +125,14 @@ dashboard_server <- function(id, state) {
     # DRENAGEM
     output$drenagem_investimento <- plot_investimento_total(input, drenagem)
     output$drenagem_investimento_por_tipo <- plot_investimento_por_tipo(input, drenagem)
+
+    # Tabset Events
+    observeEvent(input$dash_tab, {
+      rlog::log_info("Updating dashboard app state")
+      app_state <- rsan::load_app_state()
+      agua_esgoto(app_state$agua_esgoto)
+      residuos(app_state$residuos)
+      drenagem(app_state$drenagem)
+    })
   })
 }
