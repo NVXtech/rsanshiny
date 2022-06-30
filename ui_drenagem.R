@@ -14,6 +14,7 @@ drenagem_ui <- function(id, app_state) {
                 12,
                 h1(strong("Drenagem"), style = "display: inline-block;margin:0;"),
                 actionButton(ns("rodar"), icon = icon("calculator"), label = "Recalcular", style = "display: inline-block;margin-bottom:10px;"),
+                downloadButton(ns("download"), "Exportar xlsx",style = "display: inline-block;margin-bottom:10px;")
             )
         ),
         fluidRow(

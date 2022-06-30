@@ -31,16 +31,8 @@ projecao_populacional_ui <- function(id, app_state) {
         choices = get_fonte2_list(),
         selected = app_state$input$projecao$fonte2
       ),
-      hr(),
-      sliderInput(
-        inputId = ns("ano"),
-        strong("Fazer projeção até o ano de:"),
-        step = 1,
-        min = 2021,
-        max = 2040,
-        value = app_state$input$projecao$ano
-      ),
       actionButton(ns("rodar"), label = "Calcular projeção"),
+      downloadButton(ns("download"), "Exportar xlsx",style = "display: inline-block;margin-bottom:10px;")
     ),
     mainPanel(
       plotlyOutput(ns("grafico"))

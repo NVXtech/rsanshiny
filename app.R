@@ -28,14 +28,16 @@ source("ui_esgoto.R")
 source("ui_residuos.R")
 source("ui_drenagem.R")
 
+source("ui_config.R")
+source("server_config.R")
 
-create_ui <- function(){
+create_ui <- function() {
   app_state <- rsan::check_and_create_state()
   rlog::log_info("App State loaded @ui")
 
   dashboard <- tabPanel("Painel",
-                        icon = icon("chart-line"),
-                        dashboard_ui("dashboard", app_state)
+    icon = icon("chart-line"),
+    dashboard_ui("dashboard", app_state)
   )
 
   projecao <- tabPanel(
@@ -59,7 +61,7 @@ create_ui <- function(){
 
   residuos_solidos <-
     tabPanel(
-      "Resíduos Sólidos",
+      "Resíduos",
       icon = icon("recycle"),
       fluid = TRUE,
       residuos_ui("residuos", app_state)
@@ -68,7 +70,7 @@ create_ui <- function(){
 
   drenagem_urbana <-
     tabPanel(
-      "Drenagem Urbana",
+      "Drenagem",
       icon = icon("water"),
       fluid = TRUE,
       drenagem_ui("drenagem", app_state)
@@ -78,7 +80,7 @@ create_ui <- function(){
     "Configurações",
     icon = icon("cog"),
     fluid = TRUE,
-    h1("Configurações")
+    config_ui("config", app_state)
   )
 
   ui <- fluidPage(
@@ -138,6 +140,14 @@ modulo_calculo <- function(id, app_state) {
         shiny::incProgress(1 / n, detail = "Fim")
       })
     })
+    output$download <- downloadHandler(
+      filename = function() {
+        paste0(id, ".xlsx")
+      },
+      content = function(file) {
+        writexl::write_xlsx(app_state[[id]], file)
+      }
+    )
   })
 }
 
@@ -154,6 +164,8 @@ server <- function(input, output, session) {
   for (modulo in modulos) {
     modulo_calculo(modulo, app_state)
   }
+
+  config_server("config", app_state)
 }
 
 rlog::log_info("Starting...")

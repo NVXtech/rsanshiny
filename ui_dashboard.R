@@ -1,3 +1,21 @@
+dash_geral <- function(ns) {
+  fluidRow(
+    style = "padding:10px",
+    column(
+      6,
+      shinycssloaders::withSpinner(plotlyOutput(ns("geral_investimento"), height = "auto", width = "100%"))
+    ),
+    column(
+      6,
+      plotlyOutput(
+        ns("geral_investimento_por_tipo"),
+        height = "auto",
+        width = "100%"
+      )
+    )
+  )
+}
+
 dash_agua <- function(ns) {
   fluidRow(
     style = "padding:10px",
@@ -122,10 +140,10 @@ dashboard_ui <- function(id, app_state) {
         tabsetPanel(
           id = ns("dash_tab"),
           type = "tabs",
-          tabPanel("Geral"),
+          tabPanel("Geral", dash_geral(ns)),
           tabPanel("Água", dash_agua(ns)),
           tabPanel("Esgoto", dash_esgoto(ns)),
-          tabPanel("Resíduos Sólidos", dash_residuos(ns)),
+          tabPanel("Resíduos", dash_residuos(ns)),
           tabPanel("Drenagem", dash_drenagem(ns))
         )
       ),

@@ -20,6 +20,7 @@ agua_ui <- function(id, app_state) {
         12,
         h1(strong("Água"), style = "display: inline-block;margin:0;"),
         actionButton(ns("rodar"), icon = icon("calculator"), label = "Recalcular", style = "display: inline-block;margin-bottom:10px;"),
+        downloadButton(ns("download"), "Exportar xlsx",style = "display: inline-block;margin-bottom:10px;")
       )
     ),
     fluidRow(
@@ -37,15 +38,7 @@ agua_ui <- function(id, app_state) {
           label = strong("Selecione o ano e mês do SINAPI"),
           choices = get_sinapi_list(),
           selected = app_state$orcamentario$sinapi
-        ),
-        sliderInput(
-          inputId = ns("ano"),
-          strong("Realizar cálculo para o ano de:"),
-          step = 1,
-          min = 2021,
-          max = 2040,
-          value = 2033
-        ),
+        )
       ),
       column(
         9,

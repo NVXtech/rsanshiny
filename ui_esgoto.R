@@ -20,6 +20,7 @@ esgoto_ui <- function(id, app_state) {
         12,
         h1(strong("Esgoto"), style = "display: inline-block;margin:0;"),
         actionButton(ns("rodar"), icon = icon("calculator"), label = "Recalcular", style = "display: inline-block;margin-bottom:10px;"),
+        downloadButton(ns("download"), "Exportar xlsx",style = "display: inline-block;margin-bottom:10px;")
       )
     ),
     fluidRow(
@@ -30,22 +31,14 @@ esgoto_ui <- function(id, app_state) {
           inputId = ns("snis"),
           label = strong("Selecione o ano do SNIS"),
           choices = get_snis_list(),
-          selected = app_state$demografico$snis
+          selected = app_state$input$esgoto$snis
         ),
         selectInput(
           inputId = ns("sinapi"),
           label = strong("Selecione o ano e mês do SINAPI"),
           choices = get_sinapi_list(),
-          selected = app_state$orcamentario$sinapi
-        ),
-        sliderInput(
-          inputId = ns("ano"),
-          strong("Realizar cálculo para o ano de:"),
-          step = 1,
-          min = 2021,
-          max = 2040,
-          value = 2033
-        ),
+          selected = app_state$input$esgoto$sinapi
+        )
       ),
       column(
         9,
@@ -57,14 +50,14 @@ esgoto_ui <- function(id, app_state) {
             numericInput(
               inputId = ns("meta_esgoto"),
               label = strong("Meta de atendimento para esgoto (%)"),
-              value = 90,
+              value = app_state$input$esgoto$meta_esgoto,
               min = 0,
               max = 100
             ),
             numericInput(
               inputId = ns("proporcao"),
               label = strong("Proporção entre a densidade esgoto e abastecimento (%)"),
-              value = 80,
+              value = app_state$input$esgoto$proporcao,
               min = 0,
               max = 100
             )
@@ -78,14 +71,14 @@ esgoto_ui <- function(id, app_state) {
                 numericInput(
                   inputId = ns("fator_servicos"),
                   label = strong("Fator correção dos preços de Serviços (%)"),
-                  value = 26,
+                  value = app_state$input$esgoto$fator_servicos,
                   min = 0,
                   max = 100
                 ),
                 numericInput(
                   inputId = ns("fator_materiais"),
                   label = strong("Fator correção dos preços de Materiais (%)"),
-                  value = 18,
+                  value = app_state$input$esgoto$fator_materiais,
                   min = 0,
                   max = 100
                 )
@@ -96,14 +89,14 @@ esgoto_ui <- function(id, app_state) {
                 numericInput(
                   inputId = ns("fator_composicao"),
                   label = strong("Fator correção dos preços de Composição (%)"),
-                  value = 26,
+                  value = app_state$input$esgoto$fator_composicao,
                   min = 0,
                   max = 100
                 ),
                 numericInput(
                   inputId = ns("fator_insumo"),
                   label = strong("Fator correção dos preços de Insumos (%)"),
-                  value = 18,
+                  value = app_state$input$esgoto$fator_insumo,
                   min = 0,
                   max = 100
                 )
@@ -115,7 +108,7 @@ esgoto_ui <- function(id, app_state) {
             numericInput(
               inputId = ns("vida_util"),
               label = strong("Vida útil média dos ativos (anos)"),
-              value = 30,
+              value = app_state$input$esgoto$vida_util,
               min = 1e-10,
               max = 1e10
             ),
