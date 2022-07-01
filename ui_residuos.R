@@ -61,7 +61,7 @@ residuos_ui <- function(id, app_state) {
         12,
         h1(strong("Resíduos Sólidos"), style = "display: inline-block;margin:0;"),
         actionButton(ns("rodar"), icon = icon("calculator"), label = "Recalcular", style = "display: inline-block;margin-bottom:10px;"),
-        downloadButton(ns("download"), "Exportar xlsx",style = "display: inline-block;margin-bottom:10px;")
+        downloadButton(ns("download"), "Exportar xlsx", style = "display: inline-block;margin-bottom:10px;")
       )
     ),
     fluidRow(
@@ -91,7 +91,7 @@ residuos_ui <- function(id, app_state) {
         tabsetPanel(
           type = "tabs",
           tabPanel(
-            "Coleta Comum",
+            "Coleta Regular",
             numericInput(
               inputId = ns("valor_caminhao"),
               label = strong("Valor do caminhão compactador em R$"),
@@ -100,7 +100,7 @@ residuos_ui <- function(id, app_state) {
               max = 1e20
             ),
             numericInput(
-              inputId = ns("deprec_coleta_comum"),
+              inputId = ns("deprec_coleta_regular"),
               label = strong("Depreciação em %"),
               value = 10,
               min = 0,

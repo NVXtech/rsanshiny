@@ -184,6 +184,7 @@ dashboard_server <- function(id, app_state) {
     observeEvent(input$dash_tab, {
       rlog::log_info("Updating dashboard app state")
       app_state <- rsan::load_app_state()
+      geral <- reactiveVal(app_state$geral)
       agua(app_state$agua)
       esgoto(app_state$esgoto)
       residuos(app_state$residuos)
