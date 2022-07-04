@@ -150,8 +150,10 @@ plot_deficit <- function(input, dado) {
   })
 }
 
-dashboard_server <- function(id, app_state) {
+dashboard_server <- function(id) {
   moduleServer(id, function(input, output, session) {
+    app_state <- rsan::load_app_state()
+
     geral <- reactiveVal(app_state$geral)
     agua <- reactiveVal(app_state$agua)
     esgoto <- reactiveVal(app_state$esgoto)

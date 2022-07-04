@@ -1,7 +1,5 @@
 # Aplicação Gráfica para
 # Cálculo de Necessidade de Investimentos em Saneamento
-# Se estiver no RStudio clique em Run App para rodar a aplicação
-rm(list = ls())
 
 library(shiny)
 library(shinythemes)
@@ -17,21 +15,12 @@ library(ggplot2)
 library(plotly)
 library(rsan)
 
-source("ui_dashboard.R")
-source("server_dashboard.R")
-
-source("ui_projecao.R")
-source("server_projecao.R")
-
-source("ui_agua.R")
-source("ui_esgoto.R")
-source("ui_residuos.R")
-source("ui_drenagem.R")
-
-source("ui_config.R")
-source("server_config.R")
-
-create_ui <- function() {
+#' main app ui
+#'
+#' @return shiny ui
+#' @export
+#'
+app_ui <- function() {
   app_state <- rsan::check_and_create_state()
   rlog::log_info("App State loaded @ui")
 
@@ -45,7 +34,6 @@ create_ui <- function() {
     icon = icon("users"),
     projecao_populacional_ui("projecao", app_state)
   )
-
 
   agua <- tabPanel(
     "Água",
@@ -151,31 +139,40 @@ modulo_calculo <- function(id, app_state) {
   })
 }
 
-
-server <- function(input, output, session) {
+#' main server of app
+#'
+#' @param input shiny input
+#' @param output shiny output
+#' @param session shiny session
+#'
+#' @return shiny server
+#' @export
+app_server <- function(input, output, session) {
   rlog::log_info("Started new session")
   app_state <- rsan::check_and_create_state()
   rlog::log_info("App State loaded @server")
 
-  dashboard_server("dashboard", app_state)
-  projecao_server("projecao", app_state)
+  rsanshiny:::dashboard_server("dashboard")
+  rsanshiny:::projecao_server("projecao", app_state)
 
   modulos <- c("agua", "esgoto", "drenagem", "residuos")
   for (modulo in modulos) {
-    modulo_calculo(modulo, app_state)
+    rsanshiny:::modulo_calculo(modulo, app_state)
   }
 
-  config_server("config", app_state)
+  rsanshiny:::config_server("config", app_state)
+  rsanshiny:::config_server("drenagem", app_state)
 }
 
-rlog::log_info("Starting...")
-rlog::log_info("Preparing local storage")
-rsan::check_and_create_datasets()
+#' Run the Shiny Application
+#'
+#' @param options optional, described in ?shiny::shinyApp
+#'
+#' @export
+run_app <- function(options = list()) {
+  rlog::log_info("Starting...")
+  rlog::log_info("Preparing local storage")
+  rsan::check_and_create_datasets()
 
-rlog::log_info("Starting server")
-options <- list(port = 8080)
-shiny::shinyApp(
-  ui = create_ui(),
-  server = server,
-  options = options
-)
+  shiny::runApp(appDir = system.file("", package = "rsanshiny"))
+}
