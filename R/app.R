@@ -125,6 +125,7 @@ modulo_calculo <- function(id, app_state) {
         app_state <- rsan::rodar_modelo(app_state)
         shiny::incProgress(1 / n, detail = "Salvando resultados")
         rsan::save_state(app_state)
+        app_state$drenagem
         shiny::incProgress(1 / n, detail = "Fim")
       })
     })
@@ -171,8 +172,13 @@ app_server <- function(input, output, session) {
 #' @export
 run_app <- function(options = list()) {
   rlog::log_info("Starting...")
+
+  app_state <- rsan::check_and_create_state()
+  rlog::log_info("App State loaded @runapp")
+
   rlog::log_info("Preparing local storage")
   rsan::check_and_create_datasets()
 
-  shiny::runApp(appDir = system.file("", package = "rsanshiny"))
+  shiny::runApp()
+  #shiny::runApp(appDir = system.file("", package = "rsanshiny"))
 }

@@ -1,8 +1,7 @@
 get_snis_ap_list <- function() {
-    # TODO: refactor to get snis ap list
-    data("snis")
-    snis_choices <- as.list(snis$caminho)
-    names(snis_choices) <- snis$nome
+    data("snis_ap")
+    snis_choices <- as.list(names(snis_ap))
+    names(snis_choices) <- names(snis_ap)
     return(snis_choices)
 }
 
@@ -53,8 +52,8 @@ drenagem_ui <- function(id, app_state) {
                       )
                     ),
                     numericInput(
-                      inputId = ns("preco_cadastro"),
-                      label = strong("Valor do cadastro técnico (R$/km²)"),
+                      inputId = ns("custo_cadastro"),
+                      label = strong("Custo do cadastro técnico (R$/km²)"),
                       value = 7738.89,
                       min = -1e9,
                       max = 1e9
@@ -64,28 +63,28 @@ drenagem_ui <- function(id, app_state) {
                     "Pesos dos Indicadores",
                     numericInput(
                       inputId = ns("peso_pluviometria"),
-                      label = strong("Pluviometria"),
+                      label = strong("Pluviometria [R$/(mm/ano)]"),
                       value = 0.063933104088543,
                       min = -1e9,
                       max = 1e9
                     ),
                     numericInput(
                       inputId = ns("peso_densidade"),
-                      label = strong("Densidade urbana"),
+                      label = strong("Densidade urbana [R$/(hab/km²)]"),
                       value = -0.189155004725778,
                       min = -1e9,
                       max = 1e9
                     ),
                     numericInput(
                       inputId = ns("peso_fisicas"),
-                      label = strong("Características físicas"),
+                      label = strong("Características físicas (R$/-)"),
                       value = 3477.79720206452,
                       min = -1e9,
                       max = 1e9
                     ),
                     numericInput(
                       inputId = ns("peso_infraestrutura"),
-                      label = strong("Infraestrutura"),
+                      label = strong("Infraestrutura (R$/-)"),
                       value = 519.474326911018,
                       min = -1e9,
                       max = 1e9

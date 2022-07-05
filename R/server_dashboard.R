@@ -102,9 +102,11 @@ plot_investimento_por_tema <- function(input, dado) {
   })
 }
 
-plot_investimento_por_tipo <- function(input, dado) {
+plot_investimento_por_tipo <- function(input, dado, drenagem=FALSE) {
   renderPlotly({
     vars <- c("investimento_total", "investimento_expansao", "investimento_reposicao")
+    if (drenagem)
+      vars <- c(vars, "investimento_cadastro")
     data <- prepara_dados_soma(input$espacial, dado(), vars = vars)
     fig <-
       plot_ly(
@@ -116,6 +118,8 @@ plot_investimento_por_tipo <- function(input, dado) {
       )
     fig <- plotly::add_trace(fig, y = ~investimento_expansao, name = "Expansão")
     fig <- plotly::add_trace(fig, y = ~investimento_reposicao, name = "Reposição")
+    if (drenagem)
+      fig <- plotly::add_trace(fig, y = ~investimento_cadastro, name = "Cadastro")
     fig <- plotly::layout(
       fig,
       title = "Investimento por Tipo",
@@ -180,7 +184,7 @@ dashboard_server <- function(id) {
 
     # DRENAGEM
     output$drenagem_investimento <- plot_investimento_total(input, drenagem)
-    output$drenagem_investimento_por_tipo <- plot_investimento_por_tipo(input, drenagem)
+    output$drenagem_investimento_por_tipo <- plot_investimento_por_tipo(input, drenagem, drenagem=TRUE)
 
     # Tabset Events
     observeEvent(input$dash_tab, {
