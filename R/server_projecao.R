@@ -28,7 +28,6 @@ projecao_server <- function(id, app_state) {
         names_from = tipo_populacao,
         values_from = populacao, names_sep = "_"
       )
-      print(data)
       fig <- plotly::plot_ly(
         data,
         x = ~ano,
@@ -48,8 +47,8 @@ projecao_server <- function(id, app_state) {
       )
     })
 
-    observeEvent(input$rodar, {
-      withProgress(message = "Calculando Investimento", value = 0, {
+    shiny::observeEvent(input$rodar, {
+      shiny::withProgress(message = "Calculando Investimento", value = 0, {
         n <- 3
         shiny::incProgress(1 / n, detail = "Carregando cálculos anteriores")
         app_state <- rsan::load_app_state()

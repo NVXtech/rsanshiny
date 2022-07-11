@@ -76,20 +76,20 @@ plot_investimento_total <- function(input, dado) {
 }
 
 plot_investimento_por_tema <- function(input, dado) {
-  vars <- c("investimento_total", "investimento_total_agua", "investimento_total_esgoto", "investimento_total_drenagem")
-  title <- c("Total", "Água", "Esgoto", "Drenagem")
+  vars <- c("investimento_total_agua", "investimento_total_esgoto", "investimento_total_drenagem", "investimento_total")
+  title <- c("Água", "Esgoto", "Drenagem", "Total")
   renderPlotly({
     data <- prepara_dados_soma(input$espacial, dado(), vars = vars)
     fig <-
       plot_ly(
         data,
         x = ~ .data[[choice_to_varname(input$espacial)]],
-        y = ~investimento_total,
+        y = ~ .data[[vars[1]]],
         type = "bar",
         name = title[1]
       )
-    for (i in seq(from=2, to=length(vars))){
-      fig <- plotly::add_trace(fig, y=data[[vars[i]]], name = title[i])
+    for (i in seq(from = 2, to = length(vars))) {
+      fig <- plotly::add_trace(fig, y = data[[vars[i]]], name = title[i])
     }
 
     fig <- plotly::layout(
@@ -102,24 +102,27 @@ plot_investimento_por_tema <- function(input, dado) {
   })
 }
 
-plot_investimento_por_tipo <- function(input, dado, drenagem=FALSE) {
+plot_investimento_por_tipo <- function(input, dado, drenagem = FALSE) {
   renderPlotly({
-    vars <- c("investimento_total", "investimento_expansao", "investimento_reposicao")
-    if (drenagem)
+    vars <- c("investimento_expansao", "investimento_reposicao")
+    title <- c("Expansão", "Reposição")
+    if (drenagem) {
       vars <- c(vars, "investimento_cadastro")
+      title <- c(title, "Cadastro")
+    }
+    vars <- c(vars, "investimento_total")
+    title <- c(title, "Total")
     data <- prepara_dados_soma(input$espacial, dado(), vars = vars)
-    fig <-
-      plot_ly(
-        data,
-        x = ~ .data[[choice_to_varname(input$espacial)]],
-        y = ~investimento_total,
-        type = "bar",
-        name = "Total"
-      )
-    fig <- plotly::add_trace(fig, y = ~investimento_expansao, name = "Expansão")
-    fig <- plotly::add_trace(fig, y = ~investimento_reposicao, name = "Reposição")
-    if (drenagem)
-      fig <- plotly::add_trace(fig, y = ~investimento_cadastro, name = "Cadastro")
+    fig <- plotly::plot_ly(
+      data,
+      x = ~ .data[[choice_to_varname(input$espacial)]],
+      y = ~ .data[[vars[1]]],
+      type = "bar",
+      name = title[1]
+    )
+    for (i in seq(from = 2, to = length(vars))) {
+      fig <- plotly::add_trace(fig, y = data[[vars[i]]], name = title[i])
+    }
     fig <- plotly::layout(
       fig,
       title = "Investimento por Tipo",
@@ -132,18 +135,19 @@ plot_investimento_por_tipo <- function(input, dado, drenagem=FALSE) {
 
 plot_deficit <- function(input, dado) {
   renderPlotly({
-    vars <- c("deficit_total", "deficit_urbana", "deficit_rural")
+    vars <- c("deficit_urbana", "deficit_rural", "deficit_total")
+    title <- c("Urbana", "Rural", "Total")
     data <- prepara_dados_soma(input$espacial, dado(), vars = vars)
-    fig <-
-      plotly::plot_ly(
-        data,
-        x = ~ .data[[choice_to_varname(input$espacial)]],
-        y = ~deficit_total,
-        type = "bar",
-        name = "Total"
-      )
-    fig <- plotly::add_trace(fig, y = ~deficit_urbana, name = "Urbana")
-    fig <- plotly::add_trace(fig, y = ~deficit_rural, name = "Rural")
+    fig <- plotly::plot_ly(
+      data,
+      x = ~ .data[[choice_to_varname(input$espacial)]],
+      y = ~ .data[[vars[1]]],
+      type = "bar",
+      name = title[1]
+    )
+    for (i in seq(from = 2, to = length(vars))) {
+      fig <- plotly::add_trace(fig, y = data[[vars[i]]], name = title[i])
+    }
     fig <- plotly::layout(
       fig,
       title = "Déficit de Atendimento Previsto",
@@ -176,7 +180,7 @@ dashboard_server <- function(id) {
     # ESGOTO
     output$esgoto_investimento <- plot_investimento_total(input, esgoto)
     output$esgoto_investimento_por_tipo <- plot_investimento_por_tipo(input, esgoto)
-    output$esgoto_deficit <- plot_deficit(input,esgoto)
+    output$esgoto_deficit <- plot_deficit(input, esgoto)
 
     # RESIDUOS
     output$residuos_investimento <- plot_investimento_total(input, residuos)
@@ -184,7 +188,7 @@ dashboard_server <- function(id) {
 
     # DRENAGEM
     output$drenagem_investimento <- plot_investimento_total(input, drenagem)
-    output$drenagem_investimento_por_tipo <- plot_investimento_por_tipo(input, drenagem, drenagem=TRUE)
+    output$drenagem_investimento_por_tipo <- plot_investimento_por_tipo(input, drenagem, drenagem = TRUE)
 
     # Tabset Events
     observeEvent(input$dash_tab, {
