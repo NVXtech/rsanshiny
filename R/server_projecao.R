@@ -13,22 +13,39 @@ projecao_server <- function(id, app_state) {
 
     output$grafico <- renderPlotly({
       dados <- resultado_projecao()
-      if (is.null(dados)){
+      if (is.null(dados)) {
         rlog::log_warn("resultado da projecao não encontrado")
         return()
       }
-      df <- drop_na(dados)
-      df <- group_by(df, tipo_populacao, ano)
-      df <-
-        summarize(df,
-          populacao = sum(populacao),
-          .groups = "drop_last"
-        )
-      p <-
-        ggplot(data = df, aes(x = ano, y = populacao, fill = tipo_populacao))
-      p <- p + geom_bar(position = "dodge", stat = "identity")
-      p <- p + labs(x = "tempo (anos)", y = "População", fill = "Classe")
-      ggplotly(p)
+      data <- tidyr::drop_na(dados)
+      data <- dplyr::group_by(data, tipo_populacao, ano)
+      data <- dplyr::summarize(data,
+        populacao = sum(populacao) / 1e6,
+        .groups = "drop_last"
+      )
+      data <- tidyr::pivot_wider(
+        data,
+        names_from = tipo_populacao,
+        values_from = populacao, names_sep = "_"
+      )
+      print(data)
+      fig <- plotly::plot_ly(
+        data,
+        x = ~ano,
+        y = ~rural,
+        type = "bar",
+        name = "Rural"
+      )
+      fig <- plotly::add_trace(fig, y = ~urbana, name = "Urbana")
+      fig <- plotly::add_trace(fig, y = ~total, name = "Total")
+
+      fig <- plotly::layout(
+        fig,
+        title = "Projeção Populacional",
+        yaxis = list(title = "Polução (milhões)"),
+        xaxis = list(title = "anos"),
+        barmode = "group"
+      )
     })
 
     observeEvent(input$rodar, {

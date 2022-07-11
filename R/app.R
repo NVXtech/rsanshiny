@@ -131,6 +131,7 @@ modulo_calculo <- function(id, app_state) {
         shiny::incProgress(1 / n, detail = "Fim")
       })
     })
+
     output$download <- downloadHandler(
       filename = function() {
         paste0(id, ".xlsx")
@@ -152,6 +153,7 @@ modulo_calculo <- function(id, app_state) {
 #' @export
 app_server <- function(input, output, session) {
   rlog::log_info("Started new session")
+
   app_state <- rsan::check_and_create_state()
   rlog::log_info("App State loaded @server")
 
@@ -182,5 +184,5 @@ run_app <- function(options = list()) {
   rsan::check_and_create_datasets()
 
   shiny::runApp()
-  #shiny::runApp(appDir = system.file("", package = "rsanshiny"))
+  # shiny::runApp(appDir = system.file("", package = "rsanshiny"))
 }
