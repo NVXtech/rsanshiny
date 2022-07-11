@@ -91,7 +91,7 @@ residuos_ui <- function(id, app_state) {
         tabsetPanel(
           type = "tabs",
           tabPanel(
-            "Coleta Regular",
+            "Coleta Indiferenciada",
             numericInput(
               inputId = ns("valor_caminhao"),
               label = strong("Valor do caminhão compactador em R$"),
@@ -100,7 +100,7 @@ residuos_ui <- function(id, app_state) {
               max = 1e20
             ),
             numericInput(
-              inputId = ns("deprec_coleta_regular"),
+              inputId = ns("deprec_coleta_indiferenciada"),
               label = strong("Depreciação em %"),
               value = 10,
               min = 0,
