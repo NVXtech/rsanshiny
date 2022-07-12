@@ -20,7 +20,7 @@ agua_ui <- function(id, app_state) {
         12,
         h1(strong("Água"), style = "display: inline-block;margin:0;"),
         actionButton(ns("rodar"), icon = icon("calculator"), label = "Recalcular", style = "display: inline-block;margin-bottom:10px;"),
-        downloadButton(ns("download"), "Exportar xlsx",style = "display: inline-block;margin-bottom:10px;")
+        downloadButton(ns("download"), "Exportar xlsx", style = "display: inline-block;margin-bottom:10px;")
       )
     ),
     fluidRow(
@@ -50,7 +50,7 @@ agua_ui <- function(id, app_state) {
             numericInput(
               inputId = ns("meta_agua"),
               label = strong("Meta de atendimento para abastecimento de água (%)"),
-              value = 99,
+              value = app_state$input$agua$meta_agua,
               min = 0,
               max = 100
             ),
@@ -60,43 +60,43 @@ agua_ui <- function(id, app_state) {
             fluidRow(
               column(
                 6,
-                h3(" Distribuição"),
+                shiny::h3(" Distribuição"),
                 numericInput(
                   inputId = ns("fator_servicos"),
                   label = strong("Fator correção dos preços de Serviços (%)"),
-                  value = 26,
+                  value = app_state$input$agua$fator_servicos,
                   min = 0,
                   max = 100
                 ),
                 numericInput(
                   inputId = ns("fator_materiais"),
                   label = strong("Fator correção dos preços de Materiais (%)"),
-                  value = 18,
+                  value = app_state$input$agua$fator_materiais,
                   min = 0,
                   max = 100
                 )
               ),
               column(
                 6,
-                h3("Produção"),
+                shiny::h3("Produção"),
                 numericInput(
                   inputId = ns("fator_composicao"),
                   label = strong("Fator correção dos preços de Composição (%)"),
-                  value = 26,
+                  value = app_state$input$agua$fator_composicao,
                   min = 0,
                   max = 100
                 ),
                 numericInput(
                   inputId = ns("fator_insumo"),
                   label = strong("Fator correção dos preços de Insumos (%)"),
-                  value = 18,
+                  value = app_state$input$agua$fator_insumo,
                   min = 0,
                   max = 100
                 ),
                 numericInput(
                   inputId = ns("perda_agua"),
                   label = strong("Estimativa de Perda de água (%)"),
-                  value = 25,
+                  value = app_state$input$agua$perda_agua,
                   min = 0,
                   max = 100
                 )
@@ -108,7 +108,7 @@ agua_ui <- function(id, app_state) {
             numericInput(
               inputId = ns("vida_util"),
               label = strong("Vida útil média dos ativos (anos)"),
-              value = 30,
+              value = app_state$input$agua$vida_util,
               min = 1e-10,
               max = 1e10
             ),
