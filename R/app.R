@@ -76,6 +76,7 @@ app_ui <- function() {
   ui <- fluidPage(
     navbarPage(
       "InvestSan",
+      id = "pages",
       theme = shinytheme("simplex"),
       dashboard,
       projecao,
@@ -157,7 +158,7 @@ app_server <- function(input, output, session) {
   app_state <- rsan::check_and_create_state()
   rlog::log_info("App State loaded @server")
 
-  rsanshiny:::dashboard_server("dashboard")
+  update_dashstate <- rsanshiny:::dashboard_server("dashboard", app_state)
   rsanshiny:::projecao_server("projecao", app_state)
 
   modulos <- c("agua", "esgoto", "drenagem", "residuos")
@@ -167,6 +168,10 @@ app_server <- function(input, output, session) {
 
   rsanshiny:::config_server("config", app_state)
   rsanshiny:::config_server("drenagem", app_state)
+
+  shiny::observeEvent(input$pages, {
+    update_dashstate()
+  })
 }
 
 #' Run the Shiny Application
