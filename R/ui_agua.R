@@ -109,7 +109,7 @@ agua_ui <- function(id, app_state) {
             "Módulo Financeiro",
             shiny::numericInput(
               inputId = ns("vida_util"),
-              label = sshiny::trong("Vida útil média dos ativos (anos)"),
+              label = shiny::strong("Vida útil média dos ativos (anos)"),
               value = app_state$input$agua$vida_util,
               min = 1e-10,
               max = 1e10
