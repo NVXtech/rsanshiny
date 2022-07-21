@@ -1,6 +1,6 @@
 get_fonte1_list <- function() {
   populacoes <- rsan::load_data("populacao")
-  pop <- stats::filter(populacoes, tipo == "CENSO")
+  pop <- dplyr::filter(populacoes, tipo == "CENSO")
   fonte1_choices <- as.list(pop$caminho)
   names(fonte1_choices) <- pop$nome
   return(fonte1_choices)
