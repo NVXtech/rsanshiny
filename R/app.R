@@ -189,5 +189,6 @@ run_app <- function(options = list()) {
   rsan::check_and_create_datasets()
 
   #shiny::runApp()
-  shiny::runApp(appDir = system.file("", package = "rsanshiny"))
+  #shiny::runApp(appDir = system.file("", package = "rsanshiny"))
+  shinyApp(ui = rsanshiny:::app_ui, server = rsanshiny:::app_server)
 }
