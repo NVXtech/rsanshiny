@@ -179,7 +179,7 @@ app_server <- function(input, output, session) {
 #' @param options optional, described in ?shiny::shinyApp
 #'
 #' @export
-run_app <- function(options = list()) {
+run_app <- function(options = list(port=8888)) {
   rlog::log_info("Starting...")
 
   app_state <- rsan::check_and_create_state()
@@ -190,5 +190,8 @@ run_app <- function(options = list()) {
 
   #shiny::runApp()
   #shiny::runApp(appDir = system.file("", package = "rsanshiny"))
-  shinyApp(ui = rsanshiny:::app_ui, server = rsanshiny:::app_server)
+  shiny::shinyApp(
+    ui = rsanshiny:::app_ui,
+    server = rsanshiny:::app_server,
+    options=options)
 }
