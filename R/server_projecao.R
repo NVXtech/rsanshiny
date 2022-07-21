@@ -4,7 +4,7 @@ projecao_server <- function(id, app_state) {
       updateSliderInput(
         session,
         inputId = "ano",
-        min = rsan::get_year_from_path(input$fonte2),
+        min = rsan::nome_para_ano(input$fonte2),
         value = app_state$projecao$ano
       )
     })
