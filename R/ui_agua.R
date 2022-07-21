@@ -1,12 +1,14 @@
 get_snis_list <- function() {
-  data("snis")
+  utils::data("snis", package = "rsan")
+  snis <- get("snis")
   snis_choices <- as.list(snis$caminho)
   names(snis_choices) <- snis$nome
   return(snis_choices)
 }
 
 get_sinapi_list <- function() {
-  data("sinapi")
+  utils::data("sinapi", package = "rsan")
+  sinapi <- get("sinapi")
   sinapi_choices <- as.list(sinapi$caminho)
   names(sinapi_choices) <- sinapi$nome
   return(sinapi_choices)

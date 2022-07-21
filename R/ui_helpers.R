@@ -1,7 +1,7 @@
-create_datatable <- function(data) {
+create_datatable <- function(dados) {
     return(
         DT::renderDataTable(
-            data(),
+            dados(),
             extensions = c("Buttons", "Scroller"),
             options = list(
                 scrollX = TRUE,

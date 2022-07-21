@@ -1,5 +1,6 @@
 get_snis_ap_list <- function() {
-  data("snis_ap")
+  utils::data("snis_ap", package = "rsan")
+  snis_ap <- get("snis_ap")
   snis_choices <- as.list(names(snis_ap))
   names(snis_choices) <- names(snis_ap)
   return(snis_choices[order(unlist(snis_choices), decreasing = TRUE)])
