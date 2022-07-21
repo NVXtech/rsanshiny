@@ -14,88 +14,88 @@ get_sinapi_list <- function() {
 
 agua_ui <- function(id, app_state) {
   ns <- shiny::NS(id)
-  fluidPage(
-    fluidRow(
-      column(
+  shiny::fluidPage(
+    shiny::fluidRow(
+      shiny::column(
         12,
-        h1(strong("Água"), style = "display: inline-block;margin:0;"),
-        actionButton(ns("rodar"), icon = icon("calculator"), label = "Recalcular", style = "display: inline-block;margin-bottom:10px;"),
-        downloadButton(ns("download"), "Exportar xlsx", style = "display: inline-block;margin-bottom:10px;")
+        shiny::h1(shiny::strong("Água"), style = "display: inline-block;margin:0;"),
+        shiny::actionButton(ns("rodar"), icon = shiny::icon("calculator"), label = "Recalcular", style = "display: inline-block;margin-bottom:10px;"),
+        shiny::downloadButton(ns("download"), "Exportar xlsx", style = "display: inline-block;margin-bottom:10px;")
       )
     ),
-    fluidRow(
-      column(
+    shiny::fluidRow(
+      shiny::column(
         3,
-        titlePanel("Fonte de Dados"),
-        selectInput(
+        shiny::titlePanel("Fonte de Dados"),
+        shiny::selectInput(
           inputId = ns("snis"),
-          label = strong("Selecione o ano do SNIS"),
+          label = shiny::strong("Selecione o ano do SNIS"),
           choices = get_snis_list(),
           selected = app_state$demografico$snis
         ),
-        selectInput(
+        shiny::selectInput(
           inputId = ns("sinapi"),
-          label = strong("Selecione o ano e mês do SINAPI"),
+          label = shiny::strong("Selecione o ano e mês do SINAPI"),
           choices = get_sinapi_list(),
           selected = app_state$orcamentario$sinapi
         )
       ),
-      column(
+      shiny::column(
         9,
-        titlePanel("Parâmetros"),
-        tabsetPanel(
+        shiny::titlePanel("Parâmetros"),
+        shiny::tabsetPanel(
           type = "tabs",
-          tabPanel(
+          shiny::tabPanel(
             "Módulo Demográfico",
-            numericInput(
+            shiny::numericInput(
               inputId = ns("meta_agua"),
-              label = strong("Meta de atendimento para abastecimento de água (%)"),
+              label = shiny::strong("Meta de atendimento para abastecimento de água (%)"),
               value = app_state$input$agua$meta_agua,
               min = 0,
               max = 100
             ),
           ),
-          tabPanel(
+          shiny::tabPanel(
             "Módulo Orçamentário",
-            fluidRow(
-              column(
+            shiny::fluidRow(
+              shiny::column(
                 6,
                 shiny::h3(" Distribuição"),
-                numericInput(
+                shiny::numericInput(
                   inputId = ns("fator_servicos"),
-                  label = strong("Fator correção dos preços de Serviços (%)"),
+                  label = shiny::strong("Fator correção dos preços de Serviços (%)"),
                   value = app_state$input$agua$fator_servicos,
                   min = 0,
                   max = 100
                 ),
-                numericInput(
+                shiny::numericInput(
                   inputId = ns("fator_materiais"),
-                  label = strong("Fator correção dos preços de Materiais (%)"),
+                  label = shiny::strong("Fator correção dos preços de Materiais (%)"),
                   value = app_state$input$agua$fator_materiais,
                   min = 0,
                   max = 100
                 )
               ),
-              column(
+              shiny::column(
                 6,
                 shiny::h3("Produção"),
-                numericInput(
+                shiny::numericInput(
                   inputId = ns("fator_composicao"),
-                  label = strong("Fator correção dos preços de Composição (%)"),
+                  label = shiny::strong("Fator correção dos preços de Composição (%)"),
                   value = app_state$input$agua$fator_composicao,
                   min = 0,
                   max = 100
                 ),
-                numericInput(
+                shiny::numericInput(
                   inputId = ns("fator_insumo"),
-                  label = strong("Fator correção dos preços de Insumos (%)"),
+                  label = shiny::strong("Fator correção dos preços de Insumos (%)"),
                   value = app_state$input$agua$fator_insumo,
                   min = 0,
                   max = 100
                 ),
-                numericInput(
+                shiny::numericInput(
                   inputId = ns("perda_agua"),
-                  label = strong("Estimativa de Perda de água (%)"),
+                  label = shiny::strong("Estimativa de Perda de água (%)"),
                   value = app_state$input$agua$perda_agua,
                   min = 0,
                   max = 100
@@ -103,28 +103,28 @@ agua_ui <- function(id, app_state) {
               )
             )
           ),
-          tabPanel(
+          shiny::tabPanel(
             "Módulo Financeiro",
-            numericInput(
+            shiny::numericInput(
               inputId = ns("vida_util"),
-              label = strong("Vida útil média dos ativos (anos)"),
+              label = sshiny::trong("Vida útil média dos ativos (anos)"),
               value = app_state$input$agua$vida_util,
               min = 1e-10,
               max = 1e10
             ),
           ),
-          tabPanel(
+          shiny::tabPanel(
             "Módulo Rural",
-            numericInput(
+            shiny::numericInput(
               inputId = ns("custo_rural_individual"),
-              label = strong("Custo rural individual (R$/dom)"),
+              label = shiny::strong("Custo rural individual (R$/dom)"),
               value = app_state$input$agua$custo_rural_individual,
               min = 1e-10,
               max = 1e10
             ),
-            numericInput(
+            shiny::numericInput(
               inputId = ns("custo_rural_individual-sem"),
-              label = strong("Custo rural individual sem disponibilidade(R$/dom)"),
+              label = shiny::strong("Custo rural individual sem disponibilidade(R$/dom)"),
               value = app_state$input$agua$custo_rural_individual_sem,
               min = 1e-10,
               max = 1e10

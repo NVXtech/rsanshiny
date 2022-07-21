@@ -26,58 +26,58 @@ app_ui <- function() {
   app_state <- rsan::check_and_create_state()
   rlog::log_info("App State loaded @ui")
 
-  dashboard <- tabPanel("Painel",
-    icon = icon("chart-line"),
+  dashboard <- shiny::tabPanel("Painel",
+    icon = shiny::icon("chart-line"),
     dashboard_ui("dashboard", app_state)
   )
 
-  projecao <- tabPanel(
+  projecao <- shiny::tabPanel(
     "Projeção Populacional",
-    icon = icon("users"),
+    icon = shiny::icon("users"),
     projecao_populacional_ui("projecao", app_state)
   )
 
-  agua <- tabPanel(
+  agua <- shiny::tabPanel(
     "Água",
-    icon = icon("faucet"),
+    icon = shiny::icon("faucet"),
     agua_ui("agua", app_state)
   )
 
-  esgoto <- tabPanel(
+  esgoto <- shiny::tabPanel(
     "Esgoto",
-    icon = icon("toilet"),
+    icon = shiny::icon("toilet"),
     esgoto_ui("esgoto", app_state)
   )
 
   residuos_solidos <-
-    tabPanel(
+    shiny::tabPanel(
       "Resíduos",
-      icon = icon("recycle"),
+      icon = shiny::icon("recycle"),
       fluid = TRUE,
       residuos_ui("residuos", app_state)
     )
 
 
   drenagem_urbana <-
-    tabPanel(
+    shiny::tabPanel(
       "Drenagem",
-      icon = icon("water"),
+      icon = shiny::icon("water"),
       fluid = TRUE,
       drenagem_ui("drenagem", app_state)
     )
 
-  configuracoes <- tabPanel(
+  configuracoes <- shiny::tabPanel(
     "Configurações",
-    icon = icon("cog"),
+    icon = shiny::icon("cog"),
     fluid = TRUE,
     config_ui("config", app_state)
   )
 
-  ui <- fluidPage(
-    navbarPage(
+  ui <- shiny::fluidPage(
+    shiny::navbarPage(
       "NecessidadeInvest",
       id = "pages",
-      theme = shinytheme("simplex"),
+      theme = shinythemes::shinytheme("simplex"),
       dashboard,
       projecao,
       agua,
@@ -86,25 +86,25 @@ app_ui <- function() {
       drenagem_urbana,
       configuracoes
     ),
-    hr(),
-    div(
+    shiny::hr(),
+    shiny::div(
       style = "padding:10px;display:block;margin-left:auto;margin-right:auto;text-align:center;background-color:#fff",
-      img(
+      shiny::img(
         src = "ABC.jpg",
         height = 72,
         width = "auto"
       ),
-      img(
+      shiny::img(
         src = "MDRlongo.png",
         height = 72,
         width = "auto"
       ),
-      img(
+      shiny::img(
         src = "IICA.png",
         height = 72,
         width = "auto"
       ),
-      img(
+      shiny::img(
         src = "Envex.png",
         height = 72,
         width = "auto"
@@ -116,9 +116,9 @@ app_ui <- function() {
 
 
 modulo_calculo <- function(id, app_state) {
-  moduleServer(id, function(input, output, session) {
-    observeEvent(input$rodar, {
-      withProgress(message = "Recalculando", value = 0, {
+  shiny::moduleServer(id, function(input, output, session) {
+    shiny::observeEvent(input$rodar, {
+      shiny::withProgress(message = "Recalculando", value = 0, {
         n <- 4
         shiny::incProgress(0, detail = "Carregando cálculos anteriores")
         app_state <- rsan::load_app_state()
@@ -133,7 +133,7 @@ modulo_calculo <- function(id, app_state) {
       })
     })
 
-    output$download <- downloadHandler(
+    output$download <- shiny::downloadHandler(
       filename = function() {
         paste0(id, ".xlsx")
       },
@@ -179,7 +179,7 @@ app_server <- function(input, output, session) {
 #' @param options optional, described in ?shiny::shinyApp
 #'
 #' @export
-run_app <- function(options = list(port=8888)) {
+run_app <- function(options = list(port = 8888)) {
   rlog::log_info("Starting...")
 
   app_state <- rsan::check_and_create_state()
@@ -188,10 +188,10 @@ run_app <- function(options = list(port=8888)) {
   rlog::log_info("Preparing local storage")
   rsan::check_and_create_datasets()
 
-  #shiny::runApp()
-  #shiny::runApp(appDir = system.file("", package = "rsanshiny"))
+  # shiny::runApp()
   shiny::shinyApp(
     ui = rsanshiny:::app_ui,
     server = rsanshiny:::app_server,
-    options=options)
+    options = options
+  )
 }

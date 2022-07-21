@@ -1,7 +1,7 @@
 projecao_server <- function(id, app_state) {
-  moduleServer(id, function(input, output, session) {
-    observeEvent(input$fonte2, {
-      updateSliderInput(
+  shiny::moduleServer(id, function(input, output, session) {
+    shiny::observeEvent(input$fonte2, {
+      shiny::updateSliderInput(
         session,
         inputId = "ano",
         min = rsan::nome_para_ano(input$fonte2),
@@ -9,9 +9,9 @@ projecao_server <- function(id, app_state) {
       )
     })
 
-    resultado_projecao <- reactiveVal(app_state$projecao)
+    resultado_projecao <- shiny::reactiveVal(app_state$projecao)
 
-    output$grafico <- renderPlotly({
+    output$grafico <- plotly::renderPlotly({
       dados <- resultado_projecao()
       if (is.null(dados)) {
         rlog::log_warn("resultado da projecao não encontrado")

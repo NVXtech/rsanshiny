@@ -35,7 +35,7 @@ dash_geral <- function(ns) {
     shiny::conditionalPanel(
       ns = ns,
       condition = "input.vis.indexOf('grafico') > -1",
-      column(
+      shiny::column(
         12,
         shinycssloaders::withSpinner(
           plotly::plotlyOutput(
@@ -124,10 +124,10 @@ dash_agua <- function(ns) {
     shiny::conditionalPanel(
       ns = ns,
       condition = "input.vis.indexOf('grafico') > -1",
-      column(
+      shiny::column(
         12,
         shinycssloaders::withSpinner(
-          plotlyOutput(ns("agua_deficit"), height = "auto", width = "100%")
+          plotly::plotlyOutput(ns("agua_deficit"), height = "auto", width = "100%")
         )
       )
     ),
@@ -212,7 +212,7 @@ dash_esgoto <- function(ns) {
       shiny::column(
         12,
         shinycssloaders::withSpinner(
-          plotlyOutput(ns("esgoto_deficit"), height = "auto", width = "100%")
+          plotly::plotlyOutput(ns("esgoto_deficit"), height = "auto", width = "100%")
         )
       )
     ),
@@ -230,7 +230,7 @@ dash_esgoto <- function(ns) {
 }
 
 dash_residuos <- function(ns) {
-  fluidRow(
+  shiny::fluidRow(
     style = "padding:10px",
     shiny::column(
       12,
@@ -239,10 +239,10 @@ dash_residuos <- function(ns) {
     shiny::conditionalPanel(
       ns = ns,
       condition = "input.vis.indexOf('grafico') > -1",
-      column(
+      shiny::column(
         12,
         shinycssloaders::withSpinner(
-          plotlyOutput(
+          plotly::plotlyOutput(
             ns("residuos_investimento"),
             height = "auto", width = "100%"
           )
@@ -266,10 +266,10 @@ dash_residuos <- function(ns) {
     shiny::conditionalPanel(
       ns = ns,
       condition = "input.vis.indexOf('grafico') > -1",
-      column(
+      shiny::column(
         12,
         shinycssloaders::withSpinner(
-          plotlyOutput(
+          plotly::plotlyOutput(
             ns("residuos_investimento_por_tipo"),
             height = "auto",
             width = "100%"
@@ -294,10 +294,10 @@ dash_residuos <- function(ns) {
     shiny::conditionalPanel(
       ns = ns,
       condition = "input.vis.indexOf('grafico') > -1",
-      column(
+      shiny::column(
         12,
         shinycssloaders::withSpinner(
-          plotlyOutput(ns("residuos_deficit"), height = "auto", width = "100%")
+          plotly::plotlyOutput(ns("residuos_deficit"), height = "auto", width = "100%")
         )
       )
     ),
@@ -315,7 +315,7 @@ dash_residuos <- function(ns) {
 }
 
 dash_drenagem <- function(ns) {
-  fluidRow(
+  shiny::fluidRow(
     style = "padding:10px",
     shiny::column(
       12,
@@ -324,7 +324,7 @@ dash_drenagem <- function(ns) {
     shiny::conditionalPanel(
       ns = ns,
       condition = "input.vis.indexOf('grafico') > -1",
-      column(
+      shiny::column(
         12,
         shinycssloaders::withSpinner(
           plotly::plotlyOutput(
@@ -351,10 +351,10 @@ dash_drenagem <- function(ns) {
     shiny::conditionalPanel(
       ns = ns,
       condition = "input.vis.indexOf('grafico') > -1",
-      column(
+      shiny::column(
         12,
         shinycssloaders::withSpinner(
-          plotlyOutput(
+          plotly::plotlyOutput(
             ns("drenagem_investimento_por_tipo"),
             height = "auto",
             width = "100%"
@@ -380,12 +380,12 @@ dashboard_ui <- function(id, app_state) {
   ns <- shiny::NS(id)
   shiny::fluidPage(
     shiny::fluidRow(
-      shiny::column(12, shiny::titlePanel(strong("Painel"))),
+      shiny::column(12, shiny::titlePanel(shiny::strong("Painel"))),
       shiny::column(
         6,
         shiny::selectInput(
           inputId = ns("espacial"),
-          label = strong("Agrupar por:"),
+          label = shiny::strong("Agrupar por:"),
           choices = c("País", "Região", "UF"),
           selected = "Brasil"
         ),
@@ -394,7 +394,7 @@ dashboard_ui <- function(id, app_state) {
         6,
         shiny::checkboxGroupInput(
           ns("vis"),
-          label = strong("Visualizar como"),
+          label = shiny::strong("Visualizar como"),
           choices = list("Gráfico" = "grafico", "Tabela" = "tabela"),
           selected = "grafico"
         ),

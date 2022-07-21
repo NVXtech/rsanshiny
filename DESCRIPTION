@@ -1,15 +1,14 @@
 Package: rsanshiny
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.0.9000
+Title: Necessidade de Invesitmento em Saneamento para o Brasil
+Version: 0.1.0
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
-Imports: ggplot2, shiny, shinythemes, 
+    person("Julio", "Werner", , "juliwernery@hotmail.com", role = c("aut", "cre"),
+           comment = c())
+Description: Interface gráfica para o cálculo da necessidade de investimento.
+License: License_restricts_use
+Imports: ggplot2, shiny, shinythemes, stats,
          shinycssloaders, DT, rlog, dplyr,
-         tidyr, plotly, rsan, writexl
+         tidyr, plotly, rsan, writexl, utils
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.0

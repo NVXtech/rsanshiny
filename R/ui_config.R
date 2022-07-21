@@ -1,26 +1,27 @@
 config_ui <- function(id, app_state) {
   ns <- shiny::NS(id)
-  fluidPage(
-    fluidRow(
-      column(
+  shiny::fluidPage(
+    shiny::fluidRow(
+      shiny::column(
         12,
-        h1(strong("Configurações"), style = "display: inline-block;margin:0;"),
+        shiny::h1(shiny::strong("Configurações"), style = "display: inline-block;margin:0;"),
       )
     ),
-    fluidRow(
-      column(
+    shiny::fluidRow(
+      shiny::column(
         12,
-        sliderInput(
+        shiny::sliderInput(
           inputId = ns("ano"),
-          label = strong("Calcular necessidades para o ano de:"),
+          label = shiny::strong("Calcular necessidades para o ano de:"),
           min = 2020,
           max = 2050,
-          value = app_state$input$geral$ano)
+          value = app_state$input$geral$ano
+        )
       ),
-      column(
+      shiny::column(
         12,
-        titlePanel("Fonte de Dados"),
-        actionButton(ns("atualizar"), icon = icon("sync"), label = "Atualizar")
+        shiny::titlePanel("Fonte de Dados"),
+        shiny::actionButton(ns("atualizar"), icon = shiny::icon("sync"), label = "Atualizar")
       )
     )
   )

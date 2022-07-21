@@ -4,7 +4,7 @@
 \alias{run_app}
 \title{Run the Shiny Application}
 \usage{
-run_app(options = list())
+run_app(options = list(port = 8888))
 }
 \arguments{
 \item{options}{optional, described in ?shiny::shinyApp}

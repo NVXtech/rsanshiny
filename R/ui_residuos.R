@@ -42,9 +42,9 @@ residuos_unidade_input <- function(ns, name, valores) {
   output <- list()
   for (i in seq.int(1, length(faixas))) {
     id <- sprintf("%s_faixa%s", name, i)
-    output[[i]] <- list(numericInput(
+    output[[i]] <- list(shiny::numericInput(
       inputId = ns(id),
-      label = strong(faixas[i]),
+      label = shiny::strong(faixas[i]),
       value = valores[i],
       min = 0,
       max = 1e20
@@ -55,186 +55,185 @@ residuos_unidade_input <- function(ns, name, valores) {
 
 residuos_ui <- function(id, app_state) {
   ns <- shiny::NS(id)
-  fluidPage(
-    fluidRow(
-      column(
+  shiny::fluidPage(
+    shiny::fluidRow(
+      shiny::column(
         12,
-        h1(strong("Resíduos Sólidos"), style = "display: inline-block;margin:0;"),
-        actionButton(ns("rodar"), icon = icon("calculator"), label = "Recalcular", style = "display: inline-block;margin-bottom:10px;"),
-        downloadButton(ns("download"), "Exportar xlsx", style = "display: inline-block;margin-bottom:10px;")
+        shiny::h1(shiny::strong("Resíduos Sólidos"), style = "display: inline-block;margin:0;"),
+        shiny::actionButton(ns("rodar"), icon = shiny::icon("calculator"), label = "Recalcular", style = "display: inline-block;margin-bottom:10px;"),
+        shiny::downloadButton(ns("download"), "Exportar xlsx", style = "display: inline-block;margin-bottom:10px;")
       )
     ),
-    fluidRow(
-      column(
+    shiny::fluidRow(
+      shiny::column(
         3,
-        titlePanel("Fonte de Dados"),
-        column(
+        shiny::titlePanel("Fonte de Dados"),
+        shiny::column(
           12,
-          selectInput(
+          shiny::selectInput(
             inputId = ns("snis"),
-            label = strong("Selecione o ano do SNIS"),
+            label = shiny::strong("Selecione o ano do SNIS"),
             choices = get_snis_list(),
             selected = app_state$demografico$snis
           )
         )
       ),
-      column(
+      shiny::column(
         9,
-        titlePanel("Parâmetros"),
-        tabsetPanel(
+        shiny::titlePanel("Parâmetros"),
+        shiny::tabsetPanel(
           type = "tabs",
-          tabPanel(
+          shiny::tabPanel(
             "Coleta Indiferenciada",
-            numericInput(
+            shiny::numericInput(
               inputId = ns("valor_caminhao"),
-              label = strong("Valor do caminhão compactador em R$"),
+              label = shiny::strong("Valor do caminhão compactador em R$"),
               value = app_state$input$residuos$valor_caminhao,
               min = 1000,
               max = 1e20
             ),
-            numericInput(
+            shiny::numericInput(
               inputId = ns("deprec_coleta_indiferenciada"),
-              label = strong("Depreciação em %"),
+              label = shiny::strong("Depreciação em %"),
               value = app_state$input$residuos$deprec_coleta_indiferenciada,
               min = 0,
               max = 100
             )
           ),
-          tabPanel(
+          shiny::tabPanel(
             "Coleta Seletiva",
-            numericInput(
+            shiny::numericInput(
               inputId = ns("valor_caminhao_bau"),
-              label = strong("Valor caminhão bau em R$"),
+              label = shiny::strong("Valor caminhão bau em R$"),
               value = app_state$input$residuos$valor_caminhao_bau,
               min = 1000,
               max = 1e20
             ),
-            numericInput(
+            shiny::numericInput(
               inputId = ns("deprec_coleta_seletiva"),
-              label = strong("Depreciação em %"),
+              label = shiny::strong("Depreciação em %"),
               value = app_state$input$residuos$deprec_coleta_seletiva,
               min = 0,
               max = 100
             )
           ),
-          tabPanel(
+          shiny::tabPanel(
             "Triagem",
-            column(
+            shiny::column(
               6,
-              numericInput(
+              shiny::numericInput(
                 inputId = ns("vida_util_triagem"),
-                label = strong("Vida útil unidades de triagem"),
+                label = shiny::strong("Vida útil unidades de triagem"),
                 value = app_state$input$residuos$vida_util_triagem,
                 min = 1e-3,
                 max = 1e20
               ),
-              numericInput(
+              shiny::numericInput(
                 inputId = ns("deprec_triagem"),
-                label = strong("Depreciação em %"),
+                label = shiny::strong("Depreciação em %"),
                 value = app_state$input$residuos$deprec_triagem,
                 min = 0,
                 max = 100
               )
             ),
-            column(
+            shiny::column(
               6,
-              h4("Custo unidade de triagem por faixa populacional (R$/t):"),
+              shiny::h4("Custo unidade de triagem por faixa populacional (R$/t):"),
               residuos_unidade_input(ns, "triagem", valores_triagem)
             )
           ),
-          tabPanel(
+          shiny::tabPanel(
             "Compostagem",
-            column(
+            shiny::column(
               6,
-              numericInput(
+              shiny::numericInput(
                 inputId = ns("vida_util_compostagem"),
-                label = strong("Vida útil unidades de compostagem"),
+                label = shiny::strong("Vida útil unidades de compostagem"),
                 value = app_state$input$residuos$vida_util_compostagem,
                 min = 1e-3,
                 max = 1e20
               ),
-              numericInput(
+              shiny::numericInput(
                 inputId = ns("deprec_compostagem"),
-                label = strong("Depreciação em %"),
+                label = shiny::strong("Depreciação em %"),
                 value = app_state$input$residuos$deprec_compostagem,
                 min = 0,
                 max = 100
               )
             ),
-            column(
+            shiny::column(
               6,
-              h4("Custo unidade de compostagem por faixa populacional (R$/t):"),
+              shiny::h4("Custo unidade de compostagem por faixa populacional (R$/t):"),
               residuos_unidade_input(ns, "compostagem", valores_compostagem)
             )
           ),
-          tabPanel(
+          shiny::tabPanel(
             "Aterro",
-            column(
+            shiny::column(
               6,
-              numericInput(
+              shiny::numericInput(
                 inputId = ns("vida_util_aterro"),
-                label = strong("Vida útil unidades de aterro"),
+                label = shiny::strong("Vida útil unidades de aterro"),
                 value = app_state$input$residuos$vida_util_aterro,
                 min = 1e-3,
                 max = 1e20
               ),
-              numericInput(
+              shiny::numericInput(
                 inputId = ns("deprec_aterro"),
-                label = strong("Depreciação em %"),
+                label = shiny::strong("Depreciação em %"),
                 value = app_state$input$residuos$deprec_aterro,
                 min = 0,
                 max = 100
               ),
-              numericInput(
+              shiny::numericInput(
                 inputId = ns("tempo_finalizacao_attero"),
-                label = strong("Tempo para finalizar a expansão dos aterros (ano)"),
+                label = shiny::strong("Tempo para finalizar a expansão dos aterros (ano)"),
                 value = 3,
                 min = 0,
                 max = 100
               ),
-              numericInput(
+              shiny::numericInput(
                 inputId = ns("taxa_reducao_capacidade"),
-                label = strong("Reducão dos custos de reposição (%/ano)"),
+                label = shiny::strong("Reducão dos custos de reposição (%/ano)"),
                 value = 2.1,
                 min = 0,
                 max = 100
               )
             ),
-            column(
+            shiny::column(
               6,
-              h4("Custo unidade de aterro por faixa populacional (R$/t):"),
+              shiny::h4("Custo unidade de aterro por faixa populacional (R$/t):"),
               residuos_unidade_input(ns, "aterro", valores_aterro)
             )
           ),
-          tabPanel(
+          shiny::tabPanel(
             "Regionalização",
-            column(
+            shiny::column(
               6,
-              numericInput(
+              shiny::numericInput(
                 inputId = ns("custo_transbordo"),
-                label = strong("Custo tranbordo (R$)"),
+                label = shiny::strong("Custo tranbordo (R$)"),
                 value = 857816.82,
                 min = 1e-2,
                 max = 1e20
               ),
-              selectInput(
+              shiny::selectInput(
                 inputId = ns("cenario_regionalizacao"),
-                label = strong("Cenário regionalizacao:"),
-                choices = c("A - 0%"="A", "B - Intermediário"="B", "C - 100%"="C"),
+                label = shiny::strong("Cenário regionalizacao:"),
+                choices = c("A - 0%" = "A", "B - Intermediário" = "B", "C - 100%" = "C"),
                 selected = "A"
               ),
             )
           ),
-
         )
       )
     ),
-    fluidRow(
+    shiny::fluidRow(
       DT::dataTableOutput(ns("tabela")),
     ),
-    fluidRow(
-      hr(),
-      h1("Antes"),
+    shiny::fluidRow(
+      shiny::hr(),
+      shiny::h1("Antes"),
       DT::dataTableOutput(ns("antes")),
     )
   )

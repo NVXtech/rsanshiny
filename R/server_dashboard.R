@@ -30,7 +30,7 @@ prepara_dados_soma <- function(espacial, tabela, vars) {
   tabela <- dplyr::group_by(tabela, .data[[espacial_varname]])
   tabela <- dplyr::summarize(
     tabela,
-    across(where(is.numeric), ~ round(sum(.x, na.rm = TRUE), 2))
+    dplyr::across(where(is.numeric), ~ round(sum(.x, na.rm = TRUE), 2))
   )
 }
 

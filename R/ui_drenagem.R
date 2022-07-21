@@ -7,103 +7,103 @@ get_snis_ap_list <- function() {
 
 drenagem_ui <- function(id, app_state) {
   ns <- shiny::NS(id)
-  fluidPage(
-    fluidRow(
-      column(
+  shiny::fluidPage(
+    shiny::fluidRow(
+      shiny::column(
         12,
-        h1(strong("Drenagem"), style = "display: inline-block;margin:0;"),
-        actionButton(ns("rodar"), icon = icon("calculator"), label = "Recalcular", style = "display: inline-block;margin-bottom:10px;"),
-        downloadButton(ns("download"), "Exportar xlsx", style = "display: inline-block;margin-bottom:10px;")
+        shiny::h1(shiny::strong("Drenagem"), style = "display: inline-block;margin:0;"),
+        shiny::actionButton(ns("rodar"), icon = shiny::icon("calculator"), label = "Recalcular", style = "display: inline-block;margin-bottom:10px;"),
+        shiny::downloadButton(ns("download"), "Exportar xlsx", style = "display: inline-block;margin-bottom:10px;")
       )
     ),
-    fluidRow(
-      column(
+    shiny::fluidRow(
+      shiny::column(
         3,
-        titlePanel("Fonte de Dados"),
-        column(
+        shiny::titlePanel("Fonte de Dados"),
+        shiny::column(
           12,
-          selectInput(
+          shiny::selectInput(
             inputId = ns("snis_ap"),
-            label = strong("Selecione o ano do SNIS - Águas Pluviais"),
+            label = shiny::strong("Selecione o ano do SNIS - Águas Pluviais"),
             choices = get_snis_ap_list(),
             selected = app_state$input$snis_ap
           )
         )
       ),
-      column(
+      shiny::column(
         9,
-        titlePanel("Parâmetros"),
-        tabsetPanel(
+        shiny::titlePanel("Parâmetros"),
+        shiny::tabsetPanel(
           type = "tabs",
-          tabPanel(
+          shiny::tabPanel(
             "Investimento por habitante",
-            selectInput(ns("modo"),
-              label = strong("Modo de cálculo"),
+            shiny::selectInput(ns("modo"),
+              label = shiny::strong("Modo de cálculo"),
               choices = list("Investimento per capita constante" = 1, "Regressão PMSB" = 2),
               selected = 2
             ),
-            conditionalPanel(
+            shiny::conditionalPanel(
               condition = "input.modo == 1",
               ns = ns,
-              numericInput(
+              shiny::numericInput(
                 inputId = ns("investimento_per_capita"),
-                label = strong("Investimento em drenagem por habitante (R$/hab)"),
+                label = shiny::strong("Investimento em drenagem por habitante (R$/hab)"),
                 value = 10000,
                 min = 0,
                 max = 1e20
               )
             ),
-            numericInput(
+            shiny::numericInput(
               inputId = ns("custo_cadastro"),
-              label = strong("Custo do cadastro técnico (R$/km²)"),
+              label = shiny::strong("Custo do cadastro técnico (R$/km²)"),
               value = 7738.89,
               min = -1e9,
               max = 1e9
             ),
           ),
-          tabPanel(
+          shiny::tabPanel(
             "Pesos dos Indicadores",
-            numericInput(
+            shiny::numericInput(
               inputId = ns("peso_pluviometria"),
-              label = strong("Pluviometria [R$/(mm/ano)]"),
+              label = shiny::strong("Pluviometria [R$/(mm/ano)]"),
               value = 0.063933104088543,
               min = -1e9,
               max = 1e9
             ),
-            numericInput(
+            shiny::numericInput(
               inputId = ns("peso_densidade"),
-              label = strong("Densidade urbana [R$/(hab/km²)]"),
+              label = shiny::strong("Densidade urbana [R$/(hab/km²)]"),
               value = -0.189155004725778,
               min = -1e9,
               max = 1e9
             ),
-            numericInput(
+            shiny::numericInput(
               inputId = ns("peso_fisicas"),
-              label = strong("Características físicas (R$/-)"),
+              label = shiny::strong("Características físicas (R$/-)"),
               value = 3477.79720206452,
               min = -1e9,
               max = 1e9
             ),
-            numericInput(
+            shiny::numericInput(
               inputId = ns("peso_infraestrutura"),
-              label = strong("Infraestrutura (R$/-)"),
+              label = shiny::strong("Infraestrutura (R$/-)"),
               value = 519.474326911018,
               min = -1e9,
               max = 1e9
             ),
-            numericInput(
+            shiny::numericInput(
               inputId = ns("peso_constante"),
-              label = strong("Constante"),
+              label = shiny::strong("Constante"),
               value = 791.359914329392,
               min = -1e9,
               max = 1e9
             ),
           ),
-          tabPanel(
+          shiny::tabPanel(
             "Reposição",
-            numericInput(
+            shiny::numericInput(
               inputId = ns("deprec_drenagem"),
-              label = strong("Depreciação dos ativos em %"),
+              label = shiny::strong("Depreciação dos ativos em %"),
               value = 2,
               min = 0,
               max = 100
@@ -112,7 +112,7 @@ drenagem_ui <- function(id, app_state) {
         )
       )
     ),
-    fluidRow(
+    shiny::fluidRow(
       DT::dataTableOutput(ns("tabela")),
     )
   )
