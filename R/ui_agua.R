@@ -113,6 +113,23 @@ agua_ui <- function(id, app_state) {
               max = 1e10
             ),
           ),
+          tabPanel(
+            "Módulo Rural",
+            numericInput(
+              inputId = ns("custo_rural_individual"),
+              label = strong("Custo rural individual (R$/dom)"),
+              value = app_state$input$agua$custo_rural_individual,
+              min = 1e-10,
+              max = 1e10
+            ),
+            numericInput(
+              inputId = ns("custo_rural_individual-sem"),
+              label = strong("Custo rural individual sem disponibilidade(R$/dom)"),
+              value = app_state$input$agua$custo_rural_individual_sem,
+              min = 1e-10,
+              max = 1e10
+            ),
+          ),
         )
       )
     )

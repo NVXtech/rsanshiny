@@ -75,7 +75,7 @@ app_ui <- function() {
 
   ui <- fluidPage(
     navbarPage(
-      "InvestSan",
+      "NecessidadeInvest",
       id = "pages",
       theme = shinytheme("simplex"),
       dashboard,
@@ -188,6 +188,6 @@ run_app <- function(options = list()) {
   rlog::log_info("Preparing local storage")
   rsan::check_and_create_datasets()
 
-  shiny::runApp()
-  # shiny::runApp(appDir = system.file("", package = "rsanshiny"))
+  #shiny::runApp()
+  shiny::runApp(appDir = system.file("", package = "rsanshiny"))
 }

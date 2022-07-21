@@ -75,13 +75,6 @@ residuos_ui <- function(id, app_state) {
             label = strong("Selecione o ano do SNIS"),
             choices = get_snis_list(),
             selected = app_state$demografico$snis
-          ),
-          numericInput(
-            inputId = ns("ano"),
-            label = strong("Calcular investimento para o ano de"),
-            value = 2033,
-            min = 2022,
-            max = 2040
           )
         )
       ),
@@ -95,14 +88,14 @@ residuos_ui <- function(id, app_state) {
             numericInput(
               inputId = ns("valor_caminhao"),
               label = strong("Valor do caminhão compactador em R$"),
-              value = 484709.23,
+              value = app_state$input$residuos$valor_caminhao,
               min = 1000,
               max = 1e20
             ),
             numericInput(
               inputId = ns("deprec_coleta_indiferenciada"),
               label = strong("Depreciação em %"),
-              value = 10,
+              value = app_state$input$residuos$deprec_coleta_indiferenciada,
               min = 0,
               max = 100
             )
@@ -112,14 +105,14 @@ residuos_ui <- function(id, app_state) {
             numericInput(
               inputId = ns("valor_caminhao_bau"),
               label = strong("Valor caminhão bau em R$"),
-              value = 336490.00,
+              value = app_state$input$residuos$valor_caminhao_bau,
               min = 1000,
               max = 1e20
             ),
             numericInput(
               inputId = ns("deprec_coleta_seletiva"),
               label = strong("Depreciação em %"),
-              value = 10,
+              value = app_state$input$residuos$deprec_coleta_seletiva,
               min = 0,
               max = 100
             )
@@ -131,14 +124,14 @@ residuos_ui <- function(id, app_state) {
               numericInput(
                 inputId = ns("vida_util_triagem"),
                 label = strong("Vida útil unidades de triagem"),
-                value = 20,
+                value = app_state$input$residuos$vida_util_triagem,
                 min = 1e-3,
                 max = 1e20
               ),
               numericInput(
                 inputId = ns("deprec_triagem"),
                 label = strong("Depreciação em %"),
-                value = 5,
+                value = app_state$input$residuos$deprec_triagem,
                 min = 0,
                 max = 100
               )
@@ -156,14 +149,14 @@ residuos_ui <- function(id, app_state) {
               numericInput(
                 inputId = ns("vida_util_compostagem"),
                 label = strong("Vida útil unidades de compostagem"),
-                value = 20,
+                value = app_state$input$residuos$vida_util_compostagem,
                 min = 1e-3,
                 max = 1e20
               ),
               numericInput(
                 inputId = ns("deprec_compostagem"),
                 label = strong("Depreciação em %"),
-                value = 5,
+                value = app_state$input$residuos$deprec_compostagem,
                 min = 0,
                 max = 100
               )
@@ -181,14 +174,14 @@ residuos_ui <- function(id, app_state) {
               numericInput(
                 inputId = ns("vida_util_aterro"),
                 label = strong("Vida útil unidades de aterro"),
-                value = 20,
+                value = app_state$input$residuos$vida_util_aterro,
                 min = 1e-3,
                 max = 1e20
               ),
               numericInput(
                 inputId = ns("deprec_aterro"),
                 label = strong("Depreciação em %"),
-                value = 5,
+                value = app_state$input$residuos$deprec_aterro,
                 min = 0,
                 max = 100
               ),
@@ -213,6 +206,26 @@ residuos_ui <- function(id, app_state) {
               residuos_unidade_input(ns, "aterro", valores_aterro)
             )
           ),
+          tabPanel(
+            "Regionalização",
+            column(
+              6,
+              numericInput(
+                inputId = ns("custo_transbordo"),
+                label = strong("Custo tranbordo (R$)"),
+                value = 857816.82,
+                min = 1e-2,
+                max = 1e20
+              ),
+              selectInput(
+                inputId = ns("cenario_regionalizacao"),
+                label = strong("Cenário regionalizacao:"),
+                choices = c("A - 0%"="A", "B - Intermediário"="B", "C - 100%"="C"),
+                selected = "A"
+              ),
+            )
+          ),
+
         )
       )
     ),

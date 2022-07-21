@@ -59,7 +59,7 @@ plot_investimento_total <- function(input, dado) {
       ),
       type = "pie"
     )
-    fig <- plotly::layout(fig, title = "Investimento total")
+    fig <- plotly::layout(fig, title = "Necessidade de investimento total")
   })
 }
 
@@ -94,8 +94,8 @@ plot_investimento_por_tema <- function(input, dado) {
 
     fig <- plotly::layout(
       fig,
-      title = "Investimento por Tema",
-      yaxis = list(title = "Investimento (R$ bilhões)"),
+      title = "Necessidade de investimento por tema",
+      yaxis = list(title = "Necessidade de investimento (R$ bilhões)"),
       xaxis = list(title = input$espacial),
       barmode = "group"
     )
@@ -138,8 +138,8 @@ plot_investimento_por_tipo <- function(input, dado, drenagem = FALSE) {
     }
     fig <- plotly::layout(
       fig,
-      title = "Investimento por Tipo",
-      yaxis = list(title = "Investimento (R$ bilhões)"),
+      title = "Necessidade de investimento por tipo",
+      yaxis = list(title = "Necessidade de investimento (R$ bilhões)"),
       xaxis = list(title = input$espacial),
       barmode = "group"
     )
