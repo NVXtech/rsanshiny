@@ -125,7 +125,7 @@ agua_ui <- function(id, app_state) {
               max = 1e10
             ),
             shiny::numericInput(
-              inputId = ns("custo_rural_individual-sem"),
+              inputId = ns("custo_rural_individual_sem"),
               label = shiny::strong("Custo rural individual sem disponibilidade(R$/dom)"),
               value = app_state$input$agua$custo_rural_individual_sem,
               min = 1e-10,
