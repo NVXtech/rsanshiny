@@ -30,7 +30,7 @@ dash_geral <- function(ns) {
     ),
     shiny::column(
       12,
-      shiny::h4(shiny::strong("Necessidade de investimento por tema"))
+      shiny::h4(shiny::strong("Necessidade de investimento por componente"))
     ),
     shiny::conditionalPanel(
       ns = ns,
@@ -91,7 +91,7 @@ dash_agua <- function(ns) {
     ),
     shiny::column(
       12,
-      shiny::h4(shiny::strong("Necessidade de investimento por tipo"))
+      shiny::h4(shiny::strong("Necessidade de investimento por destino"))
     ),
     shiny::conditionalPanel(
       ns = ns,
@@ -176,7 +176,7 @@ dash_esgoto <- function(ns) {
     ),
     shiny::column(
       12,
-      shiny::h4(shiny::strong("Necessidade de investimento por tipo"))
+      shiny::h4(shiny::strong("Necessidade de investimento por destino"))
     ),
     shiny::conditionalPanel(
       ns = ns,
@@ -261,7 +261,7 @@ dash_residuos <- function(ns) {
     ),
     shiny::column(
       12,
-      shiny::h4(shiny::strong("Necessidade de investimento por tipo"))
+      shiny::h4(shiny::strong("Necessidade de investimento por destino"))
     ),
     shiny::conditionalPanel(
       ns = ns,
@@ -283,7 +283,7 @@ dash_residuos <- function(ns) {
       shiny::column(
         12,
         shinycssloaders::withSpinner(
-          DT::dataTableOutput(ns("tbl_residuos_investimento_por_tipo"))
+          DT::dataTableOutput(ns("tbl_residuos_investimento_por_destino"))
         )
       ),
     ),
@@ -346,7 +346,7 @@ dash_drenagem <- function(ns) {
     ),
     shiny::column(
       12,
-      shiny::h4(shiny::strong("Necessidade de investimento por tipo"))
+      shiny::h4(shiny::strong("Necessidade de investimento por destino"))
     ),
     shiny::conditionalPanel(
       ns = ns,

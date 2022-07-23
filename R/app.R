@@ -31,6 +31,11 @@ app_ui <- function() {
     dashboard_ui("dashboard", app_state)
   )
 
+  analise <- shiny::tabPanel("Análise",
+    icon = shiny::icon("chart-line"),
+    analise_ui("analise", app_state)
+  )
+
   projecao <- shiny::tabPanel(
     "Projeção Populacional",
     icon = shiny::icon("users"),
@@ -79,6 +84,7 @@ app_ui <- function() {
       id = "pages",
       theme = shinythemes::shinytheme("simplex"),
       dashboard,
+      analise,
       projecao,
       agua,
       esgoto,
@@ -169,10 +175,13 @@ app_server <- function(input, output, session) {
   rsanshiny:::config_server("config", app_state)
   rsanshiny:::config_server("drenagem", app_state)
 
+  rsanshiny:::analise_server("analise", app_state)
+
   shiny::observeEvent(input$pages, {
     update_dashstate()
   })
 }
+
 
 #' Run the Shiny Application
 #'

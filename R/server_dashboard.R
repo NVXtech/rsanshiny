@@ -138,7 +138,7 @@ plot_investimento_por_tipo <- function(input, dado, drenagem = FALSE) {
     }
     fig <- plotly::layout(
       fig,
-      title = "Necessidade de investimento por tipo",
+      title = "Necessidade de investimento por destino",
       yaxis = list(title = "Necessidade de investimento (R$ bilhões)"),
       xaxis = list(title = input$espacial),
       barmode = "group"
@@ -238,6 +238,7 @@ dashboard_server <- function(id, app_state) {
 
     output$tbl_drenagem_investimento <- tabela_investimento_total(input, drenagem)
     output$tbl_drenagem_investimento_por_tipo <- tabela_investimento_por_tipo(input, drenagem, drenagem = TRUE)
+
     # Tabset Events
     shiny::observeEvent(input$dash_tab, {
       update_state()
