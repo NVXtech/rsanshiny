@@ -14,23 +14,32 @@ prepara_dados <- function(tabela, grupos) {
 
 plot_analise <- function(input, dado) {
   plotly::renderPlotly({
-    eixo <- input$eixo
+    if (input$orientacao== "v"){
+      eixo_x <- input$eixo
+      eixo_y <- "necessidade_investimento"
+      label_x <- input$eixo
+      label_y <- "Necessidade de investimento (R$)"
+    } else {
+      eixo_y <- input$eixo
+      eixo_x <- "necessidade_investimento"
+      label_y <- input$eixo
+      label_x <- "Necessidade de investimento (R$)"
+    }
     cores <- input$cores
     tipo_barra <- input$barra
-    grupos <- c(eixo, cores)
+    grupos <- c(input$eixo, cores)
     data <- prepara_dados(dado(), grupos)
-    print(data)
     fig <- plot_ly(
           data,
-          y = ~ necessidade_investimento,
-          x = ~ .data[[eixo]],
+          x = ~ .data[[eixo_x]],
+          y = ~ .data[[eixo_y]],
           color = ~ .data[[cores]],
           type = "bar"
       )
     fig <- plotly::layout(
       fig,
-      yaxis = list(title = "Necessidade de investimento (R$)"),
-      xaxis = list(title = eixo),
+      xaxis = list(title = label_x),
+      yaxis = list(title = label_y),
       barmode = tipo_barra,
       showlegend = input$legenda
       )

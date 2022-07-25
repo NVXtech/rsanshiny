@@ -11,12 +11,12 @@ analise_ui <- function(id, app_state) {
   ns <- shiny::NS(id)
   shiny::fluidPage(
     shiny::fluidRow(
-      shiny::column(12, shiny::titlePanel(shiny::strong("Painel"))),
+      shiny::column(12, shiny::titlePanel(shiny::strong("Análise"))),
       shiny::column(
         6,
         shiny::selectInput(
           inputId = ns("eixo"),
-          label = shiny::strong("Eixo vertical:"),
+          label = shiny::strong("Dados do eixo principal:"),
           choices = colunas,
           selected = "componente",
         ),
@@ -25,7 +25,7 @@ analise_ui <- function(id, app_state) {
         6,
         shiny::selectInput(
           inputId = ns("cores"),
-          label = shiny::strong("Cores:"),
+          label = shiny::strong("Dados por cores:"),
           choices = colunas,
           selected = "destino"
         ),
@@ -35,7 +35,7 @@ analise_ui <- function(id, app_state) {
         shiny::selectInput(
           inputId = ns("barra"),
           label = shiny::strong("Tipo de barra:"),
-          choices = c("stack", "group"),
+          choices = list("Empilhada"="stack", "Agrupada"="group"),
           selected = "stack"
         ),
       ),
@@ -50,19 +50,26 @@ analise_ui <- function(id, app_state) {
       ),
       shiny::column(
         6,
+        shiny::selectInput(
+          inputId = ns("orientacao"),
+          label = shiny::strong("Orientação de barra:"),
+          choices = list("Horizontal"="h", "Vertical"="v"),
+          selected = "stack"
+        ),
+      ),
+      shiny::column(
+        6,
+        shiny::strong("Opções de legenda:"),
         shiny::checkboxInput(
           ns("legenda"),
-          label = "Legenda",
+          label = "Visível",
           value = TRUE
         ),
       ),
     ),
+    shiny::hr(),
     shiny::fluidRow(
       style = "padding:10px",
-      shiny::column(
-        12,
-        shiny::h4(shiny::strong("Análise"))
-      ),
       shiny::conditionalPanel(
         ns = ns,
         condition = "input.vis.indexOf('grafico') > -1",
