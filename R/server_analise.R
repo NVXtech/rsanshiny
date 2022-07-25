@@ -91,7 +91,6 @@ analise_server <- function(id, app_state, parent) {
     output$tbl <- tabela_analise(input, geral_longa)
 
     shiny::observeEvent(parent$pages, {
-      print("tab changed")
       update_state()
     })
 
