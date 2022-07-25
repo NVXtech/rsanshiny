@@ -7,6 +7,8 @@ colunas <- list(
   "Etapa" = "etapa"
   )
 
+dimensoes <- with(stack(colunas), split(as.character(ind), values))
+
 analise_ui <- function(id, app_state) {
   ns <- shiny::NS(id)
   shiny::fluidPage(

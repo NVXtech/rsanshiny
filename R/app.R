@@ -14,6 +14,7 @@ library(tidyr)
 library(ggplot2)
 library(plotly)
 library(rsan)
+
 library(writexl)
 library(readxl)
 
@@ -28,30 +29,30 @@ app_ui <- function() {
 
   dashboard <- shiny::tabPanel("Painel",
     icon = shiny::icon("chart-line"),
-    dashboard_ui("dashboard", app_state)
+    rsanshiny::dashboard_ui("dashboard", app_state)
   )
 
   analise <- shiny::tabPanel("Análise",
     icon = shiny::icon("chart-line"),
-    analise_ui("analise", app_state)
+    rsanshiny:::analise_ui("analise", app_state)
   )
 
   projecao <- shiny::tabPanel(
     "Projeção Populacional",
     icon = shiny::icon("users"),
-    projecao_populacional_ui("projecao", app_state)
+    rsanshiny:::projecao_populacional_ui("projecao", app_state)
   )
 
   agua <- shiny::tabPanel(
     "Água",
     icon = shiny::icon("faucet"),
-    agua_ui("agua", app_state)
+    rsanshiny:::agua_ui("agua", app_state)
   )
 
   esgoto <- shiny::tabPanel(
     "Esgoto",
     icon = shiny::icon("toilet"),
-    esgoto_ui("esgoto", app_state)
+    rsanshiny:::esgoto_ui("esgoto", app_state)
   )
 
   residuos_solidos <-
@@ -59,7 +60,7 @@ app_ui <- function() {
       "Resíduos",
       icon = shiny::icon("recycle"),
       fluid = TRUE,
-      residuos_ui("residuos", app_state)
+      rsanshiny:::residuos_ui("residuos", app_state)
     )
 
 
@@ -68,14 +69,14 @@ app_ui <- function() {
       "Drenagem",
       icon = shiny::icon("water"),
       fluid = TRUE,
-      drenagem_ui("drenagem", app_state)
+      rsanshiny:::drenagem_ui("drenagem", app_state)
     )
 
   configuracoes <- shiny::tabPanel(
     "Configurações",
     icon = shiny::icon("cog"),
     fluid = TRUE,
-    config_ui("config", app_state)
+    rsanshiny:::config_ui("config", app_state)
   )
 
   ui <- shiny::fluidPage(
@@ -175,7 +176,7 @@ app_server <- function(input, output, session) {
   rsanshiny:::config_server("config", app_state)
   rsanshiny:::config_server("drenagem", app_state)
 
-  rsanshiny:::analise_server("analise", app_state)
+  rsanshiny:::analise_server("analise", app_state, parent = input)
 
   shiny::observeEvent(input$pages, {
     update_dashstate()

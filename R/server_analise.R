@@ -83,21 +83,22 @@ tabela_analise <- function(input, geral_longa) {
   )
 }
 
-analise_server <- function(id, app_state) {
+analise_server <- function(id, app_state, parent) {
   shiny::moduleServer(id, function(input, output, session) {
     geral_longa <- shiny::reactiveVal(app_state$geral_longa)
 
     output$grafico <- plot_analise(input, geral_longa)
     output$tbl <- tabela_analise(input, geral_longa)
 
-    shiny::observeEvent(input$dash_tab, {
+    shiny::observeEvent(parent$pages, {
+      print("tab changed")
       update_state()
     })
 
     update_state <- function() {
-      rlog::log_info("Updating dashboard app state")
+      rlog::log_info("Updating analise app state")
       app_state <- rsan::load_app_state()
-      geral_longa(app_state$geral_longal)
+      geral_longa(app_state$geral_longa)
     }
 
     return(update_state)

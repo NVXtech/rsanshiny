@@ -375,7 +375,7 @@ dash_drenagem <- function(ns) {
   )
 }
 
-
+#'@export
 dashboard_ui <- function(id, app_state) {
   ns <- shiny::NS(id)
   shiny::fluidPage(
