@@ -56,6 +56,20 @@ dash_geral <- function(ns) {
         )
       ),
     ),
+    shiny::column(
+      12,
+      shiny::h4(shiny::strong("Sankey"))
+    ),
+    shiny::column(
+      12,
+      shinycssloaders::withSpinner(
+        plotly::plotlyOutput(
+          ns("geral_sankey"),
+          height = "auto",
+          width = "100%"
+        )
+      )
+    )
   )
 }
 

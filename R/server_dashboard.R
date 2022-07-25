@@ -183,6 +183,31 @@ plot_deficit <- function(input, dado) {
   })
 }
 
+plot_sankey <- function(input, dado) {
+  plotly::renderPlotly({
+    data <- rsan::prepare_sankey(dado())
+    print(data)
+    print(class(data$link$value))
+    fig <- plotly::plot_ly(
+      type = "sankey",
+      orientation = "h",
+      node = list(
+        label = data$labels,
+        thickness = 20,
+        line = list(
+          color = "black",
+          width = 0.5
+        )
+      ),
+      link = list(
+        source = data$link$source,
+        target = data$link$target,
+        value =  data$link$value
+      )
+    )
+  })
+}
+
 tabela_deficit <- function(input, dado, vars) {
   vars <- c("deficit_urbana", "deficit_rural", "deficit_total")
   data <- shiny::reactive(
@@ -194,6 +219,7 @@ tabela_deficit <- function(input, dado, vars) {
 dashboard_server <- function(id, app_state) {
   shiny::moduleServer(id, function(input, output, session) {
     geral <- shiny::reactiveVal(app_state$geral)
+    geral_longa <- shiny::reactiveVal(app_state$geral_longa)
     agua <- shiny::reactiveVal(app_state$agua)
     esgoto <- shiny::reactiveVal(app_state$esgoto)
     residuos <- shiny::reactiveVal(app_state$residuos)
@@ -202,6 +228,7 @@ dashboard_server <- function(id, app_state) {
     # GERAL
     output$geral_investimento <- plot_investimento_total(input, geral)
     output$tbl_geral_investimento <- tabela_investimento_total(input, geral)
+    output$geral_sankey <- plot_sankey(input, geral_longa)
 
     output$geral_investimento_por_tema <-
       plot_investimento_por_tema(input, geral)
@@ -252,6 +279,7 @@ dashboard_server <- function(id, app_state) {
       esgoto(app_state$esgoto)
       residuos(app_state$residuos)
       drenagem(app_state$drenagem)
+      geral_longa(app_state$geral_longa)
     }
 
     return(update_state)
