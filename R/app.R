@@ -96,22 +96,22 @@ app_ui <- function() {
     shiny::div(
       style = "padding:10px;display:block;margin-left:auto;margin-right:auto;text-align:center;background-color:#fff",
       shiny::img(
-        src = "ABC.jpg",
+        src = "images/ABC.jpg",
         height = 72,
         width = "auto"
       ),
       shiny::img(
-        src = "MDRlongo.png",
+        src = "images/MDRlongo.png",
         height = 72,
         width = "auto"
       ),
       shiny::img(
-        src = "IICA.png",
+        src = "images/IICA.png",
         height = 72,
         width = "auto"
       ),
       shiny::img(
-        src = "Envex.png",
+        src = "images/Envex.png",
         height = 72,
         width = "auto"
       )
@@ -190,7 +190,7 @@ app_server <- function(input, output, session) {
 #' @export
 run_app <- function(options = list(port = 8888)) {
   rlog::log_info("Starting...")
-
+  shiny::addResourcePath("images", system.file("www", package="rsanshiny"))
   app_state <- rsan::check_and_create_state()
   rlog::log_info("App State loaded @runapp")
 

@@ -94,7 +94,7 @@ plot_investimento_por_tema <- function(input, dado) {
 
     fig <- plotly::layout(
       fig,
-      title = "Necessidade de investimento por tema",
+      title = "Necessidade de investimento por componente",
       yaxis = list(title = "Necessidade de investimento (R$ bilhões)"),
       xaxis = list(title = input$espacial),
       barmode = "group"
