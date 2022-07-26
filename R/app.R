@@ -29,7 +29,7 @@ app_ui <- function() {
 
   dashboard <- shiny::tabPanel("Painel",
     icon = shiny::icon("chart-line"),
-    rsanshiny::dashboard_ui("dashboard", app_state)
+    rsanshiny:::dashboard_ui("dashboard", app_state)
   )
 
   analise <- shiny::tabPanel("Análise",
@@ -191,7 +191,7 @@ app_server <- function(input, output, session) {
 #' @export
 run_app <- function(options = list(port = 8888)) {
   rlog::log_info("Starting...")
-  shiny::addResourcePath("images", system.file("www", package="rsanshiny"))
+  shiny::addResourcePath("images", system.file("www", package = "rsanshiny"))
   app_state <- rsan::check_and_create_state()
   rlog::log_info("App State loaded @runapp")
 

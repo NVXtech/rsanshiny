@@ -53,6 +53,12 @@ residuos_unidade_input <- function(ns, name, valores) {
   return(output)
 }
 
+#' Title
+#'
+#' @param ns é o namespace do módulo de interface gráfica
+#'
+#' @return o html da interface gráfica
+#' @export
 residuos_ui <- function(id, app_state) {
   ns <- shiny::NS(id)
   shiny::fluidPage(

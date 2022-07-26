@@ -1,3 +1,9 @@
+#' Title
+#'
+#' @param ns é o namespace do módulo de interface gráfica
+#'
+#' @return o html da interface gráfica
+#' @export
 dash_geral <- function(ns) {
   shiny::fluidRow(
     style = "padding:10px",
@@ -73,6 +79,12 @@ dash_geral <- function(ns) {
   )
 }
 
+#' Title
+#'
+#' @param ns é o namespace do módulo de interface gráfica
+#'
+#' @return o html da interface gráfica
+#' @export
 dash_agua <- function(ns) {
   shiny::fluidRow(
     style = "padding:10px",
@@ -158,6 +170,12 @@ dash_agua <- function(ns) {
   )
 }
 
+#' Title
+#'
+#' @param ns é o namespace do módulo de interface gráfica
+#'
+#' @return o html da interface gráfica
+#' @export
 dash_esgoto <- function(ns) {
   shiny::fluidRow(
     style = "padding:10px",
@@ -243,6 +261,12 @@ dash_esgoto <- function(ns) {
   )
 }
 
+#' Title
+#'
+#' @param ns é o namespace do módulo de interface gráfica
+#'
+#' @return o html da interface gráfica
+#' @export
 dash_residuos <- function(ns) {
   shiny::fluidRow(
     style = "padding:10px",
@@ -328,6 +352,12 @@ dash_residuos <- function(ns) {
   )
 }
 
+#' Title
+#'
+#' @param ns é o namespace do módulo de interface gráfica
+#'
+#' @return o html da interface gráfica
+#' @export
 dash_drenagem <- function(ns) {
   shiny::fluidRow(
     style = "padding:10px",
@@ -389,7 +419,12 @@ dash_drenagem <- function(ns) {
   )
 }
 
-#'@export
+#' Title
+#'
+#' @param ns é o namespace do módulo de interface gráfica
+#'
+#' @return o html da interface gráfica
+#' @export
 dashboard_ui <- function(id, app_state) {
   ns <- shiny::NS(id)
   shiny::fluidPage(

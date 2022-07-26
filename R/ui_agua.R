@@ -14,6 +14,12 @@ get_sinapi_list <- function() {
   return(sinapi_choices)
 }
 
+#' Title
+#'
+#' @param ns é o namespace do módulo de interface gráfica
+#'
+#' @return o html da interface gráfica
+#' @export
 agua_ui <- function(id, app_state) {
   ns <- shiny::NS(id)
   shiny::fluidPage(

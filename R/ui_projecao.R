@@ -13,6 +13,12 @@ get_fonte2_list <- function() {
   return(fonte1_choices)
 }
 
+#' Title
+#'
+#' @param ns é o namespace do módulo de interface gráfica
+#'
+#' @return o html da interface gráfica
+#' @export
 projecao_populacional_ui <- function(id, app_state) {
   ns <- shiny::NS(id)
   shiny::fluidPage(
