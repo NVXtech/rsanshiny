@@ -186,8 +186,6 @@ plot_deficit <- function(input, dado) {
 plot_sankey <- function(input, dado) {
   plotly::renderPlotly({
     data <- rsan::prepara_sankey(dado(), c("situacao", "destino", "componente", "etapa"))
-    print(data$labels)
-    print(data$link)
     fig <- plotly::plot_ly(
       type = "sankey",
       orientation = "h",
