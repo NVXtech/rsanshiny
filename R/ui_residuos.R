@@ -38,16 +38,18 @@ valores_triagem <- c(
   12.97
 )
 
-residuos_unidade_input <- function(ns, name, valores) {
+residuos_unidade_input <- function(ns, name, input) {
   output <- list()
   for (i in seq.int(1, length(faixas))) {
     id <- sprintf("%s_faixa%s", name, i)
-    output[[i]] <- list(shiny::numericInput(
+    output[[i]] <- list(shinyWidgets::autonumericInput(
       inputId = ns(id),
       label = shiny::strong(faixas[i]),
-      value = valores[i],
-      min = 0,
-      max = 1e20
+      value = input[[id]],
+      align = "left",
+      decimalCharacter = ",",
+      digitGroupSeparator = ".",
+      decimalPlaces = 2
     ))
   }
   return(output)
@@ -61,6 +63,7 @@ residuos_unidade_input <- function(ns, name, valores) {
 #' @export
 residuos_ui <- function(id, app_state) {
   ns <- shiny::NS(id)
+  params <- app_state$input$residuos
   shiny::fluidPage(
     shiny::fluidRow(
       shiny::column(
@@ -91,12 +94,14 @@ residuos_ui <- function(id, app_state) {
           type = "tabs",
           shiny::tabPanel(
             "Coleta Indiferenciada",
-            shiny::numericInput(
+            shinyWidgets::autonumericInput(
               inputId = ns("valor_caminhao"),
               label = shiny::strong("Valor do caminhão compactador em R$"),
               value = app_state$input$residuos$valor_caminhao,
-              min = 1000,
-              max = 1e20
+              align = "left",
+              decimalCharacter = ",",
+              digitGroupSeparator = ".",
+              decimalPlaces = 2
             ),
             shiny::numericInput(
               inputId = ns("deprec_coleta_indiferenciada"),
@@ -108,12 +113,14 @@ residuos_ui <- function(id, app_state) {
           ),
           shiny::tabPanel(
             "Coleta Seletiva",
-            shiny::numericInput(
+            shinyWidgets::autonumericInput(
               inputId = ns("valor_caminhao_bau"),
               label = shiny::strong("Valor caminhão bau em R$"),
               value = app_state$input$residuos$valor_caminhao_bau,
-              min = 1000,
-              max = 1e20
+              align = "left",
+              decimalCharacter = ",",
+              digitGroupSeparator = ".",
+              decimalPlaces = 2
             ),
             shiny::numericInput(
               inputId = ns("deprec_coleta_seletiva"),
@@ -145,7 +152,7 @@ residuos_ui <- function(id, app_state) {
             shiny::column(
               6,
               shiny::h4("Custo unidade de triagem por faixa populacional (R$/t):"),
-              residuos_unidade_input(ns, "triagem", valores_triagem)
+              residuos_unidade_input(ns, "triagem", params)
             )
           ),
           shiny::tabPanel(
@@ -170,7 +177,7 @@ residuos_ui <- function(id, app_state) {
             shiny::column(
               6,
               shiny::h4("Custo unidade de compostagem por faixa populacional (R$/t):"),
-              residuos_unidade_input(ns, "compostagem", valores_compostagem)
+              residuos_unidade_input(ns, "compostagem", params)
             )
           ),
           shiny::tabPanel(
@@ -209,19 +216,21 @@ residuos_ui <- function(id, app_state) {
             shiny::column(
               6,
               shiny::h4("Custo unidade de aterro por faixa populacional (R$/t):"),
-              residuos_unidade_input(ns, "aterro", valores_aterro)
+              residuos_unidade_input(ns, "aterro", params)
             )
           ),
           shiny::tabPanel(
             "Regionalização",
             shiny::column(
               6,
-              shiny::numericInput(
+              shinyWidgets::autonumericInput(
                 inputId = ns("custo_transbordo"),
                 label = shiny::strong("Custo tranbordo (R$)"),
                 value = 857816.82,
-                min = 1e-2,
-                max = 1e20
+                align = "left",
+                decimalCharacter = ",",
+                digitGroupSeparator = ".",
+                decimalPlaces = 2
               ),
               shiny::selectInput(
                 inputId = ns("cenario_regionalizacao"),
@@ -236,11 +245,6 @@ residuos_ui <- function(id, app_state) {
     ),
     shiny::fluidRow(
       DT::dataTableOutput(ns("tabela")),
-    ),
-    shiny::fluidRow(
-      shiny::hr(),
-      shiny::h1("Antes"),
-      DT::dataTableOutput(ns("antes")),
     )
   )
 }

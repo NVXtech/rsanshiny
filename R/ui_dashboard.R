@@ -45,7 +45,7 @@ dash_geral <- function(ns) {
         12,
         shinycssloaders::withSpinner(
           plotly::plotlyOutput(
-            ns("geral_investimento_por_tema"),
+            ns("geral_investimento_por_componente"),
             height = "auto",
             width = "100%"
           )
@@ -58,7 +58,7 @@ dash_geral <- function(ns) {
       shiny::column(
         12,
         shinycssloaders::withSpinner(
-          DT::dataTableOutput(ns("tbl_geral_investimento_por_tema"))
+          DT::dataTableOutput(ns("tbl_geral_investimento_por_componente"))
         )
       ),
     ),
@@ -126,7 +126,7 @@ dash_agua <- function(ns) {
         12,
         shinycssloaders::withSpinner(
           plotly::plotlyOutput(
-            ns("agua_investimento_por_tipo"),
+            ns("agua_investimento_por_destino"),
             height = "auto",
             width = "100%"
           )
@@ -139,7 +139,7 @@ dash_agua <- function(ns) {
       shiny::column(
         12,
         shinycssloaders::withSpinner(
-          DT::dataTableOutput(ns("tbl_agua_investimento_por_tipo"))
+          DT::dataTableOutput(ns("tbl_agua_investimento_por_destino"))
         )
       ),
     ),
@@ -217,7 +217,7 @@ dash_esgoto <- function(ns) {
         12,
         shinycssloaders::withSpinner(
           plotly::plotlyOutput(
-            ns("esgoto_investimento_por_tipo"),
+            ns("esgoto_investimento_por_destino"),
             height = "auto",
             width = "100%"
           )
@@ -230,7 +230,7 @@ dash_esgoto <- function(ns) {
       shiny::column(
         12,
         shinycssloaders::withSpinner(
-          DT::dataTableOutput(ns("tbl_esgoto_investimento_por_tipo"))
+          DT::dataTableOutput(ns("tbl_esgoto_investimento_por_destino"))
         )
       ),
     ),
@@ -308,7 +308,7 @@ dash_residuos <- function(ns) {
         12,
         shinycssloaders::withSpinner(
           plotly::plotlyOutput(
-            ns("residuos_investimento_por_tipo"),
+            ns("residuos_investimento_por_destino"),
             height = "auto",
             width = "100%"
           )
@@ -399,7 +399,7 @@ dash_drenagem <- function(ns) {
         12,
         shinycssloaders::withSpinner(
           plotly::plotlyOutput(
-            ns("drenagem_investimento_por_tipo"),
+            ns("drenagem_investimento_por_destino"),
             height = "auto",
             width = "100%"
           )
@@ -412,7 +412,7 @@ dash_drenagem <- function(ns) {
       shiny::column(
         12,
         shinycssloaders::withSpinner(
-          DT::dataTableOutput(ns("tbl_drenagem_investimento_por_tipo"))
+          DT::dataTableOutput(ns("tbl_drenagem_investimento_por_destino"))
         )
       ),
     ),

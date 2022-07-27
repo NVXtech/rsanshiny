@@ -22,6 +22,7 @@ get_sinapi_list <- function() {
 #' @export
 esgoto_ui <- function(id, app_state) {
   ns <- shiny::NS(id)
+  params <- app_state$input$esgoto
   shiny::fluidPage(
     shiny::fluidRow(
       shiny::column(
@@ -121,8 +122,45 @@ esgoto_ui <- function(id, app_state) {
               max = 1e10
             ),
           ),
+          shiny::tabPanel(
+            "Módulo Rural",
+            shiny::column(
+              6,
+              shiny::h4("Custo individual (R$/domicílio):"),
+              esgoto_individual_input(ns, params)
+            )
+          )
         )
       )
     )
   )
+}
+
+esgoto_individual_input <- function(ns, input) {
+  labels <- c(
+    "com disponibilidade hídrica e média hab/domicílio entre 0 e 2",
+    "com disponibilidade hídrica e média hab/domicílio entre 2 e 3",
+    "com disponibilidade hídrica e média hab/domicílio entre 3 e 4",
+    "com disponibilidade hídrica e média hab/domicílio entre 4 e 5",
+    "com disponibilidade hídrica e média hab/domicílio entre 5 e 6",
+    "com disponibilidade hídrica e média hab/domicílio entre 6 e 7",
+    "com disponibilidade hídrica e média hab/domicílio entre 7 e 8",
+    "com disponibilidade hídrica e média hab/domicílio maior que 8",
+    "sem disponibilidade hídrica e média hab/domicílio entre 0 e 5",
+    "sem disponibilidade hídrica e média hab/domicílio maior que 5"
+  )
+  output <- list()
+  for (i in seq.int(1, length(labels))) {
+    id <- sprintf("custo_individual_esgoto_faixa%s", i)
+    output[[i]] <- list(shinyWidgets::autonumericInput(
+      inputId = ns(id),
+      label = shiny::strong(labels[i]),
+      value = input[[id]],
+      align = "left",
+      decimalCharacter = ",",
+      digitGroupSeparator = ".",
+      decimalPlaces = 2
+    ))
+  }
+  return(output)
 }

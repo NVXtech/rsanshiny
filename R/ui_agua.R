@@ -14,7 +14,7 @@ get_sinapi_list <- function() {
   return(sinapi_choices)
 }
 
-#' Title
+#' Gera interface para componente de água
 #'
 #' @param ns é o namespace do módulo de interface gráfica
 #'
@@ -123,21 +123,25 @@ agua_ui <- function(id, app_state) {
           ),
           shiny::tabPanel(
             "Módulo Rural",
-            shiny::numericInput(
+            shinyWidgets::autonumericInput(
               inputId = ns("custo_rural_individual"),
               label = shiny::strong("Custo rural individual (R$/dom)"),
               value = app_state$input$agua$custo_rural_individual,
-              min = 1e-10,
-              max = 1e10
+              align = "left",
+              decimalCharacter = ",",
+              digitGroupSeparator = ".",
+              decimalPlaces = 2
             ),
-            shiny::numericInput(
+            shinyWidgets::autonumericInput(
               inputId = ns("custo_rural_individual_sem"),
               label = shiny::strong("Custo rural individual sem disponibilidade(R$/dom)"),
               value = app_state$input$agua$custo_rural_individual_sem,
-              min = 1e-10,
-              max = 1e10
+              align = "left",
+              decimalCharacter = ",",
+              digitGroupSeparator = ".",
+              decimalPlaces = 2
             ),
-          ),
+          )
         )
       )
     )

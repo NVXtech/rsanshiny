@@ -8,6 +8,7 @@ get_snis_ap_list <- function() {
 
 drenagem_ui <- function(id, app_state) {
   ns <- shiny::NS(id)
+  params <- app_state$input$drenagem
   shiny::fluidPage(
     shiny::fluidRow(
       shiny::column(
@@ -46,68 +47,84 @@ drenagem_ui <- function(id, app_state) {
             shiny::conditionalPanel(
               condition = "input.modo == 1",
               ns = ns,
-              shiny::numericInput(
+              shinyWidgets::autonumericInput(
                 inputId = ns("investimento_per_capita"),
                 label = shiny::strong("Investimento em drenagem por habitante (R$/hab)"),
-                value = 10000,
-                min = 0,
-                max = 1e20
+                value = params$investimento_per_capita,
+                align = "left",
+                decimalCharacter = ",",
+                digitGroupSeparator = ".",
+                decimalPlaces = 2
               )
             ),
-            shiny::numericInput(
+            shinyWidgets::autonumericInput(
               inputId = ns("custo_cadastro"),
               label = shiny::strong("Custo do cadastro técnico (R$/km²)"),
-              value = 7738.89,
-              min = -1e9,
-              max = 1e9
+              value = params$custo_cadastro,
+              align = "left",
+              decimalCharacter = ",",
+              digitGroupSeparator = ".",
+              decimalPlaces = 2
             ),
           ),
           shiny::tabPanel(
             "Pesos dos Indicadores",
-            shiny::numericInput(
+            shinyWidgets::autonumericInput(
               inputId = ns("peso_pluviometria"),
               label = shiny::strong("Pluviometria [R$/(mm/ano)]"),
-              value = 0.063933104088543,
-              min = -1e9,
-              max = 1e9
+              value = params$peso_pluviometria,
+              align = "left",
+              decimalCharacter = ",",
+              digitGroupSeparator = ".",
+              decimalPlaces = 2
             ),
-            shiny::numericInput(
+            shinyWidgets::autonumericInput(
               inputId = ns("peso_densidade"),
               label = shiny::strong("Densidade urbana [R$/(hab/km²)]"),
-              value = -0.189155004725778,
-              min = -1e9,
-              max = 1e9
+              value = params$peso_densidade,
+              align = "left",
+              decimalCharacter = ",",
+              digitGroupSeparator = ".",
+              decimalPlaces = 2
             ),
-            shiny::numericInput(
+            shinyWidgets::autonumericInput(
               inputId = ns("peso_fisicas"),
               label = shiny::strong("Características físicas (R$/-)"),
-              value = 3477.79720206452,
-              min = -1e9,
-              max = 1e9
+              value = params$peso_fisicas,
+              align = "left",
+              decimalCharacter = ",",
+              digitGroupSeparator = ".",
+              decimalPlaces = 2
             ),
-            shiny::numericInput(
+            shinyWidgets::autonumericInput(
               inputId = ns("peso_infraestrutura"),
               label = shiny::strong("Infraestrutura (R$/-)"),
-              value = 519.474326911018,
-              min = -1e9,
-              max = 1e9
+              value = params$peso_infraestrutura,
+              align = "left",
+              decimalCharacter = ",",
+              digitGroupSeparator = ".",
+              decimalPlaces = 2
             ),
-            shiny::numericInput(
+            shinyWidgets::autonumericInput(
               inputId = ns("peso_constante"),
               label = shiny::strong("Constante"),
-              value = 791.359914329392,
-              min = -1e9,
-              max = 1e9
+              value = params$peso_constante,
+              align = "left",
+              decimalCharacter = ",",
+              digitGroupSeparator = ".",
+              decimalPlaces = 2
             ),
           ),
           shiny::tabPanel(
             "Reposição",
-            shiny::numericInput(
+            shinyWidgets::autonumericInput(
               inputId = ns("deprec_drenagem"),
               label = shiny::strong("Depreciação dos ativos em %"),
-              value = 2,
-              min = 0,
-              max = 100
+              value = params$deprec_drenagem,
+              align = "left",
+              decimalCharacter = ",",
+              digitGroupSeparator = ".",
+              decimalPlaces = 2
             )
           )
         )

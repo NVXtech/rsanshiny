@@ -3,6 +3,7 @@
 
 library(shiny)
 library(shinythemes)
+library(shinyWidgets)
 library(shinycssloaders)
 library(DT)
 
@@ -81,7 +82,7 @@ app_ui <- function() {
 
   ui <- shiny::fluidPage(
     shiny::navbarPage(
-      "NecessidadeInvest",
+      "Invest",
       id = "pages",
       theme = shinythemes::shinytheme("simplex"),
       dashboard,
