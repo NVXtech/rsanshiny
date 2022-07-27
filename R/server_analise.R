@@ -32,7 +32,7 @@ plot_analise <- function(input, dado) {
     tipo_barra <- input$barra
     grupos <- c(input$eixo, cores)
     data <- prepara_dados(dado(), grupos)
-    fig <- plot_ly(
+    fig <- plotly::plot_ly(
       data,
       x = ~ .data[[eixo_x]],
       y = ~ .data[[eixo_y]],

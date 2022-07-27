@@ -1,0 +1,17 @@
+aba painel - geral - 2o gráfico:
+	faltando computar resíduos; X
+	valor de água está diferente do painel específico de água; X
+	valor de esgoto está diferente do painel específico de esgoto X
+
+aba painel - água:	a soma do déficit não bate com os valores das parcelas urbana + rural
+aba painel - esgoto:	a soma do déficit não bate com os valores das parcelas urbana + rural
+aba painel - resíduos - 2o gráfico:	não aparece a tabela
+aba painel - resíduos - 3o gráfico:	não aparece o gráfico do déficit
+aba painel - drenagem - 3o gráfico:	não aparece o gráfico do déficit nem a tabela
+aba painel - para todos os componentes:	excluir o decimal nas tabelas do déficit
+aba água - sinapi:	adequar o campo para permitir a escolha de outras datas da sinapi
+
+aba água - módulo rural:	nos custos utilizar separador de milhar com ponto X
+aba esgoto:	falta inserir o módulo rural
+aba resíduos - para todos os parâmetros:	nos custos utilizar separador de milhar com ponto	X
+aba drenagem - para todos os parâmetros:	nos custos utilizar separador de milhar com ponto	X
