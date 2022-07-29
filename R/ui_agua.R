@@ -1,3 +1,7 @@
+#' Retorna lista de opções de dados do SNIS
+#'
+#' @return um vetor com os nomes
+#' @export
 get_snis_list <- function() {
   utils::data("snis", package = "rsan")
   snis <- get("snis")
@@ -6,6 +10,11 @@ get_snis_list <- function() {
   return(snis_choices)
 }
 
+
+#' Retorna lista de opções de dados do SINAPI
+#'
+#' @return um vetor com os nomes
+#' @export
 get_sinapi_list <- function() {
   sinapi_choices <- rsan::get_sinapi_labels()
   nomes <- c()
