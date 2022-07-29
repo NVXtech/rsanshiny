@@ -123,7 +123,7 @@ app_ui <- function() {
 }
 
 
-modulo_calculo <- function(id, app_state) {
+modulo_calculo <- function(id, app_state, parent) {
   shiny::moduleServer(id, function(input, output, session) {
     shiny::observeEvent(input$rodar, {
       shiny::withProgress(message = "Recalculando", value = 0, {
@@ -141,6 +141,10 @@ modulo_calculo <- function(id, app_state) {
       })
     })
 
+    shiny::observeEvent(parent$pages, {
+      update_sinapi_ui()
+    })
+
     output$download <- shiny::downloadHandler(
       filename = function() {
         paste0(id, ".xlsx")
@@ -149,6 +153,10 @@ modulo_calculo <- function(id, app_state) {
         writexl::write_xlsx(app_state[[id]], file)
       }
     )
+
+    update_sinapi_ui <- function() {
+      shiny::updateSelectInput(session, "sinapi", choices = rsanshiny::get_sinapi_list())
+    }
   })
 }
 
@@ -171,7 +179,7 @@ app_server <- function(input, output, session) {
 
   modulos <- c("agua", "esgoto", "drenagem", "residuos")
   for (modulo in modulos) {
-    rsanshiny:::modulo_calculo(modulo, app_state)
+    modulo_calculo(modulo, app_state, parent = input)
   }
 
   rsanshiny:::config_server("config", app_state)

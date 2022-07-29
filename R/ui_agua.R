@@ -7,10 +7,12 @@ get_snis_list <- function() {
 }
 
 get_sinapi_list <- function() {
-  utils::data("sinapi", package = "rsan")
-  sinapi <- get("sinapi")
-  sinapi_choices <- as.list(sinapi$caminho)
-  names(sinapi_choices) <- sinapi$nome
+  sinapi_choices <- rsan::get_sinapi_labels()
+  nomes <- c()
+  for (item in sinapi_choices) {
+    nomes <- c(nomes, rsan::sinapi_id_to_name(item))
+  }
+  names(sinapi_choices) <- nomes
   return(sinapi_choices)
 }
 

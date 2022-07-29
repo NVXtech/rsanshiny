@@ -6,8 +6,15 @@ config_server <- function(id, app_state) {
         rsan::save_state(app_state)
       }
     })
-    shiny::observeEvent(input$atualizar, {
-      rlog::log_info("Updating data")
+    shiny::observeEvent(input$atualizar_sinapi, {
+      shiny::withProgress(message = "Baixando", value = 0, {
+        rlog::log_info("Updating SINAPI")
+        shiny::incProgress(0.2, detail = "Aguarde, pode demorar...")
+        result <- rsan::update_sinapi(input$sinapi_ano, input$sinapi_mes)
+        if (!result) {
+          shiny::showNotification("SINAPI - Atualização indisponível!")
+        }
+      })
     })
   })
 }

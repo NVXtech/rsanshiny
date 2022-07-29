@@ -1,7 +1,7 @@
 config_ui <- function(id, app_state) {
   ns <- shiny::NS(id)
   current <- rsan::get_last_month_and_year()
-  mes_atual <- current$month
+  mes_atual <- sprintf("%d", as.integer(current$month))
   ano_atual <- current$year
   shiny::fluidPage(
     shiny::fluidRow(
@@ -30,7 +30,7 @@ config_ui <- function(id, app_state) {
       shiny::column(
         12,
         shiny::h3("SINAPI", style = "display: inline-block;margin:0;"),
-        shiny::actionButton(ns("atualizar"), icon = shiny::icon("sync"), label = "Atualizar", style = "display: inline-block;margin-bottom:10px;")
+        shiny::actionButton(ns("atualizar_sinapi"), icon = shiny::icon("sync"), label = "Atualizar", style = "display: inline-block;margin-bottom:10px;")
       )
     ),
     shiny::column(
@@ -38,7 +38,7 @@ config_ui <- function(id, app_state) {
       shiny::selectInput(
         inputId = ns("sinapi_ano"),
         label = shiny::strong("Selecione o ano:"),
-        choices = ano:2020,
+        choices = ano_atual:2020,
         selected = ano_atual
       )
     ),
