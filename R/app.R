@@ -157,12 +157,14 @@ modulo_calculo <- function(id, app_state, parent) {
     update_sinapi_ui <- function() {
       shiny::updateSelectInput(
         session, "sinapi",
-        choices = sort(rsanshiny::get_sinapi_list(), decreasing =T),
-        selected = input$sinapi)
+        choices = sort(rsanshiny::get_sinapi_list(), decreasing = T),
+        selected = input$sinapi
+      )
       shiny::updateSelectInput(
         session, "snis_rs",
         choices = rsan::get_snis_rs_list(),
-        selected = input$snis_rs)
+        selected = input$snis_rs
+      )
     }
   })
 }
@@ -213,6 +215,11 @@ run_app <- function(options = list(port = 8888)) {
 
   rlog::log_info("Preparing local storage")
   rsan::check_and_create_datasets()
+
+  if (is.null(app_state$necessidade)) {
+    rlog::log_info("First Calculation")
+    app_state <- rsan::rodar_modelo(app_state)
+  }
 
   # shiny::runApp()
   shiny::shinyApp(
