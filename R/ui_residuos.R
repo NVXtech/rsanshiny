@@ -85,6 +85,15 @@ residuos_ui <- function(id, app_state) {
             choices = get_snis_list(),
             selected = app_state$demografico$snis
           )
+        ),
+        shiny::column(
+          12,
+          shiny::selectInput(
+            inputId = ns("snis_rs"),
+            label = shiny::strong("Selecione o ano do SNIS-RS Unidades Producao"),
+            choices = rsan::get_snis_rs_list(),
+            selected = app_state$demografico$snis
+          )
         )
       ),
       shiny::column(

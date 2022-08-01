@@ -1,11 +1,3 @@
-get_snis_ap_list <- function() {
-  utils::data("snis_ap", package = "rsan")
-  snis_ap <- get("snis_ap")
-  snis_choices <- as.list(names(snis_ap))
-  names(snis_choices) <- names(snis_ap)
-  return(snis_choices[order(unlist(snis_choices), decreasing = TRUE)])
-}
-
 drenagem_ui <- function(id, app_state) {
   ns <- shiny::NS(id)
   params <- app_state$input$drenagem
@@ -27,7 +19,7 @@ drenagem_ui <- function(id, app_state) {
           shiny::selectInput(
             inputId = ns("snis_ap"),
             label = shiny::strong("Selecione o ano do SNIS - Águas Pluviais"),
-            choices = get_snis_ap_list(),
+            choices = rsan::get_snis_ap_list(),
             selected = app_state$input$snis_ap
           )
         )

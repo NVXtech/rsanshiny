@@ -1,16 +1,29 @@
+#' Retorna lista de opções de dados ibge censo
+#'
+#' @return um vetor com os nomes
+#' @export
 get_fonte1_list <- function() {
-  populacoes <- rsan::load_data("populacao")
-  pop <- dplyr::filter(populacoes, tipo == "CENSO")
-  fonte1_choices <- as.list(pop$caminho)
-  names(fonte1_choices) <- pop$nome
-  return(fonte1_choices)
+  fonte_choices <- as.list(rsan::get_censo_labels())
+  nomes <- c()
+  for (item in fonte_choices) {
+    nomes <- c(nomes, rsan::ibge_id_to_name(item))
+  }
+  names(fonte_choices) <- nomes
+  return(fonte_choices)
 }
 
+#' Retorna lista de opções de dados ibge censo e estimativa
+#'
+#' @return um vetor com os nomes
+#' @export
 get_fonte2_list <- function() {
-  populacoes <- rsan::load_data("populacao")
-  fonte1_choices <- as.list(populacoes$caminho)
-  names(fonte1_choices) <- populacoes$nome
-  return(fonte1_choices)
+  fonte_choices <- as.list(rsan::get_populacao_labels())
+  nomes <- c()
+  for (item in fonte_choices) {
+    nomes <- c(nomes, rsan::ibge_id_to_name(item))
+  }
+  names(fonte_choices) <- nomes
+  return(fonte_choices)
 }
 
 #' Title
@@ -32,7 +45,7 @@ projecao_populacional_ui <- function(id, app_state) {
     ),
     shiny::sidebarLayout(
       shiny::sidebarPanel(
-        shiny::h3(shiny::strong("Fonte dos dados")),
+        shiny::h3(shiny::strong("Atualização de dados")),
         shiny::p("Escolha as fontes de dados que serão utilizadas para calcular a taxa de crescimento"),
         shiny::selectInput(
           inputId = ns("fonte1"),

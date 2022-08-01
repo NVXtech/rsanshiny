@@ -1,14 +1,5 @@
-projecao_server <- function(id, app_state) {
+projecao_server <- function(id, app_state, parent) {
   shiny::moduleServer(id, function(input, output, session) {
-    shiny::observeEvent(input$fonte2, {
-      shiny::updateSliderInput(
-        session,
-        inputId = "ano",
-        min = rsan::nome_para_ano(input$fonte2),
-        value = app_state$projecao$ano
-      )
-    })
-
     resultado_projecao <- shiny::reactiveVal(app_state$projecao)
 
     output$grafico <- plotly::renderPlotly({
@@ -62,5 +53,23 @@ projecao_server <- function(id, app_state) {
         shiny::incProgress(1 / n, detail = "Fim")
       })
     })
+
+    shiny::observeEvent(parent$pages, {
+      update_populacao_ui()
+    })
+
+    update_populacao_ui <- function() {
+      rlog::log_info("Updating projecao app state")
+      app_state <- rsan::load_app_state()
+      shiny::updateSelectInput(
+        session, "fonte1",
+        choices = rsanshiny::get_fonte1_list(),
+        selected = input$fonte1)
+      shiny::updateSelectInput(
+        session, "fonte2",
+        choices = rsanshiny::get_fonte2_list(),
+        selected = input$fonte2)
+    }
   })
 }
+

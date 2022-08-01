@@ -155,7 +155,14 @@ modulo_calculo <- function(id, app_state, parent) {
     )
 
     update_sinapi_ui <- function() {
-      shiny::updateSelectInput(session, "sinapi", choices = rsanshiny::get_sinapi_list())
+      shiny::updateSelectInput(
+        session, "sinapi",
+        choices = sort(rsanshiny::get_sinapi_list(), decreasing =T),
+        selected = input$sinapi)
+      shiny::updateSelectInput(
+        session, "snis_rs",
+        choices = rsan::get_snis_rs_list(),
+        selected = input$snis_rs)
     }
   })
 }
@@ -175,7 +182,7 @@ app_server <- function(input, output, session) {
   rlog::log_info("App State loaded @server")
 
   update_dashstate <- rsanshiny:::dashboard_server("dashboard", app_state)
-  rsanshiny:::projecao_server("projecao", app_state)
+  rsanshiny:::projecao_server("projecao", app_state, parent = input)
 
   modulos <- c("agua", "esgoto", "drenagem", "residuos")
   for (modulo in modulos) {
