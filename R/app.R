@@ -136,7 +136,6 @@ modulo_calculo <- function(id, app_state, parent) {
         app_state <- rsan::rodar_modelo(app_state)
         shiny::incProgress(1 / n, detail = "Salvando resultados")
         rsan::save_state(app_state)
-        app_state$drenagem
         shiny::incProgress(1 / n, detail = "Fim")
       })
     })
@@ -219,6 +218,7 @@ run_app <- function(options = list(port = 8888)) {
   if (is.null(app_state$necessidade)) {
     rlog::log_info("First Calculation")
     app_state <- rsan::rodar_modelo(app_state)
+    rsan::save_state(app_state)
   }
 
   # shiny::runApp()
