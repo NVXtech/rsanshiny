@@ -3,32 +3,19 @@ config_ui <- function(id, app_state) {
   current <- rsan::get_last_month_and_year()
   mes_atual <- sprintf("%d", as.integer(current$month))
   ano_atual <- current$year
-  anos_censo <- sort(rsan::get_censo_years(), decreasing=TRUE)
-  anos_estimativa <- sort(rsan::load_estimativa_years(), decreasing=TRUE)
+
+  anos_censo <- tryCatch(rsan::get_censo_years(), error = function(e) {c("2010")})
+  print(anos_censo)
+  anos_censo <- sort(anos_censo, decreasing=TRUE)
+
+  anos_estimativa <- tryCatch(rsan::load_estimativa_years(), error = function(e) {c("2021")})
+  anos_estimativa <- sort(anos_estimativa, decreasing=TRUE)
 
   shiny::fluidPage(
     shiny::fluidRow(
       shiny::column(
         12,
-        shiny::h1(shiny::strong("Configurações"), style = "display: inline-block;margin:0;"),
-      )
-    ),
-    shiny::fluidRow(
-      shiny::column(
-        12,
-        shiny::sliderInput(
-          inputId = ns("ano"),
-          label = shiny::strong("Calcular necessidades para o ano de:"),
-          min = 2020,
-          max = 2050,
-          value = app_state$input$geral$ano
-        )
-      ),
-    ),
-    shiny::fluidRow(
-      shiny::column(
-        12,
-        shiny::titlePanel("Fonte de Dados"),
+        shiny::h1(shiny::strong("Atualização de Dados")),
       ),
     ),
     shiny::fluidRow(
@@ -90,6 +77,7 @@ config_ui <- function(id, app_state) {
         )
       )
     ),
+    hr(),
     shiny::fluidRow(
       shiny::column(
         12,
@@ -106,6 +94,7 @@ config_ui <- function(id, app_state) {
         )
       )
     ),
+    hr(),
     shiny::fluidRow(
       shiny::column(
         12,
@@ -122,5 +111,24 @@ config_ui <- function(id, app_state) {
         )
       )
     ),
+    hr(),
+    shiny::fluidRow(
+      shiny::column(
+        12,
+        shiny::h1(shiny::strong("Configurações Gerais"), style = "display: inline-block;margin:0;"),
+      )
+    ),
+    shiny::fluidRow(
+      shiny::column(
+        12,
+        shiny::sliderInput(
+          inputId = ns("ano"),
+          label = shiny::strong("Calcular necessidades para o ano de:"),
+          min = 2020,
+          max = 2050,
+          value = app_state$input$geral$ano
+        )
+      ),
+    )
   )
 }

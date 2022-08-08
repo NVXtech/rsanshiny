@@ -82,7 +82,7 @@ app_ui <- function() {
 
   ui <- shiny::fluidPage(
     shiny::navbarPage(
-      "Invest",
+      "UniverSan",
       id = "pages",
       theme = shinythemes::shinytheme("simplex"),
       dashboard,
@@ -123,51 +123,6 @@ app_ui <- function() {
 }
 
 
-modulo_calculo <- function(id, app_state, parent) {
-  shiny::moduleServer(id, function(input, output, session) {
-    shiny::observeEvent(input$rodar, {
-      shiny::withProgress(message = "Recalculando", value = 0, {
-        n <- 4
-        shiny::incProgress(0, detail = "Carregando cálculos anteriores")
-        app_state <- rsan::load_app_state()
-        shiny::incProgress(1 / n, detail = "Salvando novos parâmetros")
-        app_state <- rsan::salva_parametros(app_state, input, id)
-        shiny::incProgress(1 / n, detail = "Investimento")
-        app_state <- rsan::rodar_modelo(app_state)
-        shiny::incProgress(1 / n, detail = "Salvando resultados")
-        rsan::save_state(app_state)
-        shiny::incProgress(1 / n, detail = "Fim")
-      })
-    })
-
-    shiny::observeEvent(parent$pages, {
-      update_sinapi_ui()
-    })
-
-    output$download <- shiny::downloadHandler(
-      filename = function() {
-        paste0(id, ".xlsx")
-      },
-      content = function(file) {
-        writexl::write_xlsx(app_state[[id]], file)
-      }
-    )
-
-    update_sinapi_ui <- function() {
-      shiny::updateSelectInput(
-        session, "sinapi",
-        choices = sort(rsanshiny::get_sinapi_list(), decreasing = T),
-        selected = input$sinapi
-      )
-      shiny::updateSelectInput(
-        session, "snis_rs",
-        choices = rsan::get_snis_rs_list(),
-        selected = input$snis_rs
-      )
-    }
-  })
-}
-
 #' main server of app
 #'
 #' @param input shiny input
@@ -187,7 +142,7 @@ app_server <- function(input, output, session) {
 
   modulos <- c("agua", "esgoto", "drenagem", "residuos")
   for (modulo in modulos) {
-    modulo_calculo(modulo, app_state, parent = input)
+    rsanshiny:::modulo_calculo(modulo, app_state, parent = input)
   }
 
   rsanshiny:::config_server("config", app_state)

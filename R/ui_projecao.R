@@ -45,7 +45,7 @@ projecao_populacional_ui <- function(id, app_state) {
     ),
     shiny::sidebarLayout(
       shiny::sidebarPanel(
-        shiny::h3(shiny::strong("Atualização de dados")),
+        shiny::h3(shiny::strong("Fonte de dados")),
         shiny::p("Escolha as fontes de dados que serão utilizadas para calcular a taxa de crescimento"),
         shiny::selectInput(
           inputId = ns("fonte1"),
