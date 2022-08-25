@@ -3,9 +3,9 @@ colunas <- list(
   "Região" = "regiao",
   "Componente" = "componente",
   "Situação" = "situacao",
-  "Destino"= "destino",
-  "Etapa" = "etapa"
-  )
+  "Destino" = "destino",
+  "Subsistema" = "subsistema"
+)
 
 dimensoes <- with(stack(colunas), split(as.character(ind), values))
 
@@ -37,7 +37,7 @@ analise_ui <- function(id, app_state) {
         shiny::selectInput(
           inputId = ns("barra"),
           label = shiny::strong("Tipo de barra:"),
-          choices = list("Empilhada"="stack", "Agrupada"="group"),
+          choices = list("Empilhada" = "stack", "Agrupada" = "group"),
           selected = "stack"
         ),
       ),
@@ -55,7 +55,7 @@ analise_ui <- function(id, app_state) {
         shiny::selectInput(
           inputId = ns("orientacao"),
           label = shiny::strong("Orientação de barra:"),
-          choices = list("Horizontal"="h", "Vertical"="v"),
+          choices = list("Horizontal" = "h", "Vertical" = "v"),
           selected = "stack"
         ),
       ),

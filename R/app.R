@@ -74,7 +74,7 @@ app_ui <- function() {
     )
 
   configuracoes <- shiny::tabPanel(
-    "Configurações",
+    "Atualização de Dados",
     icon = shiny::icon("cog"),
     fluid = TRUE,
     rsanshiny:::config_ui("config", app_state)
