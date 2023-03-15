@@ -268,7 +268,7 @@ plot_deficit_por_componente <- function(input, dado) {
 
 plot_sankey <- function(input, dado) {
   plotly::renderPlotly({
-    data <- rsan::prepara_sankey(dado(), c("situacao", "destino", "componente", "etapa"))
+    data <- rsan::prepara_sankey(dado(), c("situacao", "destino", "componente", "subsistema"))
     fig <- plotly::plot_ly(
       type = "sankey",
       orientation = "h",
