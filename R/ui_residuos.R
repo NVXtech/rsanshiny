@@ -83,7 +83,7 @@ residuos_ui <- function(id, app_state) {
             inputId = ns("snis"),
             label = shiny::strong("Selecione o ano do SNIS"),
             choices = get_snis_list(),
-            selected = app_state$demografico$snis
+            selected = app_state$input$residuos$snis
           )
         ),
         shiny::column(
@@ -92,7 +92,7 @@ residuos_ui <- function(id, app_state) {
             inputId = ns("snis_rs"),
             label = shiny::strong("Selecione o ano do SNIS-RS Unidades Producao"),
             choices = rsan::get_snis_rs_list(),
-            selected = app_state$demografico$snis
+            selected = app_state$input$residuos$snis_rs
           )
         )
       ),

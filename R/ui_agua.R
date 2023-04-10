@@ -79,7 +79,7 @@ agua_ui <- function(id, app_state) {
             shiny::fluidRow(
               shiny::column(
                 6,
-                shiny::h3(" Distribuição"),
+                shiny::h3("Distribuição"),
                 shiny::numericInput(
                   inputId = ns("fator_servicos"),
                   label = shiny::strong("Fator correção dos preços de Serviços (%)"),
