@@ -20,7 +20,7 @@ drenagem_ui <- function(id, app_state) {
             inputId = ns("snis_ap"),
             label = shiny::strong("Selecione o ano do SNIS - Águas Pluviais"),
             choices = rsan::get_snis_ap_list(),
-            selected = app_state$input$snis_ap
+            selected = app_state$input$drenagem$snis_ap
           )
         )
       ),
