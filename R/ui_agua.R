@@ -50,7 +50,7 @@ agua_ui <- function(id, app_state) {
           inputId = ns("snis"),
           label = shiny::strong("Selecione o ano do SNIS"),
           choices = get_snis_list(),
-          selected = app_state$demografico$snis
+          selected = app_state$input$agua$snis
         ),
         shiny::selectInput(
           inputId = ns("sinapi"),
