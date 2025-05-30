@@ -1,1 +1,1 @@
-server <- rsanshiny:::app_server
+server <- app_server

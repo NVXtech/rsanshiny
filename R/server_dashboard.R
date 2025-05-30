@@ -49,7 +49,7 @@ prepara_deficit <- function(tabela, grupos) {
 
 prepara_deficit_por_componente <- function(tabela, grupos, nome_componente) {
   tabela <- dplyr::filter(tabela, componente == nome_componente)
-  tabela <- rsanshiny:::prepara_deficit(tabela, grupos)
+  tabela <- prepara_deficit(tabela, grupos)
   return(tabela)
 }
 
@@ -78,7 +78,7 @@ plot_investimento_total <- function(input, dado) {
   plotly::renderPlotly({
     espacial <- choice_to_varname(input$espacial)
     grupos <- c(espacial)
-    data <- rsanshiny:::prepara_dados(dado(), grupos)
+    data <- prepara_dados(dado(), grupos)
     fig <- plotly::plot_ly(
       data,
       labels = ~ .data[[espacial]],
@@ -100,7 +100,7 @@ plot_investimento_total_por_componente <- function(input, dado) {
     espacial <- choice_to_varname(input$espacial)
     grupos <- c(espacial, "componente")
     componente <- tab_to_varname(input$dash_tab)
-    data <- rsanshiny:::prepara_dados(dado(), grupos)
+    data <- prepara_dados(dado(), grupos)
     fig <- plotly::plot_ly(
       data,
       x = ~ .data[[espacial]],
@@ -124,7 +124,7 @@ plot_investimento_por_componente <- function(input, dado) {
     espacial <- choice_to_varname(input$espacial)
     grupos <- c(espacial)
     componente <- tab_to_varname(input$dash_tab)
-    data <- rsanshiny:::prepara_dados_por_componente(dado(), grupos, componente)
+    data <- prepara_dados_por_componente(dado(), grupos, componente)
     fig <- plotly::plot_ly(
       data,
       labels = ~ .data[[espacial]],
@@ -149,7 +149,7 @@ tabela_investimento_por_componente <- function(input, dado) {
       nome_componente = tab_to_varname(input$dash_tab)
     )
   )
-  rsanshiny:::create_datatable(tbl)
+  create_datatable(tbl)
 }
 
 plot_investimento_por_destino <- function(input, dado) {
@@ -157,7 +157,7 @@ plot_investimento_por_destino <- function(input, dado) {
     espacial <- choice_to_varname(input$espacial)
     grupos <- c(espacial, "destino")
     componente <- tab_to_varname(input$dash_tab)
-    data <- rsanshiny:::prepara_dados_por_componente(dado(), grupos, componente)
+    data <- prepara_dados_por_componente(dado(), grupos, componente)
     fig <- plotly::plot_ly(
       data,
       x = ~ .data[[espacial]],
@@ -177,33 +177,33 @@ plot_investimento_por_destino <- function(input, dado) {
 
 tabela_investimento_total <- function(input, dado) {
   data <- shiny::reactive(
-    rsanshiny:::prepara_dados(
+    prepara_dados(
       dado(),
       grupos = c(choice_to_varname(input$espacial))
     )
   )
-  rsanshiny:::create_datatable(data)
+  create_datatable(data)
 }
 
 tabela_investimento_total_por_componente <- function(input, dado) {
   data <- shiny::reactive(
-    rsanshiny:::prepara_dados(
+    prepara_dados(
       dado(),
       grupos = c(choice_to_varname(input$espacial), "componente")
     )
   )
-  rsanshiny:::create_datatable(data)
+  create_datatable(data)
 }
 
 tabela_investimento_por_componente <- function(input, dado) {
   data <- shiny::reactive(
-    rsanshiny:::prepara_dados_por_componente(
+    prepara_dados_por_componente(
       dado(),
       grupos = c(choice_to_varname(input$espacial), "componente"),
       nome_componente = tab_to_varname(input$dash_tab)
     )
   )
-  rsanshiny:::create_datatable(data)
+  create_datatable(data)
 }
 
 tabela_investimento_por_destino <- function(input, dado, drenagem = FALSE) {
@@ -214,7 +214,7 @@ tabela_investimento_por_destino <- function(input, dado, drenagem = FALSE) {
       nome_componente = tab_to_varname(input$dash_tab)
     )
   )
-  rsanshiny:::create_datatable(data)
+  create_datatable(data)
 }
 
 
@@ -294,7 +294,7 @@ tabela_deficit <- function(input, dado, vars) {
   data <- shiny::reactive(
     prepara_dados_soma(input$espacial, dado(), vars = vars)
   )
-  rsanshiny:::create_datatable(data)
+  create_datatable(data)
 }
 
 tabela_deficit_por_componente <- function(input, dado, vars) {
@@ -305,7 +305,7 @@ tabela_deficit_por_componente <- function(input, dado, vars) {
       tab_to_varname(input$dash_tab)
     )
   )
-  rsanshiny:::create_datatable(data)
+  create_datatable(data)
 }
 
 dashboard_server <- function(id, app_state) {

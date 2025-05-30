@@ -63,13 +63,14 @@ projecao_server <- function(id, app_state, parent) {
       app_state <- rsan::load_app_state()
       shiny::updateSelectInput(
         session, "fonte1",
-        choices = rsanshiny::get_fonte1_list(),
-        selected = input$fonte1)
+        choices = get_fonte1_list(),
+        selected = input$fonte1
+      )
       shiny::updateSelectInput(
         session, "fonte2",
-        choices = rsanshiny::get_fonte2_list(),
-        selected = input$fonte2)
+        choices = get_fonte2_list(),
+        selected = input$fonte2
+      )
     }
   })
 }
-

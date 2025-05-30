@@ -1,1 +1,1 @@
-ui <- rsanshiny:::app_ui
+ui <- app_ui

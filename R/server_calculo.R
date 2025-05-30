@@ -49,7 +49,7 @@ modulo_calculo <- function(id, app_state, parent) {
     update_sinapi_ui <- function() {
       shiny::updateSelectInput(
         session, "sinapi",
-        choices = sort(rsanshiny::get_sinapi_list(), decreasing = T),
+        choices = sort(get_sinapi_list(), decreasing = T),
         selected = input$sinapi
       )
       shiny::updateSelectInput(
