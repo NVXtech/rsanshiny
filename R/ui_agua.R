@@ -82,14 +82,14 @@ agua_ui <- function(id, app_state) {
                 shiny::h3("Distribuição"),
                 shiny::numericInput(
                   inputId = ns("fator_servicos"),
-                  label = shiny::strong("Fator correção dos preços de Serviços (%)"),
+                  label = shiny::strong("Parcela de BDI de Serviços (%)"),
                   value = app_state$input$agua$fator_servicos,
                   min = 0,
                   max = 100
                 ),
                 shiny::numericInput(
                   inputId = ns("fator_materiais"),
-                  label = shiny::strong("Fator correção dos preços de Materiais (%)"),
+                  label = shiny::strong("Parcela de BDI para Materiais (%)"),
                   value = app_state$input$agua$fator_materiais,
                   min = 0,
                   max = 100
@@ -100,14 +100,14 @@ agua_ui <- function(id, app_state) {
                 shiny::h3("Produção"),
                 shiny::numericInput(
                   inputId = ns("fator_composicao"),
-                  label = shiny::strong("Fator correção dos preços de Composição (%)"),
+                  label = shiny::strong("Parcela de BDI para Composição (%)"),
                   value = app_state$input$agua$fator_composicao,
                   min = 0,
                   max = 100
                 ),
                 shiny::numericInput(
                   inputId = ns("fator_insumo"),
-                  label = shiny::strong("Fator correção dos preços de Insumos (%)"),
+                  label = shiny::strong("Parcela de BDI para Insumos (%)"),
                   value = app_state$input$agua$fator_insumo,
                   min = 0,
                   max = 100
