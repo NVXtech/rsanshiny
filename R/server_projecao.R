@@ -32,7 +32,7 @@ projecao_server <- function(id, app_state, parent) {
       fig <- plotly::layout(
         fig,
         title = "Projeção Populacional",
-        yaxis = list(title = "Polução (milhões)"),
+        yaxis = list(title = "População (milhões)"),
         xaxis = list(title = "anos"),
         barmode = "group"
       )
