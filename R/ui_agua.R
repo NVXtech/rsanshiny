@@ -53,6 +53,12 @@ agua_ui <- function(id, app_state) {
           selected = app_state$input$agua$snis
         ),
         shiny::selectInput(
+          inputId = ns("atendimento"),
+          label = shiny::strong("Selecione a fonte para o atendimento"),
+          choices = c("CENSO" = "censo", "SINISA" = "sinisa", "PNADc" = "pnadc"),
+          selected = app_state$input$agua$atendimento
+        ),
+        shiny::selectInput(
           inputId = ns("sinapi"),
           label = shiny::strong("Selecione o ano e mês do SINAPI"),
           choices = get_sinapi_list(),
