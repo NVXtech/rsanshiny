@@ -4,12 +4,21 @@ config_ui <- function(id, app_state) {
   mes_atual <- sprintf("%d", as.integer(current$month))
   ano_atual <- current$year
 
-  anos_censo <- tryCatch(rsan::get_censo_years(), error = function(e) {c("2010")})
-  print(anos_censo)
-  anos_censo <- sort(anos_censo, decreasing=TRUE)
+  anos_censo <- tryCatch(
+    rsan::get_censo_years(),
+    error = function(e) {
+      c("2010")
+    }
+  )
+  anos_censo <- sort(anos_censo, decreasing = TRUE)
 
-  anos_estimativa <- tryCatch(rsan::load_estimativa_years(), error = function(e) {c("2021")})
-  anos_estimativa <- sort(anos_estimativa, decreasing=TRUE)
+  anos_estimativa <- tryCatch(
+    rsan::load_estimativa_years(),
+    error = function(e) {
+      c("2021")
+    }
+  )
+  anos_estimativa <- sort(anos_estimativa, decreasing = TRUE)
 
   shiny::fluidPage(
     shiny::fluidRow(
@@ -121,11 +130,12 @@ config_ui <- function(id, app_state) {
     shiny::fluidRow(
       shiny::column(
         12,
-        shiny::sliderInput(
+        shiny::numericInput(
           inputId = ns("ano"),
           label = shiny::strong("Calcular necessidades para o ano de:"),
           min = 2020,
           max = 2050,
+          step = 1,
           value = app_state$input$geral$ano
         )
       ),
