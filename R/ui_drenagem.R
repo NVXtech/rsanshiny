@@ -12,19 +12,6 @@ drenagem_ui <- function(id, app_state) {
     ),
     shiny::fluidRow(
       shiny::column(
-        3,
-        shiny::titlePanel("Fonte de Dados"),
-        shiny::column(
-          12,
-          shiny::selectInput(
-            inputId = ns("snis_ap"),
-            label = shiny::strong("Selecione o ano do SNIS - Águas Pluviais"),
-            choices = rsan::get_snis_ap_list(),
-            selected = app_state$input$drenagem$snis_ap
-          )
-        )
-      ),
-      shiny::column(
         9,
         shiny::titlePanel("Parâmetros"),
         shiny::tabsetPanel(

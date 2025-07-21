@@ -75,28 +75,6 @@ residuos_ui <- function(id, app_state) {
     ),
     shiny::fluidRow(
       shiny::column(
-        3,
-        shiny::titlePanel("Fonte de Dados"),
-        shiny::column(
-          12,
-          shiny::selectInput(
-            inputId = ns("snis"),
-            label = shiny::strong("Selecione o ano do SNIS"),
-            choices = get_snis_list(),
-            selected = app_state$input$residuos$snis
-          )
-        ),
-        shiny::column(
-          12,
-          shiny::selectInput(
-            inputId = ns("snis_rs"),
-            label = shiny::strong("Selecione o ano do SNIS-RS Unidades Producao"),
-            choices = rsan::get_snis_rs_list(),
-            selected = app_state$input$residuos$snis_rs
-          )
-        )
-      ),
-      shiny::column(
         9,
         shiny::titlePanel("Parâmetros"),
         shiny::tabsetPanel(

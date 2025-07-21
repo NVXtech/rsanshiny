@@ -24,8 +24,107 @@ config_ui <- function(id, app_state) {
     shiny::fluidRow(
       shiny::column(
         12,
-        shiny::h1(shiny::strong("Atualização de Dados")),
+        shiny::h1(shiny::strong("Fonte de Dados")),
       ),
+    ),
+    shiny::column(
+      3,
+      shiny::titlePanel("Abastecimento de Água"),
+      shiny::selectInput(
+        inputId = ns("fonte_nome"),
+        label = shiny::strong("Selecione Fonte para Estruturas"),
+        choices = c("SNIS" = "snis", "SINISA" = "sinisa"),
+        selected = app_state$input$agua$fonte_nome
+      ),
+      shiny::uiOutput(ns("fonte_ano"), inline = TRUE),
+      shiny::selectInput(
+        inputId = ns("atendimento"),
+        label = shiny::strong("Selecione a fonte para o atendimento"),
+        choices = c("CENSO" = "censo", "SINISA" = "sinisa", "PNADc" = "pnadc"),
+        selected = app_state$input$agua$atendimento
+      ),
+      shiny::uiOutput(ns("atendimento_ano"), inline = TRUE),
+      shiny::selectInput(
+        inputId = ns("sinapi"),
+        label = shiny::strong("Selecione o ano e mês do SINAPI"),
+        choices = get_sinapi_list(),
+        selected = app_state$orcamentario$sinapi
+      )
+    ),
+    shiny::column(
+      3,
+      shiny::titlePanel("Esgoto Sanitário"),
+      shiny::selectInput(
+        inputId = ns("snis"),
+        label = shiny::strong("Selecione o ano do SNIS"),
+        choices = get_snis_list(),
+        selected = app_state$input$esgoto$snis
+      ),
+      shiny::selectInput(
+        inputId = ns("fonte_nome"),
+        label = shiny::strong("Selecione a Fonte"),
+        choices = c("SNIS" = "snis", "SINISA" = "sinisa"),
+        selected = app_state$input$esgoto$fonte_nome
+      ),
+      shiny::selectInput(
+        inputId = ns("fonte_ano"),
+        label = shiny::strong("Selecione o ano da Fonte"),
+        choices = c(2022, 2023),
+        selected = app_state$input$esgoto$fonte_nome
+      ),
+      shiny::selectInput(
+        inputId = ns("atendimento"),
+        label = shiny::strong("Selecione a fonte para o atendimento"),
+        choices = c("CENSO" = "censo", "SINISA" = "sinisa", "PNADc" = "pnadc"),
+        selected = app_state$input$agua$atendimento
+      ),
+      shiny::selectInput(
+        inputId = ns("atendimento_ano"),
+        label = shiny::strong("Selecione o ano para o atendimento"),
+        choices = c(2022),
+        selected = app_state$input$agua$atendimento_ano
+      ),
+      shiny::selectInput(
+        inputId = ns("sinapi"),
+        label = shiny::strong("Selecione o ano e mês do SINAPI"),
+        choices = get_sinapi_list(),
+        selected = app_state$input$esgoto$sinapi
+      )
+    ),
+    shiny::column(
+      3,
+      shiny::titlePanel("Residuos Sólidos Urbanos"),
+      shiny::column(
+        12,
+        shiny::selectInput(
+          inputId = ns("snis"),
+          label = shiny::strong("Selecione o ano do SNIS"),
+          choices = get_snis_list(),
+          selected = app_state$input$residuos$snis
+        )
+      ),
+      shiny::column(
+        12,
+        shiny::selectInput(
+          inputId = ns("snis_rs"),
+          label = shiny::strong("Selecione o ano do SNIS-RS Unidades Producao"),
+          choices = rsan::get_snis_rs_list(),
+          selected = app_state$input$residuos$snis_rs
+        )
+      )
+    ),
+    shiny::column(
+      3,
+      shiny::titlePanel("Drenagem Urbana"),
+      shiny::column(
+        12,
+        shiny::selectInput(
+          inputId = ns("snis_ap"),
+          label = shiny::strong("Selecione o ano do SNIS - Águas Pluviais"),
+          choices = rsan::get_snis_ap_list(),
+          selected = app_state$input$drenagem$snis_ap
+        )
+      )
     ),
     shiny::fluidRow(
       shiny::column(

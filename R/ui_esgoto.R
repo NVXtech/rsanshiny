@@ -27,6 +27,30 @@ esgoto_ui <- function(id, app_state) {
           selected = app_state$input$esgoto$snis
         ),
         shiny::selectInput(
+          inputId = ns("fonte_nome"),
+          label = shiny::strong("Selecione a Fonte"),
+          choices = c("SNIS" = "snis", "SINISA" = "sinisa"),
+          selected = app_state$input$esgoto$fonte_nome
+        ),
+        shiny::selectInput(
+          inputId = ns("fonte_ano"),
+          label = shiny::strong("Selecione o ano da Fonte"),
+          choices = c(2022, 2023),
+          selected = app_state$input$esgoto$fonte_nome
+        ),
+        shiny::selectInput(
+          inputId = ns("atendimento"),
+          label = shiny::strong("Selecione a fonte para o atendimento"),
+          choices = c("CENSO" = "censo", "SINISA" = "sinisa", "PNADc" = "pnadc"),
+          selected = app_state$input$agua$atendimento
+        ),
+        shiny::selectInput(
+          inputId = ns("atendimento_ano"),
+          label = shiny::strong("Selecione o ano para o atendimento"),
+          choices = c(2022),
+          selected = app_state$input$agua$atendimento_ano
+        ),
+        shiny::selectInput(
           inputId = ns("sinapi"),
           label = shiny::strong("Selecione o ano e mês do SINAPI"),
           choices = get_sinapi_list(),
@@ -136,7 +160,7 @@ esgoto_individual_input <- function(ns, input) {
   output <- list()
   for (i in seq.int(1, length(labels))) {
     id <- sprintf("custo_individual_esgoto_faixa%s", i)
-    output[[i]] <- list(shinyWidgets::autonumericInput(
+    output[[i]] <- list(shiny::column(6, shinyWidgets::autonumericInput(
       inputId = ns(id),
       label = shiny::strong(labels[i]),
       value = input[[id]],
@@ -144,7 +168,7 @@ esgoto_individual_input <- function(ns, input) {
       decimalCharacter = ",",
       digitGroupSeparator = ".",
       decimalPlaces = 2
-    ))
+    )))
   }
   return(output)
 }
