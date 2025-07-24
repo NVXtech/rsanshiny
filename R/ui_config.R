@@ -31,19 +31,19 @@ config_ui <- function(id, app_state) {
       3,
       shiny::titlePanel("Abastecimento de Água"),
       shiny::selectInput(
-        inputId = ns("fonte_nome"),
+        inputId = ns("agua_fonte_nome"),
         label = shiny::strong("Selecione Fonte para Estruturas"),
         choices = c("SNIS" = "snis", "SINISA" = "sinisa"),
         selected = app_state$input$agua$fonte_nome
       ),
-      shiny::uiOutput(ns("fonte_ano"), inline = TRUE),
+      shiny::uiOutput(ns("agua_fonte_ano"), inline = TRUE),
       shiny::selectInput(
-        inputId = ns("atendimento"),
+        inputId = ns("agua_atendimento"),
         label = shiny::strong("Selecione a fonte para o atendimento"),
         choices = c("CENSO" = "censo", "SINISA" = "sinisa", "PNADc" = "pnadc"),
         selected = app_state$input$agua$atendimento
       ),
-      shiny::uiOutput(ns("atendimento_ano"), inline = TRUE),
+      shiny::uiOutput(ns("agua_atendimento_ano"), inline = TRUE),
       shiny::selectInput(
         inputId = ns("sinapi"),
         label = shiny::strong("Selecione o ano e mês do SINAPI"),
@@ -55,37 +55,21 @@ config_ui <- function(id, app_state) {
       3,
       shiny::titlePanel("Esgoto Sanitário"),
       shiny::selectInput(
-        inputId = ns("snis"),
-        label = shiny::strong("Selecione o ano do SNIS"),
-        choices = get_snis_list(),
-        selected = app_state$input$esgoto$snis
-      ),
-      shiny::selectInput(
-        inputId = ns("fonte_nome"),
+        inputId = ns("esgoto_fonte_nome"),
         label = shiny::strong("Selecione a Fonte"),
         choices = c("SNIS" = "snis", "SINISA" = "sinisa"),
         selected = app_state$input$esgoto$fonte_nome
       ),
+      shiny::uiOutput(ns("esgoto_fonte_ano")),
       shiny::selectInput(
-        inputId = ns("fonte_ano"),
-        label = shiny::strong("Selecione o ano da Fonte"),
-        choices = c(2022, 2023),
-        selected = app_state$input$esgoto$fonte_nome
-      ),
-      shiny::selectInput(
-        inputId = ns("atendimento"),
+        inputId = ns("esgoto_atendimento"),
         label = shiny::strong("Selecione a fonte para o atendimento"),
         choices = c("CENSO" = "censo", "SINISA" = "sinisa", "PNADc" = "pnadc"),
         selected = app_state$input$agua$atendimento
       ),
+      shiny::uiOutput(ns("esgoto_atendimento_ano")),
       shiny::selectInput(
-        inputId = ns("atendimento_ano"),
-        label = shiny::strong("Selecione o ano para o atendimento"),
-        choices = c(2022),
-        selected = app_state$input$agua$atendimento_ano
-      ),
-      shiny::selectInput(
-        inputId = ns("sinapi"),
+        inputId = ns("esgoto_sinapi"),
         label = shiny::strong("Selecione o ano e mês do SINAPI"),
         choices = get_sinapi_list(),
         selected = app_state$input$esgoto$sinapi

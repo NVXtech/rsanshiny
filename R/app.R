@@ -59,10 +59,12 @@ app_ui <- function() {
   )
 
   ui <- shiny::fluidPage(
+    tags$style(type = "text/css", "body {padding-top: 70px;}"),
     shiny::navbarPage(
       "UniverSan",
       id = "pages",
       theme = shinythemes::shinytheme("simplex"),
+      position = "fixed-top",
       dashboard,
       analise,
       projecao,
@@ -115,15 +117,9 @@ app_server <- function(input, output, session) {
   update_dashstate <- dashboard_server("dashboard", app_state)
   projecao_server("projecao", app_state, parent = input)
 
-  modulos <- c("esgoto", "drenagem", "residuos")
-  for (modulo in modulos) {
-    modulo_calculo(modulo, app_state, parent = input)
-  }
-
-  agua_server("agua", app_state, parent = input)
+  modulo_calculo("parametros", app_state, parent = input)
 
   config_server("config", app_state)
-  config_server("drenagem", app_state)
 
   analise_server("analise", app_state, parent = input)
 
