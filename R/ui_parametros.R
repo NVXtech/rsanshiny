@@ -71,6 +71,7 @@ parametros_ui <- function(id, app_state) {
       shiny::column(
         12,
         shiny::h1(shiny::strong("Abastecimento de Água"), style = "display: inline-block;margin:0;"),
+        shiny::actionButton(ns("salvar"), icon = shiny::icon("save"), label = "Salvar Parâmetros", style = "display: inline-block;margin-bottom:10px;"),
         shiny::actionButton(ns("rodar"), icon = shiny::icon("calculator"), label = "Recalcular", style = "display: inline-block;margin-bottom:10px;"),
         shiny::downloadButton(ns("download"), "Exportar xlsx", style = "display: inline-block;margin-bottom:10px;")
       ),
@@ -80,7 +81,7 @@ parametros_ui <- function(id, app_state) {
       shiny::column(
         6,
         shiny::numericInput(
-          inputId = ns("vida_util"),
+          inputId = ns("agua-vida_util"),
           label = shiny::strong("Vida útil média dos ativos (anos)"),
           value = app_state$input$agua$vida_util,
           min = 1e-10,
@@ -90,7 +91,7 @@ parametros_ui <- function(id, app_state) {
       shiny::column(
         6,
         shiny::numericInput(
-          inputId = ns("meta_agua"),
+          inputId = ns("agua-meta_agua"),
           label = shiny::strong("Meta de atendimento para abastecimento de água (%)"),
           value = app_state$input$agua$meta_agua,
           min = 0,
@@ -103,21 +104,21 @@ parametros_ui <- function(id, app_state) {
         6,
         shiny::h3("Produção"),
         shiny::numericInput(
-          inputId = ns("fator_composicao"),
+          inputId = ns("agua-fator_composicao"),
           label = shiny::strong("Parcela de BDI para Composição (%)"),
           value = app_state$input$agua$fator_composicao,
           min = 0,
           max = 100
         ),
         shiny::numericInput(
-          inputId = ns("fator_insumo"),
+          inputId = ns("agua-fator_insumo"),
           label = shiny::strong("Parcela de BDI para Insumos (%)"),
           value = app_state$input$agua$fator_insumo,
           min = 0,
           max = 100
         ),
         shiny::numericInput(
-          inputId = ns("perda_agua"),
+          inputId = ns("agua-perda_agua"),
           label = shiny::strong("Estimativa de Perda de água (%)"),
           value = app_state$input$agua$perda_agua,
           min = 0,
@@ -128,14 +129,14 @@ parametros_ui <- function(id, app_state) {
         6,
         shiny::h3("Distribuição"),
         shiny::numericInput(
-          inputId = ns("fator_servicos"),
+          inputId = ns("agua-fator_servicos"),
           label = shiny::strong("Parcela de BDI de Serviços (%)"),
           value = app_state$input$agua$fator_servicos,
           min = 0,
           max = 100
         ),
         shiny::numericInput(
-          inputId = ns("fator_materiais"),
+          inputId = ns("agua-fator_materiais"),
           label = shiny::strong("Parcela de BDI para Materiais (%)"),
           value = app_state$input$agua$fator_materiais,
           min = 0,
@@ -148,7 +149,7 @@ parametros_ui <- function(id, app_state) {
       shiny::column(
         6,
         shinyWidgets::autonumericInput(
-          inputId = ns("custo_rural_individual"),
+          inputId = ns("agua-custo_rural_individual"),
           label = shiny::strong("Custo rural individual (R$/dom)"),
           value = app_state$input$agua$custo_rural_individual,
           align = "left",
@@ -160,7 +161,7 @@ parametros_ui <- function(id, app_state) {
       shiny::column(
         6,
         shinyWidgets::autonumericInput(
-          inputId = ns("custo_rural_individual_sem"),
+          inputId = ns("agua-custo_rural_individual_sem"),
           label = shiny::strong("Custo rural individual sem disponibilidade (R$/dom)"),
           value = app_state$input$agua$custo_rural_individual_sem,
           align = "left",
@@ -182,7 +183,7 @@ parametros_ui <- function(id, app_state) {
       shiny::column(
         6,
         shiny::numericInput(
-          inputId = ns("meta_esgoto"),
+          inputId = ns("esgoto-meta_esgoto"),
           label = shiny::strong("Meta de atendimento para esgoto (%)"),
           value = app_state$input$esgoto$meta_esgoto,
           min = 0,
@@ -192,7 +193,7 @@ parametros_ui <- function(id, app_state) {
       shiny::column(
         6,
         shiny::numericInput(
-          inputId = ns("proporcao"),
+          inputId = ns("esgoto-proporcao"),
           label = shiny::strong("Proporção entre a densidade esgoto e abastecimento (%)"),
           value = app_state$input$esgoto$proporcao,
           min = 0,
@@ -202,7 +203,7 @@ parametros_ui <- function(id, app_state) {
       shiny::column(
         12,
         shiny::numericInput(
-          inputId = ns("vida_util"),
+          inputId = ns("esgoto-vida_util"),
           label = shiny::strong("Vida útil média dos ativos (anos)"),
           value = app_state$input$esgoto$vida_util,
           min = 1e-10,
@@ -215,14 +216,14 @@ parametros_ui <- function(id, app_state) {
         6,
         shiny::h3("Coleta"),
         shiny::numericInput(
-          inputId = ns("fator_servicos"),
+          inputId = ns("esgoto-fator_servicos"),
           label = shiny::strong("Parcela de BDI para Serviços (%)"),
           value = app_state$input$esgoto$fator_servicos,
           min = 0,
           max = 100
         ),
         shiny::numericInput(
-          inputId = ns("fator_materiais"),
+          inputId = ns("esgoto-fator_materiais"),
           label = shiny::strong("Parcela de BDI para Materiais (%)"),
           value = app_state$input$esgoto$fator_materiais,
           min = 0,
@@ -233,14 +234,14 @@ parametros_ui <- function(id, app_state) {
         6,
         shiny::h3("Tratamento"),
         shiny::numericInput(
-          inputId = ns("fator_composicao"),
+          inputId = ns("esgoto-fator_composicao"),
           label = shiny::strong("Parcela de BDI para Composição (%)"),
           value = app_state$input$esgoto$fator_composicao,
           min = 0,
           max = 100
         ),
         shiny::numericInput(
-          inputId = ns("fator_insumo"),
+          inputId = ns("esgoto-fator_insumo"),
           label = shiny::strong("Parcela de BDI para Insumos (%)"),
           value = app_state$input$esgoto$fator_insumo,
           min = 0,
@@ -271,7 +272,7 @@ parametros_ui <- function(id, app_state) {
         6,
         shiny::h3("Coleta Indiferenciada"),
         shinyWidgets::autonumericInput(
-          inputId = ns("valor_caminhao"),
+          inputId = ns("residuos-valor_caminhao"),
           label = shiny::strong("Valor do caminhão compactador em R$"),
           value = app_state$input$residuos$valor_caminhao,
           align = "left",
@@ -280,7 +281,7 @@ parametros_ui <- function(id, app_state) {
           decimalPlaces = 2
         ),
         shiny::numericInput(
-          inputId = ns("deprec_coleta_indiferenciada"),
+          inputId = ns("residuos-deprec_coleta_indiferenciada"),
           label = shiny::strong("Depreciação em %"),
           value = app_state$input$residuos$deprec_coleta_indiferenciada,
           min = 0,
@@ -291,7 +292,7 @@ parametros_ui <- function(id, app_state) {
         6,
         shiny::h3("Coleta Seletiva"),
         shinyWidgets::autonumericInput(
-          inputId = ns("valor_caminhao_bau"),
+          inputId = ns("residuos-valor_caminhao_bau"),
           label = shiny::strong("Valor caminhão bau em R$"),
           value = app_state$input$residuos$valor_caminhao_bau,
           align = "left",
@@ -300,7 +301,7 @@ parametros_ui <- function(id, app_state) {
           decimalPlaces = 2
         ),
         shiny::numericInput(
-          inputId = ns("deprec_coleta_seletiva"),
+          inputId = ns("residuos-deprec_coleta_seletiva"),
           label = shiny::strong("Depreciação em %"),
           value = app_state$input$residuos$deprec_coleta_seletiva,
           min = 0,
@@ -318,14 +319,14 @@ parametros_ui <- function(id, app_state) {
       shiny::column(
         6,
         shiny::numericInput(
-          inputId = ns("vida_util_triagem"),
+          inputId = ns("residuos-vida_util_triagem"),
           label = shiny::strong("Vida útil unidades de triagem"),
           value = app_state$input$residuos$vida_util_triagem,
           min = 1e-3,
           max = 1e20
         ),
         shiny::numericInput(
-          inputId = ns("deprec_triagem"),
+          inputId = ns("residuos-deprec_triagem"),
           label = shiny::strong("Depreciação em %"),
           value = app_state$input$residuos$deprec_triagem,
           min = 0,
@@ -343,14 +344,14 @@ parametros_ui <- function(id, app_state) {
       shiny::column(
         6,
         shiny::numericInput(
-          inputId = ns("vida_util_compostagem"),
+          inputId = ns("residuos-vida_util_compostagem"),
           label = shiny::strong("Vida útil unidades de compostagem"),
           value = app_state$input$residuos$vida_util_compostagem,
           min = 1e-3,
           max = 1e20
         ),
         shiny::numericInput(
-          inputId = ns("deprec_compostagem"),
+          inputId = ns("residuos-deprec_compostagem"),
           label = shiny::strong("Depreciação em %"),
           value = app_state$input$residuos$deprec_compostagem,
           min = 0,
@@ -368,28 +369,28 @@ parametros_ui <- function(id, app_state) {
       shiny::column(
         6,
         shiny::numericInput(
-          inputId = ns("vida_util_aterro"),
+          inputId = ns("residuos-vida_util_aterro"),
           label = shiny::strong("Vida útil unidades de aterro"),
           value = app_state$input$residuos$vida_util_aterro,
           min = 1e-3,
           max = 1e20
         ),
         shiny::numericInput(
-          inputId = ns("deprec_aterro"),
+          inputId = ns("residuos-deprec_aterro"),
           label = shiny::strong("Depreciação em %"),
           value = app_state$input$residuos$deprec_aterro,
           min = 0,
           max = 100
         ),
         shiny::numericInput(
-          inputId = ns("tempo_finalizacao_attero"),
+          inputId = ns("residuos-tempo_finalizacao_attero"),
           label = shiny::strong("Tempo para finalizar a expansão dos aterros (ano)"),
           value = 3,
           min = 0,
           max = 100
         ),
         shiny::numericInput(
-          inputId = ns("taxa_reducao_capacidade"),
+          inputId = ns("residuos-taxa_reducao_capacidade"),
           label = shiny::strong("Reducão dos custos de reposição (%/ano)"),
           value = 2.1,
           min = 0,
@@ -402,7 +403,7 @@ parametros_ui <- function(id, app_state) {
       shiny::column(
         6,
         shinyWidgets::autonumericInput(
-          inputId = ns("custo_transbordo"),
+          inputId = ns("residuos-custo_transbordo"),
           label = shiny::strong("Custo tranbordo (R$)"),
           value = 857816.82,
           align = "left",
@@ -411,7 +412,7 @@ parametros_ui <- function(id, app_state) {
           decimalPlaces = 2
         ),
         shiny::selectInput(
-          inputId = ns("cenario_regionalizacao"),
+          inputId = ns("residuos-cenario_regionalizacao"),
           label = shiny::strong("Cenário regionalizacao:"),
           choices = c("A - 0%" = "A", "B - Intermediário" = "B", "C - 100%" = "C"),
           selected = "A"
@@ -428,7 +429,7 @@ parametros_ui <- function(id, app_state) {
           6,
           shiny::h3("Reposição"),
           shinyWidgets::autonumericInput(
-            inputId = ns("deprec_drenagem"),
+            inputId = ns("drenagem-deprec_drenagem"),
             label = shiny::strong("Depreciação dos ativos em %"),
             value = app_state$input$drenagem$deprec_drenagem,
             align = "left",
@@ -446,7 +447,7 @@ parametros_ui <- function(id, app_state) {
             condition = "input.modo == 1",
             ns = ns,
             shinyWidgets::autonumericInput(
-              inputId = ns("investimento_per_capita"),
+              inputId = ns("drenagem-investimento_per_capita"),
               label = shiny::strong("Investimento em drenagem por habitante (R$/hab)"),
               value = app_state$input$drenagem$investimento_per_capita,
               align = "left",
@@ -456,7 +457,7 @@ parametros_ui <- function(id, app_state) {
             )
           ),
           shinyWidgets::autonumericInput(
-            inputId = ns("custo_cadastro"),
+            inputId = ns("drenagem-custo_cadastro"),
             label = shiny::strong("Custo do cadastro técnico (R$/km²)"),
             value = app_state$input$drenagem$custo_cadastro,
             align = "left",
@@ -472,7 +473,7 @@ parametros_ui <- function(id, app_state) {
             6,
             shiny::h3("Pesos dos Indicadores"),
             shinyWidgets::autonumericInput(
-              inputId = ns("peso_pluviometria"),
+              inputId = ns("drenagem-peso_pluviometria"),
               label = shiny::strong("Pluviometria [R$/(mm/ano)]"),
               value = app_state$input$drenagem$peso_pluviometria,
               align = "left",
@@ -481,7 +482,7 @@ parametros_ui <- function(id, app_state) {
               decimalPlaces = 2
             ),
             shinyWidgets::autonumericInput(
-              inputId = ns("peso_densidade"),
+              inputId = ns("drenagem-peso_densidade"),
               label = shiny::strong("Densidade urbana [R$/(hab/km²)]"),
               value = app_state$input$drenagem$peso_densidade,
               align = "left",
@@ -490,7 +491,7 @@ parametros_ui <- function(id, app_state) {
               decimalPlaces = 2
             ),
             shinyWidgets::autonumericInput(
-              inputId = ns("peso_fisicas"),
+              inputId = ns("drenagem-peso_fisicas"),
               label = shiny::strong("Características físicas (R$/-)"),
               value = app_state$input$drenagem$peso_fisicas,
               align = "left",
@@ -499,7 +500,7 @@ parametros_ui <- function(id, app_state) {
               decimalPlaces = 2
             ),
             shinyWidgets::autonumericInput(
-              inputId = ns("peso_infraestrutura"),
+              inputId = ns("drenagem-peso_infraestrutura"),
               label = shiny::strong("Infraestrutura (R$/-)"),
               value = app_state$input$drenagem$peso_infraestrutura,
               align = "left",
@@ -508,7 +509,7 @@ parametros_ui <- function(id, app_state) {
               decimalPlaces = 2
             ),
             shinyWidgets::autonumericInput(
-              inputId = ns("peso_constante"),
+              inputId = ns("drenagem-peso_constante"),
               label = shiny::strong("Constante"),
               value = app_state$input$drenagem$peso_constante,
               align = "left",

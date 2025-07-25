@@ -41,7 +41,7 @@ valores_triagem <- c(
 residuos_unidade_input <- function(ns, name, input) {
   output <- list()
   for (i in seq.int(1, length(faixas))) {
-    id <- sprintf("%s_faixa%s", name, i)
+    id <- sprintf("residuos-%s_faixa%s", name, i)
     output[[i]] <- list(shinyWidgets::autonumericInput(
       inputId = ns(id),
       label = shiny::strong(faixas[i]),
