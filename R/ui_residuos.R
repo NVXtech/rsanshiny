@@ -8,44 +8,15 @@ faixas <- c(
   "acima de 4 milhões"
 )
 
-valores_aterro <- c(
-  43.24,
-  19.45,
-  23.78,
-  23.78,
-  19.45,
-  8.65,
-  8.65
-)
-
-valores_compostagem <- c(
-  18.37,
-  5.4,
-  6.92,
-  6.92,
-  11.89,
-  8,
-  8
-)
-
-valores_triagem <- c(
-  70.25,
-  34.58,
-  37.82,
-  37.82,
-  23.78,
-  12.97,
-  12.97
-)
-
 residuos_unidade_input <- function(ns, name, input) {
   output <- list()
   for (i in seq.int(1, length(faixas))) {
-    id <- sprintf("residuos-%s_faixa%s", name, i)
+    value_id <- sprintf("%s_faixa%s", name, i)
+    id <- paste0("residuos-", value_id)
     output[[i]] <- list(shinyWidgets::autonumericInput(
       inputId = ns(id),
       label = shiny::strong(faixas[i]),
-      value = input[[id]],
+      value = input[[value_id]],
       align = "left",
       decimalCharacter = ",",
       digitGroupSeparator = ".",

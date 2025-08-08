@@ -29,8 +29,7 @@ salva_estado <- function(state, input, name) {
       rlog::log_info(paste("Pulando parâmetro", param))
     }
   }
-  state$input[[name]] <- params
-  rlog::log_info(state$input$geral)
+  jsonlite::write_json(state$input, "data/app_state.json", auto_unbox = TRUE, pretty = TRUE)
   rsan::save_state(state)
   return(state)
 }

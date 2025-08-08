@@ -55,6 +55,7 @@ projecao_server <- function(id, app_state, parent) {
     })
 
     shiny::observeEvent(parent$pages, {
+      print("Atualizando estado da projeção")
       update_populacao_ui()
     })
 

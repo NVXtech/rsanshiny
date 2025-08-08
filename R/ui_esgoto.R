@@ -159,11 +159,12 @@ esgoto_individual_input <- function(ns, input) {
   )
   output <- list()
   for (i in seq.int(1, length(labels))) {
-    id <- sprintf("esgoto-custo_individual_esgoto_faixa%s", i)
+    value_id <- sprintf("custo_individual_esgoto_faixa%s", i)
+    id <- paste0("esgoto-", value_id)
     output[[i]] <- list(shiny::column(6, shinyWidgets::autonumericInput(
       inputId = ns(id),
       label = shiny::strong(labels[i]),
-      value = input[[id]],
+      value = input[[value_id]],
       align = "left",
       decimalCharacter = ",",
       digitGroupSeparator = ".",

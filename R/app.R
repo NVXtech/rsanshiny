@@ -58,6 +58,13 @@ app_ui <- function() {
     config_ui("config", app_state)
   )
 
+  atualizacao <- shiny::tabPanel(
+    "Atualização de Fontes",
+    icon = shiny::icon("rotate"),
+    fluid = TRUE,
+    update_ui("update", app_state)
+  )
+
   ui <- shiny::fluidPage(
     tags$style(type = "text/css", "body {padding-top: 70px;}"),
     shiny::navbarPage(
@@ -69,7 +76,8 @@ app_ui <- function() {
       analise,
       projecao,
       parametros,
-      configuracoes
+      configuracoes,
+      atualizacao
     ),
     shiny::hr(),
     shiny::div(
@@ -122,6 +130,8 @@ app_server <- function(input, output, session) {
   config_server("config", app_state)
 
   analise_server("analise", app_state, parent = input)
+
+  update_server("update", app_state)
 
   shiny::observeEvent(input$pages, {
     update_dashstate()
