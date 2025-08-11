@@ -1,61 +1,59 @@
-#' Retorna lista de opções de dados do SNIS
-#'
-#' @return um vetor com os nomes
-#' @export
-get_snis_list <- function() {
-  utils::data("snis", package = "rsan")
-  snis <- get("snis")
-  snis_choices <- as.list(snis$caminho)
-  names(snis_choices) <- snis$nome
-  return(snis_choices)
-}
-
-
-estrutura_anos_disponiveis <- function(componente, source) {
-  base_dir <- file.path("dados", "base_calculo")
-  pattern <- paste0(componente, "_", source, "_\\d{4}\\.csv")
-  files <- list.files(base_dir, pattern = pattern, full.names = TRUE)
-  # extract years from filename (e.g., agua_snis_2022.csv)
-  years <- as.numeric(gsub(paste0(".*_", source, "_(\\d{4})\\.csv"), "\\1", files))
-  return(years)
-}
-
-
-atendimento_anos_disponiveis <- function(fonte_nome) {
-  if (fonte_nome == "censo") {
-    return(c(2022, 2021))
-  } else if (fonte_nome == "sinisa") {
-    return(c(2023))
-  } else if (fonte_nome == "pnadc") {
-    return(c(2022, 2021))
+esgoto_individual_input <- function(ns, input) {
+  labels <- c(
+    "com disponibilidade hídrica e média hab/domicílio entre 0 e 2",
+    "com disponibilidade hídrica e média hab/domicílio entre 2 e 3",
+    "com disponibilidade hídrica e média hab/domicílio entre 3 e 4",
+    "com disponibilidade hídrica e média hab/domicílio entre 4 e 5",
+    "com disponibilidade hídrica e média hab/domicílio entre 5 e 6",
+    "com disponibilidade hídrica e média hab/domicílio entre 6 e 7",
+    "com disponibilidade hídrica e média hab/domicílio entre 7 e 8",
+    "com disponibilidade hídrica e média hab/domicílio maior que 8",
+    "sem disponibilidade hídrica e média hab/domicílio entre 0 e 5",
+    "sem disponibilidade hídrica e média hab/domicílio maior que 5"
+  )
+  output <- list()
+  for (i in seq.int(1, length(labels))) {
+    value_id <- sprintf("custo_individual_esgoto_faixa%s", i)
+    id <- paste0("esgoto-", value_id)
+    output[[i]] <- list(shiny::column(6, shinyWidgets::autonumericInput(
+      inputId = ns(id),
+      label = shiny::strong(labels[i]),
+      value = input[[value_id]],
+      align = "left",
+      decimalCharacter = ",",
+      digitGroupSeparator = ".",
+      decimalPlaces = 2
+    )))
   }
-}
-
-#' Retorna lista de opções de dados do SINAPI
-#'
-#' @return um vetor com os nomes
-#' @export
-get_sinapi_list <- function() {
-  sinapi_choices <- rsan::get_sinapi_labels()
-  output <- c()
-  labels <- c()
-  for (item in sinapi_choices) {
-    split <- strsplit(item, "_")[[1]]
-    year <- split[length(split)]
-    label <- paste0("SINAPI ", year)
-    labels <- c(labels, label)
-    output <- c(output, item)
-  }
-  names(output) <- labels
   return(output)
 }
 
-anos_estrutura <- function(fonte_nome) {
-  if (fonte_nome == "snis") {
-    return(c(2022, 2021))
-  } else if (fonte_nome == "sinisa") {
-    return(c(2023))
+faixas <- c(
+  "até 10 mil habitantes",
+  "de 10.001 a 30 mil habitantes",
+  "fe 30.001 a 100 mil habitantes",
+  "de 100.001 a 250 mil habitantes",
+  "de 250.001 a 1 milhão habitantes",
+  "de 1.000.001 a 4 milhões habitantes",
+  "acima de 4 milhões"
+)
+
+residuos_unidade_input <- function(ns, name, input) {
+  output <- list()
+  for (i in seq.int(1, length(faixas))) {
+    value_id <- sprintf("%s_faixa%s", name, i)
+    id <- paste0("residuos-", value_id)
+    output[[i]] <- list(shinyWidgets::autonumericInput(
+      inputId = ns(id),
+      label = shiny::strong(faixas[i]),
+      value = input[[value_id]],
+      align = "left",
+      decimalCharacter = ",",
+      digitGroupSeparator = ".",
+      decimalPlaces = 2
+    ))
   }
+  return(output)
 }
 #' Gera interface para os parâmetros de cálculo
 #'

@@ -1,3 +1,61 @@
+#' Retorna lista de opções de dados do SINAPI
+#'
+#' @return um vetor com os nomes
+#' @export
+get_sinapi_list <- function() {
+  sinapi_choices <- rsan::get_sinapi_labels()
+  output <- c()
+  labels <- c()
+  for (item in sinapi_choices) {
+    split <- strsplit(item, "_")[[1]]
+    year <- split[length(split)]
+    label <- paste0("SINAPI ", year)
+    labels <- c(labels, label)
+    output <- c(output, item)
+  }
+  names(output) <- labels
+  return(output)
+}
+
+
+#' Retorna os anos disponíveis para atendimento de acordo com a fonte
+#'
+#' @param fonte_nome Nome da fonte de dados (ex: "censo", "sinisa", "pnadc")
+#' @return Vetor de anos disponíveis para a fonte informada
+#' @export
+atendimento_anos_disponiveis <- function(fonte_nome) {
+  if (fonte_nome == "censo") {
+    return(c(2022, 2021))
+  } else if (fonte_nome == "sinisa") {
+    return(c(2023))
+  } else if (fonte_nome == "pnadc") {
+    return(c(2022, 2021))
+  }
+}
+
+
+
+#' Retorna os anos disponíveis para um componente e fonte de dados estruturais
+#'
+#' @param componente Nome do componente (ex: "agua", "esgoto")
+#' @param source Nome da fonte de dados (ex: "snis", "sinisa")
+#' @return Vetor de anos disponíveis encontrados nos arquivos CSV
+#' @export
+estrutura_anos_disponiveis <- function(componente, source) {
+  base_dir <- file.path("dados", "base_calculo")
+  pattern <- paste0(componente, "_", source, "_\\d{4}\\.csv")
+  files <- list.files(base_dir, pattern = pattern, full.names = TRUE)
+  # extrai os anos dos nomes dos arquivos (ex: agua_snis_2022.csv)
+  years <- as.numeric(gsub(paste0(".*_", source, "_(\\d{4})\\.csv"), "\\1", files))
+  return(years)
+}
+
+#' Gera interface para a configuração das fontes de dados
+#'
+#' @param ns é o namespace do módulo de interface gráfica
+#'
+#' @return o html da interface gráfica
+#' @export
 config_ui <- function(id, app_state) {
   ns <- shiny::NS(id)
   shiny::fluidPage(
@@ -47,7 +105,7 @@ config_ui <- function(id, app_state) {
       shiny::titlePanel("Abastecimento de Água"),
       shiny::selectInput(
         inputId = ns("agua-fonte_nome"),
-        label = shiny::strong("Selecione Fonte para Estruturas"),
+        label = shiny::strong("Selecione fonte de dados estruturais"),
         choices = c("SNIS" = "snis", "SINISA" = "sinisa"),
         selected = app_state$input$agua$fonte_nome
       ),
@@ -71,7 +129,7 @@ config_ui <- function(id, app_state) {
       shiny::titlePanel("Esgoto Sanitário"),
       shiny::selectInput(
         inputId = ns("esgoto-fonte_nome"),
-        label = shiny::strong("Selecione a Fonte"),
+        label = shiny::strong("Selecione a fonte de dados estruturais"),
         choices = c("SNIS" = "snis", "SINISA" = "sinisa"),
         selected = app_state$input$esgoto$fonte_nome
       ),
@@ -95,7 +153,7 @@ config_ui <- function(id, app_state) {
       shiny::titlePanel("Residuos Sólidos Urbanos"),
       shiny::selectInput(
         inputId = ns("residuos-fonte_nome"),
-        label = shiny::strong("Selecione a Fonte"),
+        label = shiny::strong("Selecione a fonte de dados estruturais"),
         choices = c("SNIS" = "snis", "SINISA" = "sinisa"),
         selected = app_state$input$residuos$fonte_nome
       ),
@@ -108,7 +166,7 @@ config_ui <- function(id, app_state) {
         12,
         shiny::selectInput(
           inputId = ns("drenagem-fonte_nome"),
-          label = shiny::strong("Selecione Fonte para Estruturas"),
+          label = shiny::strong("Selecione fonte de dados estruturais"),
           choices = c("SNIS" = "snis", "SINISA" = "sinisa"),
           selected = app_state$input$drenagem$fonte_nome
         ),
