@@ -162,16 +162,7 @@ config_ui <- function(id, app_state) {
     shiny::column(
       3,
       shiny::titlePanel("Drenagem Urbana"),
-      shiny::column(
-        12,
-        shiny::selectInput(
-          inputId = ns("drenagem-fonte_nome"),
-          label = shiny::strong("Selecione fonte de dados estruturais"),
-          choices = c("SNIS" = "snis", "SINISA" = "sinisa"),
-          selected = app_state$input$drenagem$fonte_nome
-        ),
-        shiny::uiOutput(ns("drenagem_fonte_ano"), inline = TRUE),
-      )
+      shiny::textOutput(ns("drenagem_info")),
     ),
   )
 }
