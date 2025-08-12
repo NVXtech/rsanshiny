@@ -33,27 +33,6 @@ update_server <- function(id, app_state) {
       })
     })
 
-    shiny::observeEvent(input$atualizar_snis_ap, {
-      shiny::withProgress(message = "Baixando", value = 0, {
-        rlog::log_info("Updating SNIS-AP")
-        shiny::incProgress(0.2, detail = "Aguarde, pode demorar...")
-        result <- rsan::update_snis_ap(input$snis_ap_ano)
-        if (!result) {
-          shiny::showNotification("SNIS-AP - Atualização indisponível!")
-        }
-      })
-    })
-
-    shiny::observeEvent(input$atualizar_snis_rs, {
-      shiny::withProgress(message = "Baixando", value = 0, {
-        rlog::log_info("Updating SNIS-RS")
-        shiny::incProgress(0.2, detail = "Aguarde, pode demorar...")
-        result <- rsan::update_snis_rs(input$snis_rs_ano)
-        if (!result) {
-          shiny::showNotification("SNIS-RS - Atualização indisponível!")
-        }
-      })
-    })
     ## end module server logic
   })
 }
