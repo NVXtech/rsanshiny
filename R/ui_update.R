@@ -86,39 +86,5 @@ update_ui <- function(id, app_state) {
         )
       )
     ),
-    hr(),
-    shiny::fluidRow(
-      shiny::column(
-        12,
-        shiny::h3("SNIS-RS", style = "display: inline-block;margin:0;"),
-        shiny::actionButton(ns("atualizar_snis_rs"), icon = shiny::icon("sync"), label = "Atualizar", style = "display: inline-block;margin-bottom:10px;")
-      ),
-      shiny::column(
-        4,
-        shiny::selectInput(
-          inputId = ns("snis_rs_ano"),
-          label = shiny::strong("Selecione o ano:"),
-          choices = 2020:ano_atual,
-          selected = ano_atual
-        )
-      )
-    ),
-    hr(),
-    shiny::fluidRow(
-      shiny::column(
-        12,
-        shiny::h3("SNIS-AP", style = "display: inline-block;margin:0;"),
-        shiny::actionButton(ns("atualizar_snis_ap"), icon = shiny::icon("sync"), label = "Atualizar", style = "display: inline-block;margin-bottom:10px;")
-      ),
-      shiny::column(
-        4,
-        shiny::selectInput(
-          inputId = ns("snis_ap_ano"),
-          label = shiny::strong("Selecione o ano:"),
-          choices = 2017:ano_atual,
-          selected = ano_atual
-        )
-      )
-    ),
   )
 }
