@@ -53,25 +53,5 @@ projecao_server <- function(id, app_state, parent) {
         shiny::incProgress(1 / n, detail = "Fim")
       })
     })
-
-    shiny::observeEvent(parent$pages, {
-      print("Atualizando estado da projeção")
-      update_populacao_ui()
-    })
-
-    update_populacao_ui <- function() {
-      rlog::log_info("Updating projecao app state")
-      app_state <- rsan::load_app_state()
-      shiny::updateSelectInput(
-        session, "fonte1",
-        choices = get_fonte1_list(),
-        selected = input$fonte1
-      )
-      shiny::updateSelectInput(
-        session, "fonte2",
-        choices = get_fonte2_list(),
-        selected = input$fonte2
-      )
-    }
   })
 }
