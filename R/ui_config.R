@@ -23,16 +23,38 @@ get_sinapi_list <- function() {
 #' @param fonte_nome Nome da fonte de dados (ex: "censo", "sinisa", "pnadc")
 #' @return Vetor de anos disponíveis para a fonte informada
 #' @export
-atendimento_anos_disponiveis <- function(fonte_nome) {
+atendimento_anos_disponiveis <- function(componente, fonte_nome) {
   if (fonte_nome == "censo") {
-    return(c(2022, 2021))
-  } else if (fonte_nome == "sinisa") {
-    return(c(2023))
+    anos <- rsan::anos_censo_setor_base_calculo()
   } else if (fonte_nome == "pnadc") {
-    return(c(2022, 2021))
+    anos <- rsan::anos_disponiveis_pnadc(componente)
+  } else {
+    anos <- anos_disponiveis_base_calculo(componente, fonte_nome)
   }
+  anos <- sort(anos, decreasing = TRUE)
+  if (length(anos) == 0) {
+    anos <- c("")
+  }
+  return(anos)
 }
 
+
+#' Retorna os anos disponíveis arquivos da base de cáculo no formate `componente_source_YYYY.csv`
+#'
+#' @param componente Nome do componente (ex: "agua", "esgoto")
+#' @param source Nome da fonte de dados (ex: "snis", "sin
+#'
+#' @return Vetor de anos disponíveis encontrados nos arquivos CSV
+#' @export
+anos_disponiveis_base_calculo <- function(componente, source) {
+  base_dir <- file.path("dados", "base_calculo")
+  pattern <- paste0(componente, "_", source, "_\\d{4}\\.csv")
+  files <- list.files(base_dir, pattern = pattern, full.names = TRUE)
+  years <- as.numeric(
+    gsub(paste0(".*_", source, "_(\\d{4})\\.csv"), "\\1", files)
+  )
+  return(years)
+}
 
 
 #' Retorna os anos disponíveis para um componente e fonte de dados estruturais
@@ -42,12 +64,7 @@ atendimento_anos_disponiveis <- function(fonte_nome) {
 #' @return Vetor de anos disponíveis encontrados nos arquivos CSV
 #' @export
 estrutura_anos_disponiveis <- function(componente, source) {
-  base_dir <- file.path("dados", "base_calculo")
-  pattern <- paste0(componente, "_", source, "_\\d{4}\\.csv")
-  files <- list.files(base_dir, pattern = pattern, full.names = TRUE)
-  # extrai os anos dos nomes dos arquivos (ex: agua_snis_2022.csv)
-  years <- as.numeric(gsub(paste0(".*_", source, "_(\\d{4})\\.csv"), "\\1", files))
-  return(years)
+  return(anos_disponiveis_base_calculo(componente, source))
 }
 
 #' Gera interface para a configuração das fontes de dados

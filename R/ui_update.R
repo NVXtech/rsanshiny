@@ -5,7 +5,7 @@ update_ui <- function(id, app_state) {
   ano_atual <- current$year
 
   anos_censo <- tryCatch(
-    rsan::get_censo_years(),
+    rsan::anos_do_censo_disponiveis_para_download(),
     error = function(e) {
       c("2010")
     }
