@@ -44,55 +44,40 @@ app_ui <- function() {
     projecao_populacional_ui("projecao", app_state)
   )
 
-  agua <- shiny::tabPanel(
-    "Água",
-    icon = shiny::icon("faucet"),
-    agua_ui("agua", app_state)
+  parametros <- shiny::tabPanel(
+    "Parâmetros",
+    icon = shiny::icon("sliders"),
+    fluid = TRUE,
+    parametros_ui("parametros", app_state)
   )
-
-  esgoto <- shiny::tabPanel(
-    "Esgoto",
-    icon = shiny::icon("toilet"),
-    esgoto_ui("esgoto", app_state)
-  )
-
-  residuos_solidos <-
-    shiny::tabPanel(
-      "Resíduos",
-      icon = shiny::icon("recycle"),
-      fluid = TRUE,
-      residuos_ui("residuos", app_state)
-    )
-
-
-  drenagem_urbana <-
-    shiny::tabPanel(
-      "Drenagem",
-      icon = shiny::icon("water"),
-      fluid = TRUE,
-      drenagem_ui("drenagem", app_state)
-    )
 
   configuracoes <- shiny::tabPanel(
-    "Atualização de Dados",
+    "Configurações",
     icon = shiny::icon("cog"),
     fluid = TRUE,
     config_ui("config", app_state)
   )
 
+  atualizacao <- shiny::tabPanel(
+    "Atualização de Fontes",
+    icon = shiny::icon("rotate"),
+    fluid = TRUE,
+    update_ui("update", app_state)
+  )
+
   ui <- shiny::fluidPage(
+    tags$style(type = "text/css", "body {padding-top: 70px;}"),
     shiny::navbarPage(
       "UniverSan",
       id = "pages",
       theme = shinythemes::shinytheme("simplex"),
+      position = "fixed-top",
       dashboard,
       analise,
       projecao,
-      agua,
-      esgoto,
-      residuos_solidos,
-      drenagem_urbana,
-      configuracoes
+      parametros,
+      configuracoes,
+      atualizacao
     ),
     shiny::hr(),
     shiny::div(
@@ -140,15 +125,13 @@ app_server <- function(input, output, session) {
   update_dashstate <- dashboard_server("dashboard", app_state)
   projecao_server("projecao", app_state, parent = input)
 
-  modulos <- c("agua", "esgoto", "drenagem", "residuos")
-  for (modulo in modulos) {
-    modulo_calculo(modulo, app_state, parent = input)
-  }
+  modulo_calculo("parametros", app_state, parent = input)
 
   config_server("config", app_state)
-  config_server("drenagem", app_state)
 
   analise_server("analise", app_state, parent = input)
+
+  update_server("update", app_state)
 
   shiny::observeEvent(input$pages, {
     update_dashstate()
@@ -176,7 +159,6 @@ run_app <- function(options = list(port = 8888)) {
     rsan::save_state(app_state)
   }
 
-  # shiny::runApp()
   shiny::shinyApp(
     ui = app_ui,
     server = app_server,
