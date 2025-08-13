@@ -7,61 +7,6 @@ config_server <- function(id, app_state) {
       }
     })
 
-    shiny::observeEvent(input$atualizar_sinapi, {
-      shiny::withProgress(message = "Baixando", value = 0, {
-        rlog::log_info("Updating SINAPI")
-        shiny::incProgress(0.2, detail = "Aguarde, pode demorar...")
-        result <- rsan::update_sinapi(input$sinapi_ano, input$sinapi_mes)
-        if (!result) {
-          shiny::showNotification("SINAPI - Atualização indisponível!")
-        }
-      })
-    })
-
-    shiny::observeEvent(input$atualizar_censo, {
-      shiny::withProgress(message = "Baixando", value = 0, {
-        rlog::log_info("Updating Censo")
-        shiny::incProgress(0.2, detail = "Aguarde, pode demorar...")
-        result <- rsan::update_ibge_censo(input$censo_ano)
-        if (!result) {
-          shiny::showNotification("CENSO IBGE - Atualização indisponível!")
-        }
-      })
-    })
-
-    shiny::observeEvent(input$atualizar_estimativa, {
-      shiny::withProgress(message = "Baixando", value = 0, {
-        rlog::log_info("Updating Estimativa")
-        shiny::incProgress(0.2, detail = "Aguarde, pode demorar...")
-        result <- rsan::update_ibge_estimativa(input$estimativa_ano)
-        if (!result) {
-          shiny::showNotification("Estimativa IBGE - Atualização indisponível!")
-        }
-      })
-    })
-
-    shiny::observeEvent(input$atualizar_snis_ap, {
-      shiny::withProgress(message = "Baixando", value = 0, {
-        rlog::log_info("Updating SNIS-AP")
-        shiny::incProgress(0.2, detail = "Aguarde, pode demorar...")
-        result <- rsan::update_snis_ap(input$snis_ap_ano)
-        if (!result) {
-          shiny::showNotification("SNIS-AP - Atualização indisponível!")
-        }
-      })
-    })
-
-    shiny::observeEvent(input$atualizar_snis_rs, {
-      shiny::withProgress(message = "Baixando", value = 0, {
-        rlog::log_info("Updating SNIS-RS")
-        shiny::incProgress(0.2, detail = "Aguarde, pode demorar...")
-        result <- rsan::update_snis_rs(input$snis_rs_ano)
-        if (!result) {
-          shiny::showNotification("SNIS-RS - Atualização indisponível!")
-        }
-      })
-    })
-
     output$agua_fonte_ano <- shiny::renderUI({
       if (is.null(input[["agua-fonte_nome"]]) || input[["agua-fonte_nome"]] == "") {
         return(NULL)
@@ -78,7 +23,7 @@ config_server <- function(id, app_state) {
       shiny::selectInput(
         inputId = session$ns("agua-atendimento_ano"),
         label = shiny::strong("Selecione o ano para o atendimento"),
-        choices = atendimento_anos_disponiveis(input[["agua-atendimento"]]),
+        choices = atendimento_anos_disponiveis("agua", input[["agua-atendimento"]]),
         selected = app_state$input$agua$atendimento_ano
       )
     })
@@ -99,7 +44,7 @@ config_server <- function(id, app_state) {
       shiny::selectInput(
         inputId = session$ns("esgoto-atendimento_ano"),
         label = shiny::strong("Selecione o ano para o atendimento"),
-        choices = atendimento_anos_disponiveis(input[["esgoto-atendimento"]]),
+        choices = atendimento_anos_disponiveis("esgoto", input[["esgoto-atendimento"]]),
         selected = app_state$input$esgoto$atendimento_ano
       )
     })
