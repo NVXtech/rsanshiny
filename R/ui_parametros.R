@@ -71,7 +71,6 @@ parametros_ui <- function(id, app_state) {
         shiny::h1(shiny::strong("Abastecimento de Água"), style = "display: inline-block;margin:0;"),
         shiny::actionButton(ns("salvar"), icon = shiny::icon("save"), label = "Salvar Parâmetros", style = "display: inline-block;margin-bottom:10px;"),
         shiny::actionButton(ns("rodar"), icon = shiny::icon("calculator"), label = "Recalcular", style = "display: inline-block;margin-bottom:10px;"),
-        shiny::downloadButton(ns("download"), "Exportar xlsx", style = "display: inline-block;margin-bottom:10px;")
       ),
     ),
     shiny::hr(),

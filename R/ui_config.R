@@ -138,7 +138,7 @@ config_ui <- function(id, app_state) {
         inputId = ns("agua-sinapi"),
         label = shiny::strong("Selecione o ano e mês do SINAPI"),
         choices = get_sinapi_list(),
-        selected = app_state$orcamentario$sinapi
+        selected = app_state$input$agua$sinapi
       )
     ),
     shiny::column(

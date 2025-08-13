@@ -64,5 +64,25 @@ config_server <- function(id, app_state) {
     output$drenagem_info <- shiny::renderText({
       "Os cálculos de drenagem urbana utiliza a listagem de municípios críticos que podem ser atualizada em `dados\\base_calculo\\drenagem_municipios_criticos.csv`. Somente os municipios críticos que estão nesta lista serão considerados para os cálculos de drenagem urbana."
     })
+
+    shiny::observeEvent(input$rodar, {
+      shiny::withProgress(message = "Recalculando", value = 0, {
+        n <- 4
+        shiny::incProgress(0, detail = "Iniciando cálculo")
+        shiny::incProgress(1 / n, detail = "Salvando novos parâmetros")
+        app_state <- rsan::salva_parametros(app_state, input, id)
+        shiny::incProgress(1 / n, detail = "Investimento")
+        app_state <- rsan::rodar_modelo(app_state)
+        shiny::incProgress(1 / n, detail = "Salvando resultados")
+        rsan::save_state(app_state)
+        shiny::incProgress(1 / n, detail = "Fim")
+      })
+    })
+
+    shiny::observeEvent(input$salvar, {
+      shiny::withProgress(message = "Salvando Parâmetros", value = 0, {
+        app_state <- salva_estado(app_state, input, id)
+      })
+    })
   })
 }
