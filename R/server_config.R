@@ -36,7 +36,7 @@ config_server <- function(id, app_state) {
         inputId = session$ns("esgoto-fonte_ano"),
         label = shiny::strong("Selecione o ano da fonte estruturas"),
         choices = estrutura_anos_disponiveis("esgoto", input[["esgoto-fonte_nome"]]),
-        selected = app_state$input$agua$fonte_ano
+        selected = app_state$input$esgoto$fonte_ano
       )
     })
 
