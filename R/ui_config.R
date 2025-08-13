@@ -76,7 +76,7 @@ estrutura_anos_disponiveis <- function(componente, source) {
 config_ui <- function(id, app_state) {
   ns <- shiny::NS(id)
   shiny::fluidPage(
-    #' Configurações Gerais
+    # Configurações Gerais
     shiny::fluidRow(
       shiny::column(
         12,
