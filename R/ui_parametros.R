@@ -31,7 +31,7 @@ esgoto_individual_input <- function(ns, input) {
 faixas <- c(
   "até 10 mil habitantes",
   "de 10.001 a 30 mil habitantes",
-  "fe 30.001 a 100 mil habitantes",
+  "de 30.001 a 100 mil habitantes",
   "de 100.001 a 250 mil habitantes",
   "de 250.001 a 1 milhão habitantes",
   "de 1.000.001 a 4 milhões habitantes",
