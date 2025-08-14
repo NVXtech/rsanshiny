@@ -1,6 +1,6 @@
 Package: rsanshiny
 Title: Necessidade de Invesitmento em Saneamento para o Brasil
-Version: 0.1.0
+Version: 0.2.0
 Authors@R:
     person("Julio", "Werner", , "juliwernery@hotmail.com", role = c("aut", "cre"),
            comment = c())
