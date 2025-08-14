@@ -38,6 +38,22 @@ projecao_server <- function(id, app_state, parent) {
       )
     })
 
+    shiny::observeEvent(parent$pages, {
+      if (parent$pages == "Projeção Populacional") {
+        rlog::log_info("Updating projecao app state")
+        shiny::updateSelectInput(
+          session, "fonte1",
+          choices = get_fonte1_list(),
+          selected = input$fonte1
+        )
+        shiny::updateSelectInput(
+          session, "fonte2",
+          choices = get_fonte2_list(),
+          selected = input$fonte2
+        )
+      }
+    })
+
     shiny::observeEvent(input$rodar, {
       shiny::withProgress(message = "Calculando Investimento", value = 0, {
         n <- 3
