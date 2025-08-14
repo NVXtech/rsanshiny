@@ -4,7 +4,10 @@ update_server <- function(id, app_state) {
       shiny::withProgress(message = "Baixando", value = 0, {
         rlog::log_info("Updating SINAPI")
         shiny::incProgress(0.2, detail = "Aguarde, pode demorar...")
-        result <- rsan::update_sinapi(input$sinapi_ano, input$sinapi_mes)
+        result <- rsan::update_sinapi(
+          as.integer(input$sinapi_ano),
+          as.integer(input$sinapi_mes)
+        )
         if (!result) {
           shiny::showNotification("SINAPI - Atualização indisponível!")
         }
