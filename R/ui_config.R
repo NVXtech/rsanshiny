@@ -175,6 +175,13 @@ config_ui <- function(id, app_state) {
         selected = app_state$input$residuos$fonte_nome
       ),
       shiny::uiOutput(ns("residuos_fonte_ano")),
+      shiny::selectInput(
+        inputId = ns("residuos-atendimento"),
+        label = shiny::strong("Selecione a fonte para o atendimento"),
+        choices = c("CENSO" = "censo", "SINISA" = "sinisa", "PNADc" = "pnadc"),
+        selected = app_state$input$residuos$atendimento
+      ),
+      shiny::uiOutput(ns("residuos_atendimento_ano")),
     ),
     shiny::column(
       3,

@@ -61,6 +61,14 @@ config_server <- function(id, app_state) {
       )
     })
 
+    output$residuos_atendimento_ano <- shiny::renderUI({
+      shiny::selectInput(
+        inputId = session$ns("residuos-atendimento_ano"),
+        label = shiny::strong("Selecione o ano para o atendimento"),
+        choices = atendimento_anos_disponiveis("residuos", input[["residuos-atendimento"]]),
+        selected = app_state$input$residuos$atendimento_ano
+      )
+    })
     output$drenagem_info <- shiny::renderText({
       "Os cálculos de drenagem urbana utiliza a listagem de municípios críticos que podem ser atualizada em `dados\\base_calculo\\drenagem_municipios_criticos.csv`. Somente os municipios críticos que estão nesta lista serão considerados para os cálculos de drenagem urbana."
     })
