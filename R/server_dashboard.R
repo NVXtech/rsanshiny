@@ -308,7 +308,7 @@ tabela_deficit_por_componente <- function(input, dado, vars) {
   create_datatable(data)
 }
 
-dashboard_server <- function(id, app_state) {
+dashboard_server <- function(id, app_state, parent) {
   shiny::moduleServer(id, function(input, output, session) {
     necessidade <- shiny::reactiveVal(app_state$necessidade)
     deficit <- shiny::reactiveVal(app_state$deficit)
@@ -348,7 +348,6 @@ dashboard_server <- function(id, app_state) {
       tabela_investimento_total_por_componente(input, necessidade)
 
     # DEFICIT
-    # # AGUA
     componentes <- c("agua", "esgoto", "residuos")
     for (componente in componentes) {
       id_grafico <- paste0(componente, "_deficit")
@@ -363,25 +362,22 @@ dashboard_server <- function(id, app_state) {
         deficit
       )
     }
-    # output$agua_deficit <- plot_deficit(input, agua)
-    # output$tbl_agua_deficit <- tabela_deficit(input, agua)
-
-    # # ESGOTO
-    # output$esgoto_deficit <- plot_deficit(input, esgoto)
-    # output$tbl_esgoto_deficit <- tabela_deficit(input, esgoto)
 
     # Tabset Events
     shiny::observeEvent(input$dash_tab, {
       update_state()
     })
 
+    shiny::observeEvent(parent$pages, {
+      if (parent$pages == "Painel") {
+        update_state()
+      }
+    })
     update_state <- function() {
       rlog::log_info("Updating dashboard app state")
       app_state <- rsan::load_app_state()
       necessidade(app_state$necessidade)
       deficit(app_state$deficit)
     }
-
-    return(update_state)
   })
 }

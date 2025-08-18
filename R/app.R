@@ -66,12 +66,10 @@ app_ui <- function() {
   )
 
   ui <- shiny::fluidPage(
-    tags$style(type = "text/css", "body {padding-top: 70px;}"),
     shiny::navbarPage(
       "UniverSan",
       id = "pages",
       theme = shinythemes::shinytheme("simplex"),
-      position = "fixed-top",
       dashboard,
       analise,
       projecao,
@@ -122,20 +120,17 @@ app_server <- function(input, output, session) {
   app_state <- rsan::check_and_create_state()
   rlog::log_info("App State loaded @server")
 
-  update_dashstate <- dashboard_server("dashboard", app_state)
+  dashboard_server("dashboard", app_state, parent = input)
+
   projecao_server("projecao", app_state, parent = input)
 
   modulo_calculo("parametros", app_state, parent = input)
 
-  config_server("config", app_state)
+  config_server("config", app_state, parent = input)
 
   analise_server("analise", app_state, parent = input)
 
-  update_server("update", app_state)
-
-  shiny::observeEvent(input$pages, {
-    update_dashstate()
-  })
+  update_server("update", app_state, parent = input)
 }
 
 

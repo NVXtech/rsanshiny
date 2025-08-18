@@ -93,7 +93,9 @@ analise_server <- function(id, app_state, parent) {
     output$tbl <- tabela_analise(input, necessidade)
 
     shiny::observeEvent(parent$pages, {
-      update_state()
+      if (parent$pages == "Análise") {
+        update_state()
+      }
     })
 
     update_state <- function() {

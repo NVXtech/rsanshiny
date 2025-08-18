@@ -41,6 +41,8 @@ projecao_server <- function(id, app_state, parent) {
     shiny::observeEvent(parent$pages, {
       if (parent$pages == "Projeção Populacional") {
         rlog::log_info("Updating projecao app state")
+        app_state <- rsan::load_app_state()
+        resultado_projecao(app_state$projecao)
         shiny::updateSelectInput(
           session, "fonte1",
           choices = get_fonte1_list(),

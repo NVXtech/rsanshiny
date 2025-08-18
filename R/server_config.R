@@ -1,12 +1,5 @@
-config_server <- function(id, app_state) {
+config_server <- function(id, app_state, parent) {
   shiny::moduleServer(id, function(input, output, session) {
-    shiny::observeEvent(input$ano, {
-      if (!is.null(input$ano)) {
-        app_state$input$geral$ano <- input$ano
-        rsan::save_state(app_state)
-      }
-    })
-
     output$agua_fonte_ano <- shiny::renderUI({
       if (is.null(input[["agua-fonte_nome"]]) || input[["agua-fonte_nome"]] == "") {
         return(NULL)
@@ -78,7 +71,7 @@ config_server <- function(id, app_state) {
         n <- 4
         shiny::incProgress(0, detail = "Iniciando cálculo")
         shiny::incProgress(1 / n, detail = "Salvando novos parâmetros")
-        app_state <- rsan::salva_parametros(app_state, input, id)
+        app_state <- salva_estado(app_state, input, id)
         shiny::incProgress(1 / n, detail = "Investimento")
         app_state <- rsan::rodar_modelo(app_state)
         shiny::incProgress(1 / n, detail = "Salvando resultados")
