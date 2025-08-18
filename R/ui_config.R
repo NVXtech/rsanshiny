@@ -80,7 +80,7 @@ config_ui <- function(id, app_state) {
     shiny::fluidRow(
       shiny::column(
         12,
-        shiny::h1(shiny::strong("Configurações Gerais"), style = "display: inline-block;margin:0;"),
+        shiny::h1(shiny::strong("Horizonte"), style = "display: inline-block;margin:0;"),
         shiny::actionButton(ns("salvar"), icon = shiny::icon("save"), label = "Salvar Parâmetros", style = "display: inline-block;margin-bottom:10px;"),
         shiny::actionButton(ns("rodar"), icon = shiny::icon("calculator"), label = "Recalcular", style = "display: inline-block;margin-bottom:10px;"),
       )

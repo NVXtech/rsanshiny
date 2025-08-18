@@ -52,7 +52,7 @@ app_ui <- function() {
   )
 
   configuracoes <- shiny::tabPanel(
-    "Configurações",
+    "Fonte de Dados",
     icon = shiny::icon("cog"),
     fluid = TRUE,
     config_ui("config", app_state)
