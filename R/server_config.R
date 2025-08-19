@@ -1,5 +1,23 @@
-config_server <- function(id, app_state, parent) {
+config_server <- function(id, parent_session) {
   shiny::moduleServer(id, function(input, output, session) {
+    current <- shiny::reactiveValues()
+    update_state <- function() {
+      rlog::log_info("Updating config app state")
+      state <- rsan::load_app_state()
+      current$input <- state$input
+    }
+    reload_page <- function() {
+      shiny::updateNavbarPage(
+        session = parent_session,
+        inputId = "pages",
+        selected = "Painel"
+      )
+      shiny::updateNavbarPage(
+        session = parent_session,
+        inputId = "pages",
+        selected = "Fonte de Dados"
+      )
+    }
     output$agua_fonte_ano <- shiny::renderUI({
       if (is.null(input[["agua-fonte_nome"]]) || input[["agua-fonte_nome"]] == "") {
         return(NULL)
@@ -8,7 +26,7 @@ config_server <- function(id, app_state, parent) {
         inputId = session$ns("agua-fonte_ano"),
         label = shiny::strong("Selecione o ano da fonte estruturas"),
         choices = estrutura_anos_disponiveis("agua", input[["agua-fonte_nome"]]),
-        selected = app_state$input$agua$fonte_ano
+        selected = current$input$agua$fonte_ano
       )
     })
 
@@ -17,7 +35,7 @@ config_server <- function(id, app_state, parent) {
         inputId = session$ns("agua-atendimento_ano"),
         label = shiny::strong("Selecione o ano para o atendimento"),
         choices = atendimento_anos_disponiveis("agua", input[["agua-atendimento"]]),
-        selected = app_state$input$agua$atendimento_ano
+        selected = current$input$agua$atendimento_ano
       )
     })
 
@@ -29,7 +47,7 @@ config_server <- function(id, app_state, parent) {
         inputId = session$ns("esgoto-fonte_ano"),
         label = shiny::strong("Selecione o ano da fonte estruturas"),
         choices = estrutura_anos_disponiveis("esgoto", input[["esgoto-fonte_nome"]]),
-        selected = app_state$input$esgoto$fonte_ano
+        selected = current$input$esgoto$fonte_ano
       )
     })
 
@@ -38,7 +56,7 @@ config_server <- function(id, app_state, parent) {
         inputId = session$ns("esgoto-atendimento_ano"),
         label = shiny::strong("Selecione o ano para o atendimento"),
         choices = atendimento_anos_disponiveis("esgoto", input[["esgoto-atendimento"]]),
-        selected = app_state$input$esgoto$atendimento_ano
+        selected = current$input$esgoto$atendimento_ano
       )
     })
 
@@ -50,7 +68,7 @@ config_server <- function(id, app_state, parent) {
         inputId = session$ns("residuos-fonte_ano"),
         label = shiny::strong("Selecione o ano da fonte estruturas"),
         choices = estrutura_anos_disponiveis("residuos", input[["residuos-fonte_nome"]]),
-        selected = app_state$input$residuos$fonte_ano
+        selected = current$input$residuos$fonte_ano
       )
     })
 
@@ -59,7 +77,7 @@ config_server <- function(id, app_state, parent) {
         inputId = session$ns("residuos-atendimento_ano"),
         label = shiny::strong("Selecione o ano para o atendimento"),
         choices = atendimento_anos_disponiveis("residuos", input[["residuos-atendimento"]]),
-        selected = app_state$input$residuos$atendimento_ano
+        selected = current$input$residuos$atendimento_ano
       )
     })
     output$drenagem_info <- shiny::renderText({
@@ -70,6 +88,7 @@ config_server <- function(id, app_state, parent) {
       shiny::withProgress(message = "Recalculando", value = 0, {
         n <- 4
         shiny::incProgress(0, detail = "Iniciando cálculo")
+        app_state <- rsan::load_app_state()
         shiny::incProgress(1 / n, detail = "Salvando novos parâmetros")
         app_state <- salva_estado(app_state, input, id)
         shiny::incProgress(1 / n, detail = "Investimento")
@@ -82,8 +101,25 @@ config_server <- function(id, app_state, parent) {
 
     shiny::observeEvent(input$salvar, {
       shiny::withProgress(message = "Salvando Parâmetros", value = 0, {
+        app_state <- rsan::load_app_state()
         app_state <- salva_estado(app_state, input, id)
       })
     })
+
+    shiny::observeEvent(input$padrao, {
+      shiny::withProgress(message = "Voltando para parâmetros padrão", value = 0, {
+        rsan::restaura_parametros_padrao()
+        reload_page()
+      })
+    })
+
+    shiny::observeEvent(input$ultimo, {
+      shiny::withProgress(message = "Voltando para último cálculo", value = 0, {
+        rsan::restaura_parametros_json()
+        reload_page()
+      })
+    })
+
+    return(update_state)
   })
 }

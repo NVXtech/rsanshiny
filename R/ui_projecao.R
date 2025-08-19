@@ -40,7 +40,6 @@ projecao_populacional_ui <- function(id, app_state) {
         12,
         shiny::h1(shiny::strong("Projeção Populacional"), style = "display: inline-block;margin:0;"),
         shiny::actionButton(ns("rodar"), icon = shiny::icon("calculator"), label = "Recalcular", style = "display: inline-block;margin-bottom:10px;"),
-        shiny::downloadButton(ns("download"), "Exportar xlsx", style = "display: inline-block;margin-bottom:10px;")
       )
     ),
     shiny::sidebarLayout(

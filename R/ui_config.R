@@ -76,15 +76,20 @@ estrutura_anos_disponiveis <- function(componente, source) {
 config_ui <- function(id, app_state) {
   ns <- shiny::NS(id)
   shiny::fluidPage(
+    shiny::fluidRow(
+      shiny::column(
+        12,
+        shiny::actionButton(ns("salvar"), icon = shiny::icon("save"), label = "Salvar Parâmetros", style = "display: inline-block;margin-bottom:10px;"),
+        shiny::actionButton(ns("rodar"), icon = shiny::icon("calculator"), label = "Recalcular", style = "display: inline-block;margin-bottom:10px;"),
+        shiny::actionButton(ns("padrao"), icon = shiny::icon("backward-step"), label = "Voltar padrão", style = "display: inline-block;margin-bottom:10px;"),
+        shiny::actionButton(ns("ultimo"), icon = shiny::icon("backward"), label = "Voltar último cálculo", style = "display: inline-block;margin-bottom:10px;"),
+      )
+    ),
     # Configurações Gerais
     shiny::fluidRow(
       shiny::column(
         12,
         shiny::h1(shiny::strong("Horizonte"), style = "display: inline-block;margin:0;"),
-        shiny::actionButton(ns("salvar"), icon = shiny::icon("save"), label = "Salvar Parâmetros", style = "display: inline-block;margin-bottom:10px;"),
-        shiny::actionButton(ns("rodar"), icon = shiny::icon("calculator"), label = "Recalcular", style = "display: inline-block;margin-bottom:10px;"),
-        shiny::actionButton(ns("padrao"), icon = shiny::icon("backward"), label = "Voltar padrão", style = "display: inline-block;margin-bottom:10px;"),
-        shiny::actionButton(ns("ultimo"), icon = shiny::icon("backward-step"), label = "Voltar último cálculo", style = "display: inline-block;margin-bottom:10px;"),
       )
     ),
     shiny::fluidRow(

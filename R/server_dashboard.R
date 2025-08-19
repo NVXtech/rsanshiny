@@ -308,10 +308,16 @@ tabela_deficit_por_componente <- function(input, dado, vars) {
   create_datatable(data)
 }
 
-dashboard_server <- function(id, app_state, parent) {
+dashboard_server <- function(id) {
   shiny::moduleServer(id, function(input, output, session) {
-    necessidade <- shiny::reactiveVal(app_state$necessidade)
-    deficit <- shiny::reactiveVal(app_state$deficit)
+    necessidade <- shiny::reactiveVal()
+    deficit <- shiny::reactiveVal()
+    update_state <- function() {
+      rlog::log_info("Updating dashboard app state")
+      app_state <- rsan::load_app_state()
+      necessidade(app_state$necessidade)
+      deficit(app_state$deficit)
+    }
 
     # Sankey plot
     output$geral_sankey <- plot_sankey(input, necessidade)
@@ -368,16 +374,6 @@ dashboard_server <- function(id, app_state, parent) {
       update_state()
     })
 
-    shiny::observeEvent(parent$pages, {
-      if (parent$pages == "Painel") {
-        update_state()
-      }
-    })
-    update_state <- function() {
-      rlog::log_info("Updating dashboard app state")
-      app_state <- rsan::load_app_state()
-      necessidade(app_state$necessidade)
-      deficit(app_state$deficit)
-    }
+    return(update_state)
   })
 }

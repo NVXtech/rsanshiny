@@ -85,25 +85,17 @@ tabela_analise <- function(input, necessidade) {
   )
 }
 
-analise_server <- function(id, app_state, parent) {
+analise_server <- function(id) {
   shiny::moduleServer(id, function(input, output, session) {
-    necessidade <- shiny::reactiveVal(app_state$necessidade)
-
-    output$grafico <- plot_analise(input, necessidade)
-    output$tbl <- tabela_analise(input, necessidade)
-
-    shiny::observeEvent(parent$pages, {
-      if (parent$pages == "Análise") {
-        update_state()
-      }
-    })
-
+    rlog::log_info("Analise module initialized")
+    necessidade <- shiny::reactiveVal()
     update_state <- function() {
       rlog::log_info("Updating analise app state")
       app_state <- rsan::load_app_state()
       necessidade(app_state$necessidade)
     }
-
+    output$grafico <- plot_analise(input, necessidade)
+    output$tbl <- tabela_analise(input, necessidade)
     return(update_state)
   })
 }

@@ -9,7 +9,7 @@ anos_disponiveis_base_calculo(componente, source)
 \arguments{
 \item{componente}{Nome do componente (ex: "agua", "esgoto")}
 
-\item{source}{Nome da fonte de dados (ex: "snis", "sinisa")}
+\item{source}{Nome da fonte de dados (ex: "snis", "sin}
 }
 \value{
 Vetor de anos disponíveis encontrados nos arquivos CSV

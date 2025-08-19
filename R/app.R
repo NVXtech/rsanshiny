@@ -25,44 +25,32 @@ library(readxl)
 #' @export
 #'
 app_ui <- function() {
-  app_state <- rsan::check_and_create_state()
-  rlog::log_info("App State loaded @ui")
-
   dashboard <- shiny::tabPanel("Painel",
     icon = shiny::icon("chart-line"),
-    dashboard_ui("dashboard", app_state)
   )
 
   analise <- shiny::tabPanel("Análise",
     icon = shiny::icon("chart-line"),
-    analise_ui("analise", app_state)
   )
 
   projecao <- shiny::tabPanel(
     "Projeção Populacional",
     icon = shiny::icon("users"),
-    projecao_populacional_ui("projecao", app_state)
   )
 
   parametros <- shiny::tabPanel(
     "Parâmetros",
     icon = shiny::icon("sliders"),
-    fluid = TRUE,
-    parametros_ui("parametros", app_state)
   )
 
   configuracoes <- shiny::tabPanel(
     "Fonte de Dados",
     icon = shiny::icon("cog"),
-    fluid = TRUE,
-    config_ui("config", app_state)
   )
 
   atualizacao <- shiny::tabPanel(
     "Atualização de Fontes",
     icon = shiny::icon("rotate"),
-    fluid = TRUE,
-    update_ui("update", app_state)
   )
 
   ui <- shiny::fluidPage(
@@ -77,6 +65,7 @@ app_ui <- function() {
       configuracoes,
       atualizacao
     ),
+    shiny::uiOutput("content"),
     shiny::hr(),
     shiny::div(
       style = "padding:10px;display:block;margin-left:auto;margin-right:auto;text-align:center;background-color:#fff",
@@ -117,20 +106,50 @@ app_ui <- function() {
 app_server <- function(input, output, session) {
   rlog::log_info("Started new session")
 
-  app_state <- rsan::check_and_create_state()
-  rlog::log_info("App State loaded @server")
+  dashboard_update <- dashboard_server("dashboard")
 
-  dashboard_server("dashboard", app_state, parent = input)
+  analise_update <- analise_server("analise")
 
-  projecao_server("projecao", app_state, parent = input)
+  projecao_update <- projecao_server("projecao")
 
-  modulo_calculo("parametros", app_state, parent = input)
+  parameters_server("parametros", parent_session = session)
 
-  config_server("config", app_state, parent = input)
+  config_update <- config_server("config", parent_session = session)
 
-  analise_server("analise", app_state, parent = input)
+  update_server("update")
 
-  update_server("update", app_state, parent = input)
+  shiny::observeEvent(input$pages, {
+    rlog::log_info(paste("Page changed to:", input$pages))
+    if (input$pages == "Painel") {
+      output$content <- shiny::renderUI({
+        dashboard_update()
+        dashboard_ui("dashboard", rsan::load_app_state())
+      })
+    } else if (input$pages == "Análise") {
+      output$content <- shiny::renderUI({
+        analise_update()
+        analise_ui("analise", rsan::load_app_state())
+      })
+    } else if (input$pages == "Projeção Populacional") {
+      output$content <- shiny::renderUI({
+        projecao_update()
+        projecao_populacional_ui("projecao", rsan::load_app_state())
+      })
+    } else if (input$pages == "Parâmetros") {
+      output$content <- shiny::renderUI({
+        parametros_ui("parametros", rsan::load_app_state())
+      })
+    } else if (input$pages == "Fonte de Dados") {
+      output$content <- shiny::renderUI({
+        config_update()
+        config_ui("config", rsan::load_app_state())
+      })
+    } else if (input$pages == "Atualização de Fontes") {
+      output$content <- shiny::renderUI({
+        update_ui("update", rsan::load_app_state())
+      })
+    }
+  })
 }
 
 
@@ -142,8 +161,9 @@ app_server <- function(input, output, session) {
 run_app <- function(options = list(port = 8888)) {
   rlog::log_info("Starting...")
   shiny::addResourcePath("images", system.file("www", package = "rsanshiny"))
+
   app_state <- rsan::check_and_create_state()
-  rlog::log_info("App State loaded @runapp")
+  rlog::log_info("App State loaded @server")
 
   rlog::log_info("Preparing local storage")
   rsan::check_and_create_datasets()
@@ -153,7 +173,6 @@ run_app <- function(options = list(port = 8888)) {
     app_state <- rsan::rodar_modelo(app_state)
     rsan::save_state(app_state)
   }
-
   shiny::shinyApp(
     ui = app_ui,
     server = app_server,

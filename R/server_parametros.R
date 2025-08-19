@@ -38,16 +38,28 @@ salva_estado <- function(state, input, name) {
 #'
 #' @param input shiny input
 #' @param app_state estado da aplicaçào
-#' @param parent shiny parent input
 #'
 #' @return shiny server
 #' @export
-modulo_calculo <- function(id, app_state, parent) {
+parameters_server <- function(id, parent_session) {
   shiny::moduleServer(id, function(input, output, session) {
+    reload_page <- function() {
+      shiny::updateNavbarPage(
+        session = parent_session,
+        inputId = "pages",
+        selected = "Painel"
+      )
+      shiny::updateNavbarPage(
+        session = parent_session,
+        inputId = "pages",
+        selected = "Parâmetros"
+      )
+    }
     shiny::observeEvent(input$rodar, {
       shiny::withProgress(message = "Recalculando", value = 0, {
         n <- 4
         shiny::incProgress(0, detail = "Iniciando cálculo")
+        app_state <- rsan::load_app_state()
         shiny::incProgress(1 / n, detail = "Salvando novos parâmetros")
         app_state <- rsan::salva_parametros(app_state, input, id)
         shiny::incProgress(1 / n, detail = "Investimento")
@@ -60,27 +72,23 @@ modulo_calculo <- function(id, app_state, parent) {
 
     shiny::observeEvent(input$salvar, {
       shiny::withProgress(message = "Salvando Parâmetros", value = 0, {
+        app_state <- rsan::load_app_state()
         app_state <- salva_estado(app_state, input, id)
       })
     })
 
-    output$download <- shiny::downloadHandler(
-      filename = function() {
-        paste0(id, ".xlsx")
-      },
-      content = function(file) {
-        if (id == "agua" | id == "esgoto") {
-          writexl::write_xlsx(
-            list(
-              urbana = app_state[[id]],
-              rural = app_state[[paste0(id, "_rural")]]
-            ),
-            file
-          )
-        } else {
-          writexl::write_xlsx(app_state[[id]], file)
-        }
-      }
-    )
+    shiny::observeEvent(input$padrao, {
+      shiny::withProgress(message = "Voltando para parâmetros padrão", value = 0, {
+        rsan::restaura_parametros_padrao()
+        reload_page()
+      })
+    })
+
+    shiny::observeEvent(input$ultimo, {
+      shiny::withProgress(message = "Voltando para último cálculo", value = 0, {
+        rsan::restaura_parametros_json()
+        reload_page()
+      })
+    })
   })
 }

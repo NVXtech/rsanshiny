@@ -1,4 +1,4 @@
-update_server <- function(id, app_state, parent) {
+update_server <- function(id) {
   shiny::moduleServer(id, function(input, output, session) {
     shiny::observeEvent(input$atualizar_sinapi, {
       shiny::withProgress(message = "Baixando", value = 0, {
