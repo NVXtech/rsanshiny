@@ -24,7 +24,7 @@ update_ui <- function(id, app_state) {
     shiny::fluidRow(
       shiny::column(
         12,
-        shiny::h1(shiny::strong("Atualização de Dados")),
+        shiny::h1(shiny::strong("Atualização de Fontes")),
       ),
     ),
     shiny::fluidRow(
