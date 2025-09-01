@@ -64,6 +64,23 @@ update_ui <- function(id, app_state) {
     shiny::fluidRow(
       shiny::column(
         12,
+        shiny::h3("SINISA", style = "display: inline-block;margin:0;"),
+        shiny::actionButton(ns("atualizar_sinisa"), icon = shiny::icon("sync"), label = "Atualizar", style = "display: inline-block;margin-bottom:10px;")
+      ),
+      shiny::column(
+        4,
+        shiny::selectInput(
+          inputId = ns("sinisa_ano"),
+          label = shiny::strong("Selecione o ano:"),
+          choices = ano_atual:2023,
+          selected = ano_atual
+        )
+      ),
+    ),
+    hr(),
+    shiny::fluidRow(
+      shiny::column(
+        12,
         shiny::h3("SINAPI", style = "display: inline-block;margin:0;"),
         shiny::actionButton(ns("atualizar_sinapi"), icon = shiny::icon("sync"), label = "Atualizar", style = "display: inline-block;margin-bottom:10px;")
       ),
