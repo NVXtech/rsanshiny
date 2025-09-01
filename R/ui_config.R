@@ -137,6 +137,7 @@ config_ui <- function(id, app_state) {
         selected = app_state$input$agua$fonte_nome
       ),
       shiny::uiOutput(ns("agua_fonte_ano"), inline = TRUE),
+      hr(),
       shiny::selectInput(
         inputId = ns("agua-atendimento"),
         label = shiny::strong("Selecione a fonte para o atendimento"),
@@ -144,6 +145,14 @@ config_ui <- function(id, app_state) {
         selected = app_state$input$agua$atendimento
       ),
       shiny::uiOutput(ns("agua_atendimento_ano"), inline = TRUE),
+      hr(),
+      shiny::selectInput(
+        inputId = ns("agua-censo_rural_ano"),
+        label = shiny::strong("Selecione o ano do censo rural"),
+        choices = rsan::anos_censo_setor_base_calculo(),
+        selected = app_state$input$agua$censo_rural_ano
+      ),
+      hr(),
       shiny::selectInput(
         inputId = ns("agua-sinapi"),
         label = shiny::strong("Selecione o ano e mês do SINAPI"),
@@ -161,6 +170,7 @@ config_ui <- function(id, app_state) {
         selected = app_state$input$esgoto$fonte_nome
       ),
       shiny::uiOutput(ns("esgoto_fonte_ano")),
+      hr(),
       shiny::selectInput(
         inputId = ns("esgoto-atendimento"),
         label = shiny::strong("Selecione a fonte para o atendimento"),
@@ -168,6 +178,14 @@ config_ui <- function(id, app_state) {
         selected = app_state$input$esgoto$atendimento
       ),
       shiny::uiOutput(ns("esgoto_atendimento_ano")),
+      hr(),
+      shiny::selectInput(
+        inputId = ns("esgoto-censo_rural_ano"),
+        label = shiny::strong("Selecione o ano do censo rural"),
+        choices = rsan::anos_censo_setor_base_calculo(),
+        selected = app_state$input$esgoto$censo_rural_ano
+      ),
+      hr(),
       shiny::selectInput(
         inputId = ns("esgoto-sinapi"),
         label = shiny::strong("Selecione o ano e mês do SINAPI"),
@@ -185,6 +203,7 @@ config_ui <- function(id, app_state) {
         selected = app_state$input$residuos$fonte_nome
       ),
       shiny::uiOutput(ns("residuos_fonte_ano")),
+      hr(),
       shiny::selectInput(
         inputId = ns("residuos-atendimento"),
         label = shiny::strong("Selecione a fonte para o atendimento"),

@@ -24,7 +24,7 @@ config_server <- function(id, parent_session) {
       }
       shiny::selectInput(
         inputId = session$ns("agua-fonte_ano"),
-        label = shiny::strong("Selecione o ano da fonte estruturas"),
+        label = shiny::strong("Selecione o ano da fonte de dados estruturais"),
         choices = estrutura_anos_disponiveis("agua", input[["agua-fonte_nome"]]),
         selected = current$input$agua$fonte_ano
       )
@@ -45,7 +45,7 @@ config_server <- function(id, parent_session) {
       }
       shiny::selectInput(
         inputId = session$ns("esgoto-fonte_ano"),
-        label = shiny::strong("Selecione o ano da fonte estruturas"),
+        label = shiny::strong("Selecione o ano da fonte de dados estruturais"),
         choices = estrutura_anos_disponiveis("esgoto", input[["esgoto-fonte_nome"]]),
         selected = current$input$esgoto$fonte_ano
       )
@@ -66,7 +66,7 @@ config_server <- function(id, parent_session) {
       }
       shiny::selectInput(
         inputId = session$ns("residuos-fonte_ano"),
-        label = shiny::strong("Selecione o ano da fonte estruturas"),
+        label = shiny::strong("Selecione o ano da fonte de dados estruturais"),
         choices = estrutura_anos_disponiveis("residuos", input[["residuos-fonte_nome"]]),
         selected = current$input$residuos$fonte_ano
       )
